@@ -47,15 +47,17 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         <div className="orbit-spin absolute size-full [transform-style:preserve-3d]">
           {ORBIT_TAGS.map((tag, i) => {
             const angle = (i / ORBIT_TAGS.length) * 2 * Math.PI;
-            const x = Math.cos(angle) * 46;
-            const y = Math.sin(angle) * 26;
+            const x = 50 + Math.cos(angle) * 42;
+            const y = 50 + Math.sin(angle) * 24;
             return (
               <span
                 key={tag}
-                className="glass absolute start-1/2 top-1/2 whitespace-nowrap rounded-full px-3 py-1 text-[11px] tracking-wide text-primary"
-                style={{ transform: `translate(-50%, -50%) translate(${x}%, ${y}%)` }}
+                className="absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ left: `${x}%`, top: `${y}%` }}
               >
-                {tag}
+                <span className="orbit-counter glass block whitespace-nowrap rounded-full px-3 py-1 text-[11px] tracking-wide text-primary">
+                  {tag}
+                </span>
               </span>
             );
           })}
