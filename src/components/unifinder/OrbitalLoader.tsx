@@ -44,7 +44,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         ))}
         <div className="radar-sweep absolute size-full rounded-full [background:conic-gradient(from_0deg,transparent_0deg,color-mix(in_oklab,var(--gold)_25%,transparent)_40deg,transparent_80deg)]" />
 
-        <div className="orbit-spin absolute size-full [transform-style:preserve-3d]">
+        <div className="orbit-spin absolute inset-0 size-full">
           {ORBIT_TAGS.map((tag, i) => {
             const angle = (i / ORBIT_TAGS.length) * 2 * Math.PI;
             const x = 50 + Math.cos(angle) * 42;
