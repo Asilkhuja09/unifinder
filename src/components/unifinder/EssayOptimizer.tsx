@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
+import { Loader2, Sparkles } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { useI18n } from "@/lib/i18n";
+import { analyseEssay } from "@/lib/essay.functions";
+import { useAuth } from "@/lib/auth";
 
 function analyse(text: string) {
   const words = text.trim() ? text.trim().split(/\s+/) : [];
@@ -20,9 +24,30 @@ function analyse(text: string) {
 }
 
 export function EssayOptimizer() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const { requireAuth } = useAuth();
+  const runAnalysis = useServerFn(analyseEssay);
   const [text, setText] = useState("");
+  const [ai, setAi] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
   const stats = useMemo(() => analyse(text), [text]);
+
+  const optimize = async () => {
+    if (!requireAuth()) return;
+    if (!text.trim()) return;
+    setBusy(true);
+    setErr(null);
+    setAi(null);
+    try {
+      const res = await runAnalysis({ data: { essay: text, language: lang } });
+      setAi(res.analysis);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Analysis failed");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const notes: { label: string; body: string; tone: "good" | "warn" | "info" }[] = [];
   if (stats.words === 0) {
@@ -90,11 +115,29 @@ export function EssayOptimizer() {
               {stats.words} {t("words")}
             </span>
           </div>
+          <button
+            onClick={optimize}
+            disabled={busy || !text.trim()}
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-soft to-gold py-3 text-sm font-semibold text-primary-foreground shadow-[0_10px_40px_-12px_var(--gold)] disabled:opacity-40"
+          >
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+            {busy ? t("optimizing") : t("optimizeEssay")}
+          </button>
         </div>
 
         <div className="glass space-y-4 rounded-2xl p-6">
           <p className="text-xs uppercase tracking-[0.3em] text-primary/80">{t("analysis")}</p>
-          {notes.map((n) => (
+          {err && (
+            <p className="rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+              {err}
+            </p>
+          )}
+          {ai && (
+            <div className="max-h-[520px] overflow-y-auto whitespace-pre-wrap rounded-xl border border-primary/30 bg-velvet/50 p-4 text-sm leading-relaxed text-muted-foreground">
+              {ai}
+            </div>
+          )}
+          {!ai && notes.map((n) => (
             <div key={n.label} className="rounded-xl border border-border bg-velvet/40 p-4">
               <p
                 className={
