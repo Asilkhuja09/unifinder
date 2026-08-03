@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { ChevronDown, Crown } from "lucide-react";
 import { LANGUAGES, useI18n, type LangCode } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 
 export function Navbar({ onStart }: { onStart: () => void }) {
   const { t, lang, setLang } = useI18n();
+  const { user, hint, openGate, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const current = LANGUAGES.find((l) => l.code === lang)!;
 
@@ -70,6 +72,22 @@ export function Navbar({ onStart }: { onStart: () => void }) {
               </ul>
             )}
           </div>
+          {user || hint ? (
+            <button
+              onClick={() => void signOut()}
+              title={user?.email ?? hint?.email ?? ""}
+              className="glass hidden rounded-full px-4 py-2 text-sm sm:inline-flex"
+            >
+              {t("signOut")}
+            </button>
+          ) : (
+            <button
+              onClick={openGate}
+              className="glass hidden rounded-full px-4 py-2 text-sm sm:inline-flex"
+            >
+              {t("signIn")}
+            </button>
+          )}
           <button
             onClick={onStart}
             className="rounded-full bg-gradient-to-r from-gold-soft to-gold px-4 py-2 text-sm font-semibold text-primary-foreground"

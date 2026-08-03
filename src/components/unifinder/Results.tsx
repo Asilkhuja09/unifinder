@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ExternalLink, GraduationCap, MapPin, X } from "lucide-react";
+import { Compass, ExternalLink, GraduationCap, MapPin, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
 import {
@@ -8,9 +8,25 @@ import {
   tierFromRate,
   type University,
 } from "@/data/extendedData";
+import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import { cn } from "@/lib/utils";
 
 const tierOrder = ["1-25", "26-50", "51-75", "76-100"] as const;
+
+/** Hard exclusion protocol: elite rows never surface for the Accessible tier. */
+const ELITE_EXCLUDED = new Set([
+  "harvard",
+  "mit",
+  "stanford",
+  "oxford",
+  "ucl",
+  "ethz",
+  "tsinghua",
+  "peking",
+  "tokyo",
+  "nus",
+  "seoul",
+]);
 
 function matchUniversities(profile: Profile): University[] {
   let pool = UNIVERSITIES;
@@ -25,7 +41,10 @@ function matchUniversities(profile: Profile): University[] {
     // Accessible (76-100) requests must exclude ultra-competitive elites entirely.
     pool = pool.filter((u) => {
       const uniIdx = tierOrder.indexOf(tierFromRate(u.acceptanceRate));
-      if (selectedIdx === 3) return uniIdx === 3 || uniIdx === 2;
+      if (selectedIdx === 3) {
+        if (ELITE_EXCLUDED.has(u.id) || u.acceptanceRate < 50) return false;
+        return uniIdx === 3 || uniIdx === 2;
+      }
       return uniIdx >= selectedIdx - 1 && uniIdx <= selectedIdx + 1;
     });
   }
@@ -102,7 +121,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
               onClick={() => setActive(u)}
               className="mt-6 rounded-xl border border-primary/40 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
             >
-              {t("viewDetails")}
+              {t("viewCampus")}
             </button>
           </article>
         ))}
@@ -181,6 +200,47 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
               ))}
             </div>
 
+            {(() => {
+              const media = CAMPUS_MEDIA[active.id] ?? FALLBACK_MEDIA;
+              return (
+                <>
+                  {media.photos.length > 0 && (
+                    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                      {media.photos.map((p) => (
+                        <figure key={p.url} className="overflow-hidden rounded-2xl border border-border">
+                          <img
+                            src={p.url}
+                            alt={`${active.name} — ${p.caption}`}
+                            loading="lazy"
+                            className="h-48 w-full object-cover"
+                          />
+                          <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
+                            {p.caption}
+                          </figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  )}
+                  {media.stats.length > 0 && (
+                    <dl className="mt-6 grid gap-3 sm:grid-cols-3">
+                      {media.stats.map((s) => (
+                        <div key={s.label} className="rounded-xl border border-border p-4">
+                          <dt className="text-xs text-muted-foreground">{s.label}</dt>
+                          <dd className="text-lg text-primary">{s.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                  {media.alumni.length > 0 && (
+                    <p className="mt-4 text-sm text-muted-foreground">
+                      <span className="text-primary/80">Notable alumni: </span>
+                      {media.alumni.join(" · ")}
+                    </p>
+                  )}
+                </>
+              );
+            })()}
+
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               {active.description}
             </p>
@@ -207,8 +267,8 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
                 onClick={() => openMaps(active)}
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-soft to-gold px-5 py-3 text-sm font-semibold text-primary-foreground"
               >
-                <MapPin className="size-4" />
-                {t("exploreDirectory")}
+                <Compass className="size-4" />
+                {t("mapsChip")}
               </button>
               <a
                 href={active.website}

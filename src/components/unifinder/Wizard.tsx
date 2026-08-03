@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
+import { ConstellationFX } from "./ConstellationFX";
 import { emptyProfile, type Profile } from "@/lib/profile";
 import {
   AID_TRACKS,
@@ -49,6 +51,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
 
 export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void }) {
   const { t } = useI18n();
+  const { user, requireAuth } = useAuth();
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [majorQuery, setMajorQuery] = useState("");
@@ -126,6 +129,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
 
   const handleNext = () => {
     if (!valid) return;
+    if (!requireAuth()) return;
     if (step === TOTAL_STEPS) onComplete(profile);
     else setStep((s) => s + 1);
   };
@@ -133,7 +137,8 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
   return (
     <section id="assessment" className="mx-auto w-full max-w-4xl px-4 py-16">
       <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-10">
-        <header className="mb-8">
+        <ConstellationFX density={0.00012} />
+        <header className="relative mb-8">
           <p className="text-xs uppercase tracking-[0.3em] text-primary/80">
             {t("step")} {step} {t("of")} {TOTAL_STEPS}
           </p>
@@ -146,7 +151,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
           </div>
         </header>
 
-        <div className="min-h-[320px] space-y-6">
+        <div className="relative min-h-[320px] space-y-6">
           {step === 1 && (
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label={t("firstName")}>
@@ -475,7 +480,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
           )}
         </div>
 
-        <footer className="mt-10 grid grid-cols-2 gap-4 border-t border-border pt-6">
+        <footer className="relative mt-10 grid grid-cols-2 gap-4 border-t border-border pt-6">
           <button
             type="button"
             disabled={step === 1}
@@ -494,6 +499,11 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
             {step === TOTAL_STEPS ? t("submit") : t("next")}
             <ChevronRight className="size-4 rtl:rotate-180" />
           </button>
+          {!user && (
+            <p className="col-span-2 text-center text-xs text-muted-foreground">
+              {t("authRequired")}
+            </p>
+          )}
         </footer>
       </div>
     </section>

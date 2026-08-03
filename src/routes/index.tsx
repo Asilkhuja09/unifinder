@@ -8,6 +8,8 @@ import { Navbar } from "@/components/unifinder/Navbar";
 import { OrbitalLoader } from "@/components/unifinder/OrbitalLoader";
 import { Results } from "@/components/unifinder/Results";
 import { Wizard } from "@/components/unifinder/Wizard";
+import { AuthDrawer } from "@/components/unifinder/AuthDrawer";
+import { AuthProvider } from "@/lib/auth";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
 
@@ -49,6 +51,7 @@ function Content() {
   const [stage, setStage] = useState<"idle" | "loading" | "results">("idle");
   const [profile, setProfile] = useState<Profile | null>(null);
   const [stats, setStats] = useState({ records: 18420, scholarships: 962, countries: 148 });
+  const [sessionSeconds, setSessionSeconds] = useState(0);
   const wizardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -58,6 +61,7 @@ function Content() {
         scholarships: s.scholarships + (Math.random() > 0.6 ? 1 : 0),
         countries: s.countries,
       }));
+      setSessionSeconds((v) => v + 12);
     }, 12000);
     return () => window.clearInterval(id);
   }, []);
@@ -125,6 +129,9 @@ function Content() {
                 </div>
               ))}
             </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              {t("sessionDuration")}: {Math.floor(sessionSeconds / 60)}m {sessionSeconds % 60}s
+            </p>
           </div>
         </section>
 
@@ -163,6 +170,7 @@ function Content() {
       <Footer />
 
       {stage === "loading" && <OrbitalLoader onDone={handleLoaded} />}
+      <AuthDrawer />
     </div>
   );
 }
@@ -170,7 +178,9 @@ function Content() {
 function Index() {
   return (
     <I18nProvider>
-      <Content />
+      <AuthProvider>
+        <Content />
+      </AuthProvider>
     </I18nProvider>
   );
 }
