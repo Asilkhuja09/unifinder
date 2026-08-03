@@ -79,6 +79,23 @@ const en = {
   analysis: "Analytical Evaluation",
   contact: "Contact",
   loading: "Scanning global institutional grid",
+  authTitle: "Secure Access Gate",
+  authSubtitle:
+    "Verify your identity to unlock the 9-step assessment, matched institutions and AI essay analytics.",
+  authGoogle: "Continue with Google",
+  authOr: "or",
+  authSendCode: "Send 6-digit code",
+  authVerify: "Verify & enter",
+  authCodeSent: "A 6-digit verification code was sent to your inbox.",
+  authChangeEmail: "Use a different email",
+  signIn: "Sign in",
+  signOut: "Sign out",
+  authRequired: "Sign in to run the assessment",
+  optimizeEssay: "Optimize Essay / Tahlil Qilish",
+  optimizing: "Streaming admissions analysis…",
+  viewCampus: "View Campus Scenery & Multimedia / Ko'proq Ma'lumot",
+  mapsChip: "Explore Global Directory / Xaritada Ko'rish",
+  sessionDuration: "Session duration",
 };
 
 type Dict = typeof en;
