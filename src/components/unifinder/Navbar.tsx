@@ -10,10 +10,11 @@ export function Navbar({ onStart }: { onStart: () => void }) {
   const current = LANGUAGES.find((l) => l.code === lang)!;
 
   const links = [
-    { href: "#top", label: t("navHome") },
-    { href: "#assessment", label: t("navMatcher") },
-    { href: "#essay", label: t("navEssay") },
-    { href: "#faq", label: t("navFaq") },
+    { href: "/#top", label: t("navHome") },
+    { href: "/#assessment", label: t("navMatcher") },
+    { href: "/#essay", label: t("navEssay") },
+    { href: "/essay", label: "AI Essay Analyzer" },
+    { href: "/#faq", label: t("navFaq") },
   ];
 
   return (
