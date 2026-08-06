@@ -13,6 +13,7 @@ export function Navbar({ onStart }: { onStart: () => void }) {
     { href: "#top", label: t("navHome") },
     { href: "#assessment", label: t("navMatcher") },
     { href: "#essay", label: t("navEssay") },
+    { href: "/essay", label: "AI Essay Analyzer" },
     { href: "#faq", label: t("navFaq") },
   ];
 
