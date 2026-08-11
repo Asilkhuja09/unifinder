@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, Crown } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { LANGUAGES, useI18n, type LangCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 
@@ -10,17 +11,17 @@ export function Navbar({ onStart }: { onStart: () => void }) {
   const current = LANGUAGES.find((l) => l.code === lang)!;
 
   const links = [
-    { href: "/#top", label: t("navHome") },
-    { href: "/#assessment", label: t("navMatcher") },
-    { href: "/#essay", label: t("navEssay") },
-    { href: "/essay", label: "AI Essay Analyzer" },
-    { href: "/#faq", label: t("navFaq") },
-  ];
+    { to: "/", label: t("navHome") },
+    { to: "/assessment", label: "Assessment" },
+    { to: "/universities", label: "Universities" },
+    { to: "/scholarships", label: "Scholarships" },
+    { to: "/essay", label: "Essay Analyzer" },
+  ] as const;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-        <a href="#top" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <span className="grid size-9 place-items-center rounded-lg border border-primary/40 bg-velvet/70">
             <Crown className="size-4 text-primary" />
           </span>
@@ -30,17 +31,19 @@ export function Navbar({ onStart }: { onStart: () => void }) {
               {t("tagline")}
             </span>
           </span>
-        </a>
+        </Link>
 
         <div className="hidden items-center gap-6 lg:flex">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
+            <Link
+              key={l.to}
+              to={l.to}
+              activeOptions={{ exact: l.to === "/" }}
+              activeProps={{ className: "text-primary" }}
               className="text-sm text-muted-foreground transition-colors hover:text-primary"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 

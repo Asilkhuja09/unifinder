@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { EssayAnalyzer } from "@/components/unifinder/EssayAnalyzer";
 import { PageShell } from "@/components/unifinder/PageShell";
+import { ScholarshipTracks } from "@/components/unifinder/ScholarshipTracks";
 
-const title = "AI Essay Analyzer — UniFinder Global";
+const title = "Sovereign Scholarship Tracks — UniFinder Global";
 const description =
-  "Score your admissions essay in seconds: overall readiness, grammar and tone, structure, strengths, weaknesses and actionable rewrite steps from an AI admissions officer.";
+  "DAAD, MEXT, CSC, GKS, Fulbright, Chevening, Erasmus Mundus and Knight-Hennessy — coverage, stipends, deadlines and official application portals in one directory.";
 
-export const Route = createFileRoute("/essay")({
+export const Route = createFileRoute("/scholarships")({
   head: () => ({
     meta: [
       { title },
@@ -17,13 +17,9 @@ export const Route = createFileRoute("/essay")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: EssayPage,
-});
-
-function EssayPage() {
-  return (
+  component: () => (
     <PageShell>
-      <EssayAnalyzer />
+      <ScholarshipTracks />
     </PageShell>
-  );
-}
+  ),
+});

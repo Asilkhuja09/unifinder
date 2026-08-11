@@ -159,7 +159,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   className={inputCls}
                   value={profile.firstName}
                   onChange={(e) => set("firstName", e.target.value)}
-                  placeholder="Asilxoja"
+                  placeholder="Alex"
                 />
               </Field>
               <Field label={t("lastName")}>
@@ -167,7 +167,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   className={inputCls}
                   value={profile.lastName}
                   onChange={(e) => set("lastName", e.target.value)}
-                  placeholder="Akromxojayev"
+                  placeholder="Morgan"
                 />
               </Field>
               <div className="sm:col-span-2">
