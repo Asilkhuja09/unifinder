@@ -1,17 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import worldNight from "@/assets/world-night.asset.json";
-import { ConstellationFX } from "@/components/unifinder/ConstellationFX";
-import { EssayOptimizer } from "@/components/unifinder/EssayOptimizer";
-import { Footer } from "@/components/unifinder/Footer";
-import { Navbar } from "@/components/unifinder/Navbar";
-import { OrbitalLoader } from "@/components/unifinder/OrbitalLoader";
-import { Results } from "@/components/unifinder/Results";
-import { Wizard } from "@/components/unifinder/Wizard";
-import { AuthDrawer } from "@/components/unifinder/AuthDrawer";
-import { AuthProvider } from "@/lib/auth";
-import { I18nProvider, useI18n } from "@/lib/i18n";
-import type { Profile } from "@/lib/profile";
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react";
+import { PageShell } from "@/components/unifinder/PageShell";
+import { useI18n } from "@/lib/i18n";
 
 const title = "UniFinder Global — Elite Universities & Full-Ride Scholarships";
 const description =
@@ -48,11 +40,8 @@ const FAQ = [
 
 function Content() {
   const { t } = useI18n();
-  const [stage, setStage] = useState<"idle" | "loading" | "results">("idle");
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [stats, setStats] = useState({ records: 18420, scholarships: 962, countries: 148 });
   const [sessionSeconds, setSessionSeconds] = useState(0);
-  const wizardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -66,50 +55,47 @@ function Content() {
     return () => window.clearInterval(id);
   }, []);
 
-  const scrollToWizard = useCallback(() => {
-    wizardRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  const handleComplete = useCallback((p: Profile) => {
-    setProfile(p);
-    setStage("loading");
-  }, []);
-
-  const handleLoaded = useCallback(() => {
-    setStage("results");
-    window.requestAnimationFrame(() => {
-      document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
-    });
-  }, []);
+  const sections = [
+    {
+      to: "/assessment" as const,
+      icon: ClipboardList,
+      title: "Assessment",
+      body: "A 9-step admissions profile — identity, academics, testing, funding needs and difficulty tier — returning matched institutions.",
+    },
+    {
+      to: "/universities" as const,
+      icon: University,
+      title: "Universities",
+      body: "The full verified directory: acceptance rates, tuition, international aid policy, campus multimedia and map routing.",
+    },
+    {
+      to: "/scholarships" as const,
+      icon: GraduationCap,
+      title: "Scholarships",
+      body: "Sovereign funding tracks — DAAD, MEXT, CSC, GKS, Fulbright, Knight-Hennessy — with coverage and official portals.",
+    },
+    {
+      to: "/essay" as const,
+      icon: PenLine,
+      title: "Essay Analyzer",
+      body: "AI admissions review scoring structure, grammar and tone, with strengths, weaknesses and actionable rewrite steps.",
+    },
+  ];
 
   return (
-    <div id="top" className="relative min-h-screen overflow-x-hidden">
-      <div
-        aria-hidden
-        className="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${worldNight.url})` }}
-      />
-      <div aria-hidden className="fixed inset-0 -z-10 bg-background/[0.82]" />
-      <div aria-hidden className="fixed inset-0 -z-10 bg-black/[0.18]" />
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <ConstellationFX />
-      </div>
-
-      <Navbar onStart={scrollToWizard} />
-
-      <main>
+    <>
         <section className="relative mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center sm:py-32">
           <h1 className="font-display text-5xl leading-[1.05] text-gilded sm:text-7xl">
             {t("heroTitle")}
           </h1>
           <div className="my-8 h-px w-full max-w-3xl bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
           <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">{t("heroSubtitle")}</p>
-          <button
-            onClick={scrollToWizard}
+          <Link
+            to="/assessment"
             className="mt-10 rounded-full bg-gradient-to-r from-gold-soft to-gold px-8 py-3.5 text-sm font-semibold text-primary-foreground shadow-[0_16px_50px_-14px_var(--gold)]"
           >
             {t("heroCta")}
-          </button>
+          </Link>
         </section>
 
         <section className="mx-auto w-full max-w-5xl px-4">
@@ -135,22 +121,25 @@ function Content() {
           </div>
         </section>
 
-        <div ref={wizardRef}>
-          <Wizard onComplete={handleComplete} />
-        </div>
-
-        {stage === "results" && profile && (
-          <Results
-            profile={profile}
-            onRestart={() => {
-              setStage("idle");
-              setProfile(null);
-              scrollToWizard();
-            }}
-          />
-        )}
-
-        <EssayOptimizer />
+        <section className="mx-auto w-full max-w-6xl px-4 py-16">
+          <h2 className="mb-8 text-3xl font-semibold text-gilded">Explore the network</h2>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {sections.map((s) => (
+              <Link
+                key={s.to}
+                to={s.to}
+                className="glass group rounded-2xl p-6 transition-colors hover:border-primary/60"
+              >
+                <s.icon className="size-6 text-primary" />
+                <h3 className="mt-4 font-display text-2xl text-primary">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                <span className="mt-4 inline-block text-sm text-accent group-hover:underline">
+                  Open →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16">
           <h2 className="mb-8 text-4xl font-semibold text-gilded">{t("navFaq")}</h2>
@@ -165,22 +154,14 @@ function Content() {
             ))}
           </div>
         </section>
-      </main>
-
-      <Footer />
-
-      {stage === "loading" && <OrbitalLoader onDone={handleLoaded} />}
-      <AuthDrawer />
-    </div>
+    </>
   );
 }
 
 function Index() {
   return (
-    <I18nProvider>
-      <AuthProvider>
-        <Content />
-      </AuthProvider>
-    </I18nProvider>
+    <PageShell>
+      <Content />
+    </PageShell>
   );
 }
