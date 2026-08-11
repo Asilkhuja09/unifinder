@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as EssayRouteImport } from './routes/essay'
+import { Route as ScholarshipsRouteImport } from './routes/scholarships'
 import { Route as UniversitiesRouteImport } from './routes/universities'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const EssayRoute = EssayRouteImport.update({
   path: '/essay',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScholarshipsRoute = ScholarshipsRouteImport.update({
+  id: '/scholarships',
+  path: '/scholarships',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UniversitiesRoute = UniversitiesRouteImport.update({
   id: '/universities',
   path: '/universities',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/essay': typeof EssayRoute
+  '/scholarships': typeof ScholarshipsRoute
   '/universities': typeof UniversitiesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/essay': typeof EssayRoute
+  '/scholarships': typeof ScholarshipsRoute
   '/universities': typeof UniversitiesRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
   '/essay': typeof EssayRoute
+  '/scholarships': typeof ScholarshipsRoute
   '/universities': typeof UniversitiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/assessment' | '/essay' | '/universities'
+  fullPaths: '/' | '/assessment' | '/essay' | '/scholarships' | '/universities'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/assessment' | '/essay' | '/universities'
-  id: '__root__' | '/' | '/assessment' | '/essay' | '/universities'
+  to: '/' | '/assessment' | '/essay' | '/scholarships' | '/universities'
+  id:
+    | '__root__'
+    | '/'
+    | '/assessment'
+    | '/essay'
+    | '/scholarships'
+    | '/universities'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
   EssayRoute: typeof EssayRoute
+  ScholarshipsRoute: typeof ScholarshipsRoute
   UniversitiesRoute: typeof UniversitiesRoute
 }
 
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EssayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scholarships': {
+      id: '/scholarships'
+      path: '/scholarships'
+      fullPath: '/scholarships'
+      preLoaderRoute: typeof ScholarshipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/universities': {
       id: '/universities'
       path: '/universities'
@@ -106,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
   EssayRoute: EssayRoute,
+  ScholarshipsRoute: ScholarshipsRoute,
   UniversitiesRoute: UniversitiesRoute,
 }
 export const routeTree = rootRouteImport
