@@ -91,8 +91,9 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
         return profile.regions.length > 0;
       case 5:
         return (
-          profile.activeTests.length > 0 &&
-          profile.activeTests.every((name) => (profile.tests[name] ?? "").trim() !== "")
+          profile.noTests ||
+          (profile.activeTests.length > 0 &&
+            profile.activeTests.every((name) => (profile.tests[name] ?? "").trim() !== ""))
         );
       case 6:
         return profile.extracurricular.trim().length >= 20;
@@ -122,6 +123,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
     const active = profile.activeTests.includes(name);
     setProfile((p) => ({
       ...p,
+      noTests: false,
       activeTests: active ? p.activeTests.filter((x) => x !== name) : [...p.activeTests, name],
       tests: active ? { ...p.tests, [name]: undefined } : p.tests,
     }));
@@ -302,8 +304,41 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
 
           {step === 5 && (
             <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() =>
+                  setProfile((p) => ({
+                    ...p,
+                    noTests: !p.noTests,
+                    activeTests: [],
+                    tests: {},
+                  }))
+                }
+                className={cn(
+                  "flex w-full items-center gap-3 rounded-2xl border px-5 py-4 text-start text-sm transition-colors",
+                  profile.noTests
+                    ? "border-primary bg-primary/15 text-primary"
+                    : "border-border bg-velvet/40 hover:border-primary/50",
+                )}
+              >
+                <span
+                  className={cn(
+                    "grid size-5 place-items-center rounded-md border transition-colors",
+                    profile.noTests ? "border-primary bg-primary" : "border-border",
+                  )}
+                >
+                  {profile.noTests && <span className="size-2 rounded-sm bg-primary-foreground" />}
+                </span>
+                <span>
+                  None / No standardized test yet
+                  <span className="block text-xs text-muted-foreground">
+                    Continue without scores — matches will use academics and funding needs only.
+                  </span>
+                </span>
+              </button>
               {TESTS.map((name) => {
                 const on = profile.activeTests.includes(name);
+                if (profile.noTests) return null;
                 return (
                   <div
                     key={name}

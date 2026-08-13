@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Crown } from "lucide-react";
+import { ChevronDown, Crown, UserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { LANGUAGES, useI18n, type LangCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
@@ -13,7 +13,7 @@ export function Navbar({ onStart }: { onStart: () => void }) {
   const links = [
     { to: "/", label: t("navHome") },
     { to: "/assessment", label: "Assessment" },
-    { to: "/universities", label: "Universities" },
+    { to: "/universities", label: "University Directory" },
     { to: "/scholarships", label: "Scholarships" },
     { to: "/essay", label: "Essay Analyzer" },
   ] as const;
@@ -76,6 +76,15 @@ export function Navbar({ onStart }: { onStart: () => void }) {
               </ul>
             )}
           </div>
+          {(user || hint) && (
+            <Link
+              to="/profile"
+              aria-label="Profile"
+              className="glass grid size-10 place-items-center rounded-full text-primary transition-colors hover:border-primary/60"
+            >
+              <UserRound className="size-4" />
+            </Link>
+          )}
           {user || hint ? (
             <button
               onClick={() => void signOut()}
