@@ -6,11 +6,14 @@ import { ConstellationFX } from "@/components/unifinder/ConstellationFX";
 import { Footer } from "@/components/unifinder/Footer";
 import { LiveRefreshOverlay } from "@/components/unifinder/LiveRefreshOverlay";
 import { Navbar } from "@/components/unifinder/Navbar";
-import { AuthProvider } from "@/lib/auth";
+import { WelcomeOverlay } from "@/components/unifinder/WelcomeOverlay";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { FavoritesProvider } from "@/lib/favorites";
 import { I18nProvider } from "@/lib/i18n";
 
 function Shell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
+  const { welcoming, dismissWelcome, user } = useAuth();
   return (
     <div id="top" className="relative min-h-screen overflow-x-hidden">
       <div
@@ -29,6 +32,16 @@ function Shell({ children }: { children: ReactNode }) {
       <Footer />
       <AuthDrawer />
       <LiveRefreshOverlay />
+      {welcoming && (
+        <WelcomeOverlay
+          name={
+            (user?.user_metadata?.["full_name"] as string | undefined)?.split(" ")[0] ??
+            user?.email?.split("@")[0] ??
+            ""
+          }
+          onDone={dismissWelcome}
+        />
+      )}
     </div>
   );
 }
@@ -37,7 +50,9 @@ export function PageShell({ children }: { children: ReactNode }) {
   return (
     <I18nProvider>
       <AuthProvider>
-        <Shell>{children}</Shell>
+        <FavoritesProvider>
+          <Shell>{children}</Shell>
+        </FavoritesProvider>
       </AuthProvider>
     </I18nProvider>
   );
