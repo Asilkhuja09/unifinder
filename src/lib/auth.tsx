@@ -55,6 +55,9 @@ type AuthCtx = {
   openGate: () => void;
   closeGate: () => void;
   signOut: () => Promise<void>;
+  /** true right after a fresh sign-in, until the welcome animation completes */
+  welcoming: boolean;
+  dismissWelcome: () => void;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
@@ -64,13 +67,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [gateOpen, setGateOpen] = useState(false);
   const [hint, setHint] = useState<{ uid: string; email: string } | null>(null);
+  const [welcoming, setWelcoming] = useState(false);
 
   useEffect(() => {
     setHint(sessionCookie.read());
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (session) sessionCookie.write(session);
+      if (session) {
+        sessionCookie.write(session);
+        if (_event === "SIGNED_IN") setWelcoming(true);
+      }
       else sessionCookie.clear();
       setLoading(false);
     });
@@ -98,11 +105,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
     sessionCookie.clear();
     setHint(null);
+    setWelcoming(false);
   }, []);
 
+  const dismissWelcome = useCallback(() => setWelcoming(false), []);
+
   const value = useMemo(
-    () => ({ user, loading, hint, requireAuth, gateOpen, openGate, closeGate, signOut }),
-    [user, loading, hint, requireAuth, gateOpen, openGate, closeGate, signOut],
+    () => ({
+      user,
+      loading,
+      hint,
+      requireAuth,
+      gateOpen,
+      openGate,
+      closeGate,
+      signOut,
+      welcoming,
+      dismissWelcome,
+    }),
+    [
+      user,
+      loading,
+      hint,
+      requireAuth,
+      gateOpen,
+      openGate,
+      closeGate,
+      signOut,
+      welcoming,
+      dismissWelcome,
+    ],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

@@ -43,9 +43,9 @@ export type University = {
   website: string;
   mapsQuery: string;
   /** Approximate world ranking (QS/THE composite). */
-  worldRanking?: number;
+  worldRanking?: number | undefined;
   /** US state, for state-level filtering. */
-  usState?: string;
+  usState?: string | undefined;
 };
 
 const BASE_UNIVERSITIES: University[] = [
@@ -3269,7 +3269,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
 ];
 
 
-const BASE_RANKS: Record<string, { rank: number; state?: string }> = {
+const BASE_RANKS: Record<string, { rank: number; state?: string | undefined }> = {
   harvard: { rank: 4, state: "Massachusetts" },
   mit: { rank: 1, state: "Massachusetts" },
   stanford: { rank: 6, state: "California" },

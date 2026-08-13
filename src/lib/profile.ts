@@ -10,6 +10,8 @@ export type Profile = {
   regions: Region[];
   tests: Partial<Record<TestName, string>>;
   activeTests: TestName[];
+  /** user has no standardized test scores yet */
+  noTests: boolean;
   extracurricular: string;
   needsAid: "yes" | "no" | "";
   aidTracks: string[];
@@ -27,6 +29,7 @@ export const emptyProfile: Profile = {
   regions: [],
   tests: {},
   activeTests: [],
+  noTests: false,
   extracurricular: "",
   needsAid: "",
   aidTracks: [],

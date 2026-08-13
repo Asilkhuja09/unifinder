@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useI18n } from "@/lib/i18n";
+import heroVideo from "@/assets/hero-bg.mp4.asset.json";
 
 const title = "UniFinder Global — Elite Universities & Full-Ride Scholarships";
 const description =
@@ -25,16 +26,20 @@ export const Route = createFileRoute("/")({
 
 const FAQ = [
   {
-    q: "How are matches generated?",
-    a: "Your region targets, admissions-difficulty tier, funding needs and intended major are applied as filters over a verified directory of institutions and sovereign scholarship tracks.",
+    q: "How are university rankings and aid matches calculated?",
+    a: "Each institution in the directory carries a composite world ranking (QS/THE band), a published acceptance rate, international tuition and an aid-for-internationals flag. Your assessment answers — target regions, difficulty tier, intended major, income bracket and funding needs — are applied as filters over that dataset, so a match means the school's ranking tier, selectivity and aid policy all fit your profile. Nothing is randomised.",
   },
   {
-    q: "Why don't I see Harvard or MIT in my results?",
-    a: "When you select the 76–100% (Accessible) difficulty tier, ultra-competitive institutions are mathematically excluded so every match stays realistic for your profile.",
+    q: "Do I need an official English certificate to start using the platform?",
+    a: "No. In the testing step you can select “None / No standardized test yet” and continue straight through the assessment. Matching then relies on your academics, funding needs and target regions, and your results will highlight institutions and pathway programmes that accept later score submission.",
   },
   {
-    q: "Are the scholarship programmes real?",
-    a: "Yes. Every track listed — DAAD, MEXT, CSC, Fulbright, Chevening, Erasmus Mundus, GKS, Pearson, Knight-Hennessy and Australia Awards — links to its official government or university portal.",
+    q: "How do sovereign funding tracks (Fulbright, DAAD, MEXT, CSC) work?",
+    a: "These are government-funded scholarships awarded by a country rather than a single university. You apply through the sponsoring body — a national commission, embassy or ministry — usually 9–12 months before intake, and the award typically covers tuition plus a monthly living stipend, insurance and flights. UniFinder lists each track's coverage, eligibility and official portal so you apply directly on the government site.",
+  },
+  {
+    q: "Is my application profile data stored securely?",
+    a: "Yes. Sign-in runs through managed OAuth providers, and anything tied to your account — saved universities and essay evaluations — is stored with row-level security so only your authenticated session can read or modify it. Assessment answers stay in your browser session unless you choose to save them, and we never sell or share your data.",
   },
 ];
 
@@ -85,6 +90,19 @@ function Content() {
   return (
     <>
         <section className="relative mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center sm:py-32">
+          <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
+            <video
+              className="size-full object-cover"
+              src={heroVideo.url}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+            <div className="absolute inset-0 bg-black/50" />
+          </div>
           <h1 className="font-display text-5xl leading-[1.05] text-gilded sm:text-7xl">
             {t("heroTitle")}
           </h1>
