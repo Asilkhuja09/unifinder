@@ -177,21 +177,50 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                 />
               </Field>
               <div className="sm:col-span-2">
-                <Field label={t("country")}>
-                  <select
-                    className={inputCls}
-                    value={profile.country}
-                    onChange={(e) => set("country", e.target.value)}
-                  >
-                    <option value="">—</option>
-                    {COUNTRIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
+                <div
+                  className="relative overflow-hidden rounded-2xl border border-border/70 bg-velvet/40 p-4 transition-all"
+                  style={
+                    profile.country
+                      ? { borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)" }
+                      : undefined
+                  }
+                >
+                  {profile.country && countryFlagUrl(profile.country, 320) && (
+                    <img
+                      src={countryFlagUrl(profile.country, 320)!}
+                      alt=""
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 size-full object-cover opacity-15 blur-[2px] [mask-image:linear-gradient(to_left,black,transparent_75%)]"
+                    />
+                  )}
+                  <div className="relative">
+                    <Field label={t("country")}>
+                      <div className="flex items-center gap-3">
+                        {profile.country && countryFlagUrl(profile.country) && (
+                          <img
+                            src={countryFlagUrl(profile.country)!}
+                            alt={`${profile.country} flag`}
+                            className="h-7 w-10 shrink-0 rounded-md object-cover shadow-[0_0_18px_-6px_var(--gold)] ring-1 ring-border"
+                          />
+                        )}
+                        <select
+                          className={inputCls}
+                          value={profile.country}
+                          onChange={(e) => set("country", e.target.value)}
+                        >
+                          <option value="">—</option>
+                          {COUNTRIES.map((c) => (
+                            <option key={c} value={c}>
+                              {countryFlagEmoji(c)} {c}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </Field>
+                  </div>
+                </div>
               </div>
+
             </div>
           )}
 
