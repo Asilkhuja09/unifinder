@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ConstellationFX } from "./ConstellationFX";
 import { emptyProfile, type Profile } from "@/lib/profile";
+import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
+import { majorTheme } from "@/lib/majorThemes";
 import {
   AID_TRACKS,
   COUNTRIES,
@@ -19,6 +22,7 @@ import {
   type TestName,
 } from "@/data/extendedData";
 import { cn } from "@/lib/utils";
+
 
 const TOTAL_STEPS = 9;
 
