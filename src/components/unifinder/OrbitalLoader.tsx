@@ -78,11 +78,26 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         </p>
         <div className="h-2 w-full overflow-hidden rounded-full border border-border bg-secondary/70">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold"
+            className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold transition-[width] duration-200 ease-linear"
             style={{ width: `${progress}%` }}
           />
         </div>
+
+        <div className="mt-8 space-y-3" aria-hidden>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="glass animate-pulse rounded-2xl p-4"
+              style={{ animationDelay: `${i * 220}ms` }}
+            >
+              <div className="h-3 w-1/3 rounded-full bg-primary/20" />
+              <div className="mt-3 h-2.5 w-4/5 rounded-full bg-secondary" />
+              <div className="mt-2 h-2.5 w-2/3 rounded-full bg-secondary" />
+            </div>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 }
