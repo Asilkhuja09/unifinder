@@ -54,8 +54,9 @@ function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { user, requireAuth } = useAuth();
+
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [majorQuery, setMajorQuery] = useState("");
