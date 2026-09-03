@@ -15,6 +15,9 @@ const ORBIT_TAGS = [
   "UTokyo",
 ];
 
+/** Global match-generation window: exactly 30 seconds. */
+export const LOADER_DURATION_MS = 30000;
+
 export function OrbitalLoader({ onDone }: { onDone: () => void }) {
   const { t } = useI18n();
   const [progress, setProgress] = useState(0);
@@ -23,7 +26,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
     const start = performance.now();
     let frame = 0;
     const tick = (now: number) => {
-      const pct = Math.min(100, ((now - start) / 4000) * 100);
+      const pct = Math.min(100, ((now - start) / LOADER_DURATION_MS) * 100);
       setProgress(pct);
       if (pct < 100) frame = window.requestAnimationFrame(tick);
       else onDone();
@@ -31,6 +34,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
   }, [onDone]);
+
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-background/92 backdrop-blur-xl">
@@ -74,11 +78,26 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         </p>
         <div className="h-2 w-full overflow-hidden rounded-full border border-border bg-secondary/70">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold"
+            className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold transition-[width] duration-200 ease-linear"
             style={{ width: `${progress}%` }}
           />
         </div>
+
+        <div className="mt-8 space-y-3" aria-hidden>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="glass animate-pulse rounded-2xl p-4"
+              style={{ animationDelay: `${i * 220}ms` }}
+            >
+              <div className="h-3 w-1/3 rounded-full bg-primary/20" />
+              <div className="mt-3 h-2.5 w-4/5 rounded-full bg-secondary" />
+              <div className="mt-2 h-2.5 w-2/3 rounded-full bg-secondary" />
+            </div>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 }

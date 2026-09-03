@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { Heart, MapPin, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
 import { useFavorites } from "@/lib/favorites";
+
 import {
   COUNTRY_LIST,
   RANK_TIERS,
@@ -84,21 +86,49 @@ export function UniversityDirectory() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <label className="flex items-center gap-2 text-xs text-muted-foreground">
-          Country
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className={selectCls}
-          >
-            <option value="all">All countries</option>
-            {COUNTRY_LIST.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div
+          className="relative overflow-hidden rounded-xl border border-border/70 px-3 py-2 transition-all"
+          style={
+            country !== "all"
+              ? {
+                  borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)",
+                  boxShadow: "0 0 30px -14px var(--gold)",
+                }
+              : undefined
+          }
+        >
+          {country !== "all" && countryFlagUrl(country, 320) && (
+            <img
+              src={countryFlagUrl(country, 320)!}
+              alt=""
+              aria-hidden
+              className="pointer-events-none absolute inset-0 size-full object-cover opacity-15 blur-[2px] [mask-image:linear-gradient(to_left,black,transparent_80%)]"
+            />
+          )}
+          <label className="relative flex items-center gap-2 text-xs text-muted-foreground">
+            {country !== "all" && countryFlagUrl(country) ? (
+              <img
+                src={countryFlagUrl(country)!}
+                alt={`${country} flag`}
+                className="h-5 w-7 rounded-sm object-cover ring-1 ring-border"
+              />
+            ) : null}
+            Country
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className={selectCls}
+            >
+              <option value="all">All countries</option>
+              {COUNTRY_LIST.map((c) => (
+                <option key={c} value={c}>
+                  {countryFlagEmoji(c)} {c}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
         <label className="flex items-center gap-2 text-xs text-muted-foreground">
           US state
           <select value={state} onChange={(e) => setState(e.target.value)} className={selectCls}>

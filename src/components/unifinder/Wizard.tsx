@@ -1,9 +1,12 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ConstellationFX } from "./ConstellationFX";
 import { emptyProfile, type Profile } from "@/lib/profile";
+import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
+import { majorTheme } from "@/lib/majorThemes";
 import {
   AID_TRACKS,
   COUNTRIES,
@@ -19,6 +22,7 @@ import {
   type TestName,
 } from "@/data/extendedData";
 import { cn } from "@/lib/utils";
+
 
 const TOTAL_STEPS = 9;
 
@@ -50,8 +54,9 @@ function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { user, requireAuth } = useAuth();
+
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [majorQuery, setMajorQuery] = useState("");
@@ -119,6 +124,14 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
         : [...profile.regions, r],
     );
 
+  const selectMajor = (m: string) => {
+    set("major", m);
+    toast.success(lang === "uz" ? `Siz shuni tanladingiz: ${m}` : `You selected: ${m}`, {
+      description: majorTheme(m).label,
+    });
+  };
+
+
   const toggleTest = (name: TestName) => {
     const active = profile.activeTests.includes(name);
     setProfile((p) => ({
@@ -173,21 +186,50 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                 />
               </Field>
               <div className="sm:col-span-2">
-                <Field label={t("country")}>
-                  <select
-                    className={inputCls}
-                    value={profile.country}
-                    onChange={(e) => set("country", e.target.value)}
-                  >
-                    <option value="">—</option>
-                    {COUNTRIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
+                <div
+                  className="relative overflow-hidden rounded-2xl border border-border/70 bg-velvet/40 p-4 transition-all"
+                  style={
+                    profile.country
+                      ? { borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)" }
+                      : undefined
+                  }
+                >
+                  {profile.country && countryFlagUrl(profile.country, 320) && (
+                    <img
+                      src={countryFlagUrl(profile.country, 320)!}
+                      alt=""
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 size-full object-cover opacity-15 blur-[2px] [mask-image:linear-gradient(to_left,black,transparent_75%)]"
+                    />
+                  )}
+                  <div className="relative">
+                    <Field label={t("country")}>
+                      <div className="flex items-center gap-3">
+                        {profile.country && countryFlagUrl(profile.country) && (
+                          <img
+                            src={countryFlagUrl(profile.country)!}
+                            alt={`${profile.country} flag`}
+                            className="h-7 w-10 shrink-0 rounded-md object-cover shadow-[0_0_18px_-6px_var(--gold)] ring-1 ring-border"
+                          />
+                        )}
+                        <select
+                          className={inputCls}
+                          value={profile.country}
+                          onChange={(e) => set("country", e.target.value)}
+                        >
+                          <option value="">—</option>
+                          {COUNTRIES.map((c) => (
+                            <option key={c} value={c}>
+                              {countryFlagEmoji(c)} {c}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </Field>
+                  </div>
+                </div>
               </div>
+
             </div>
           )}
 
@@ -240,16 +282,44 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   placeholder={t("searchMajors")}
                 />
               </div>
+              {profile.major && (
+                <div
+                  className="relative animate-fade-in overflow-hidden rounded-2xl border backdrop-blur-md transition-all"
+                  style={{
+                    borderColor: `color-mix(in oklab, ${majorTheme(profile.major).accent} 60%, transparent)`,
+                    boxShadow: `0 0 42px -14px ${majorTheme(profile.major).accent}`,
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-70"
+                    style={{
+                      background: majorTheme(profile.major).background,
+                      backgroundSize:
+                        majorTheme(profile.major).id === "tech" ? "26px 26px" : undefined,
+                    }}
+                  />
+                  <div className="relative flex flex-wrap items-center justify-between gap-3 p-5">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.28em] text-primary/80">
+                        {majorTheme(profile.major).label}
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-gilded">{profile.major}</p>
+                    </div>
+                    <Sparkles className="size-5 text-primary" />
+                  </div>
+                </div>
+              )}
               <div className="max-h-72 space-y-1 overflow-y-auto rounded-2xl border border-border bg-velvet/40 p-2">
                 {filteredMajors.map((m) => (
                   <button
                     key={m}
                     type="button"
-                    onClick={() => set("major", m)}
+                    onClick={() => selectMajor(m)}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-start text-sm transition-colors",
+                      "flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-start text-sm transition-all",
                       profile.major === m
-                        ? "bg-primary/15 text-primary"
+                        ? "bg-primary/15 text-primary shadow-[0_0_26px_-10px_var(--gold)] ring-1 ring-primary/50 backdrop-blur-md"
                         : "hover:bg-secondary/70",
                     )}
                   >
@@ -265,6 +335,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   </p>
                 )}
               </div>
+
             </div>
           )}
 
