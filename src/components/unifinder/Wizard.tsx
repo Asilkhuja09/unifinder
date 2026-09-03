@@ -273,16 +273,44 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   placeholder={t("searchMajors")}
                 />
               </div>
+              {profile.major && (
+                <div
+                  className="relative animate-fade-in overflow-hidden rounded-2xl border backdrop-blur-md transition-all"
+                  style={{
+                    borderColor: `color-mix(in oklab, ${majorTheme(profile.major).accent} 60%, transparent)`,
+                    boxShadow: `0 0 42px -14px ${majorTheme(profile.major).accent}`,
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-70"
+                    style={{
+                      background: majorTheme(profile.major).background,
+                      backgroundSize:
+                        majorTheme(profile.major).id === "tech" ? "26px 26px" : undefined,
+                    }}
+                  />
+                  <div className="relative flex flex-wrap items-center justify-between gap-3 p-5">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.28em] text-primary/80">
+                        {majorTheme(profile.major).label}
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-gilded">{profile.major}</p>
+                    </div>
+                    <Sparkles className="size-5 text-primary" />
+                  </div>
+                </div>
+              )}
               <div className="max-h-72 space-y-1 overflow-y-auto rounded-2xl border border-border bg-velvet/40 p-2">
                 {filteredMajors.map((m) => (
                   <button
                     key={m}
                     type="button"
-                    onClick={() => set("major", m)}
+                    onClick={() => selectMajor(m)}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-start text-sm transition-colors",
+                      "flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-start text-sm transition-all",
                       profile.major === m
-                        ? "bg-primary/15 text-primary"
+                        ? "bg-primary/15 text-primary shadow-[0_0_26px_-10px_var(--gold)] ring-1 ring-primary/50 backdrop-blur-md"
                         : "hover:bg-secondary/70",
                     )}
                   >
@@ -298,6 +326,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   </p>
                 )}
               </div>
+
             </div>
           )}
 
