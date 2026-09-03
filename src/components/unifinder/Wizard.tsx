@@ -124,6 +124,14 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
         : [...profile.regions, r],
     );
 
+  const selectMajor = (m: string) => {
+    set("major", m);
+    toast.success(lang === "uz" ? `Siz shuni tanladingiz: ${m}` : `You selected: ${m}`, {
+      description: majorTheme(m).label,
+    });
+  };
+
+
   const toggleTest = (name: TestName) => {
     const active = profile.activeTests.includes(name);
     setProfile((p) => ({
