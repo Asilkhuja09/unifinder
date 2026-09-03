@@ -15,6 +15,9 @@ const ORBIT_TAGS = [
   "UTokyo",
 ];
 
+/** Global match-generation window: exactly 30 seconds. */
+export const LOADER_DURATION_MS = 30000;
+
 export function OrbitalLoader({ onDone }: { onDone: () => void }) {
   const { t } = useI18n();
   const [progress, setProgress] = useState(0);
@@ -23,7 +26,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
     const start = performance.now();
     let frame = 0;
     const tick = (now: number) => {
-      const pct = Math.min(100, ((now - start) / 4000) * 100);
+      const pct = Math.min(100, ((now - start) / LOADER_DURATION_MS) * 100);
       setProgress(pct);
       if (pct < 100) frame = window.requestAnimationFrame(tick);
       else onDone();
@@ -31,6 +34,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
   }, [onDone]);
+
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-background/92 backdrop-blur-xl">
