@@ -773,7 +773,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Connecticut",
     strengths: ["Law", "Drama", "History", "Economics"],
     description: "Yale University is an internationally aid-friendly institution in New Haven, Connecticut, United States, founded in 1701. Recent cycles show an acceptance rate near 4.6% with published international tuition around $64,700 per year; it ranks about #10 globally and is recognised for Law, Drama, History.",
-    website: "https://www.google.com/search?q=Yale%20University%20official%20site",
+    website: "https://www.yale.edu/",
     mapsQuery: "Yale University, New Haven, Connecticut, United States",
   },
   {
@@ -2383,7 +2383,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 192,
     strengths: ["Law", "Physics", "Biosciences"],
     description: "Autonomous University of Madrid is an internationally aid-friendly institution in Madrid, Spain, founded in 1968. Recent cycles show an acceptance rate near 62% with published international tuition around $4,500 per year; it ranks about #192 globally and is recognised for Law, Physics, Biosciences.",
-    website: "https://www.google.com/search?q=Autonomous%20University%20of%20Madrid%20official%20site",
+    website: "https://www.uam.es/",
     mapsQuery: "Autonomous University of Madrid, Madrid, Spain",
   },
   {
@@ -2559,7 +2559,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 351,
     strengths: ["Finance", "Economics", "Medicine"],
     description: "Goethe University Frankfurt is an internationally aid-friendly institution in Frankfurt, Germany, founded in 1914. Recent cycles show an acceptance rate near 76% with published international tuition around $350 per year; it ranks about #351 globally and is recognised for Finance, Economics, Medicine.",
-    website: "https://www.google.com/search?q=Goethe%20University%20Frankfurt%20official%20site",
+    website: "https://www.uni-frankfurt.de/",
     mapsQuery: "Goethe University Frankfurt, Frankfurt, Germany",
   },
   {
@@ -2591,7 +2591,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 362,
     strengths: ["Microelectronics", "Transport", "Medicine"],
     description: "TU Dresden is an internationally aid-friendly institution in Dresden, Germany, founded in 1828. Recent cycles show an acceptance rate near 78% with published international tuition around $350 per year; it ranks about #362 globally and is recognised for Microelectronics, Transport, Medicine.",
-    website: "https://www.google.com/search?q=TU%20Dresden%20official%20site",
+    website: "https://tu-dresden.de/",
     mapsQuery: "TU Dresden, Dresden, Germany",
   },
   {
