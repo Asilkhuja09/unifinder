@@ -91,6 +91,13 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
             style={{ width: `${progress}%` }}
           />
         </div>
+        <div className="mt-3 flex items-center justify-between gap-3 text-xs">
+          <p key={stage.label} className="animate-fade-in text-muted-foreground">
+            {stage.label}
+          </p>
+          <span className="tabular-nums text-primary">{Math.round(progress)}%</span>
+        </div>
+
 
         <div className="mt-8 space-y-3" aria-hidden>
           {[0, 1, 2].map((i) => (
