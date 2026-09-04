@@ -18,9 +18,16 @@ const ORBIT_TAGS = [
 /** Global match-generation window: exactly 30 seconds. */
 export const LOADER_DURATION_MS = 30000;
 
+const STAGES = [
+  { until: 33, label: "Scanning top global universities…" },
+  { until: 66, label: "Analyzing financial aid & STEM criteria…" },
+  { until: 100, label: "Finalizing your custom recommendations…" },
+];
+
 export function OrbitalLoader({ onDone }: { onDone: () => void }) {
   const { t } = useI18n();
   const [progress, setProgress] = useState(0);
+  const stage = STAGES.find((s) => progress < s.until) ?? STAGES[STAGES.length - 1]!;
 
   useEffect(() => {
     const start = performance.now();
@@ -72,6 +79,8 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         </div>
       </div>
 
+
+
       <div className="mt-10 w-[min(88vw,520px)] px-4">
         <p className="mb-3 text-center text-xs uppercase tracking-[0.35em] text-primary/80">
           {t("loading")}
@@ -82,6 +91,13 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
             style={{ width: `${progress}%` }}
           />
         </div>
+        <div className="mt-3 flex items-center justify-between gap-3 text-xs">
+          <p key={stage.label} className="animate-fade-in text-muted-foreground">
+            {stage.label}
+          </p>
+          <span className="tabular-nums text-primary">{Math.round(progress)}%</span>
+        </div>
+
 
         <div className="mt-8 space-y-3" aria-hidden>
           {[0, 1, 2].map((i) => (

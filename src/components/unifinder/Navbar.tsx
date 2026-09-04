@@ -51,25 +51,46 @@ export function Navbar({ onStart }: { onStart: () => void }) {
           <div className="relative">
             <button
               onClick={() => setOpen((o) => !o)}
-              className="glass flex items-center gap-2 rounded-full px-3 py-2 text-sm"
+              aria-haspopup="listbox"
+              aria-expanded={open}
+              className="glass flex items-center gap-2 rounded-full border border-border/70 px-3 py-2 text-sm backdrop-blur-md transition-all duration-200 hover:border-primary/60 hover:bg-primary/10"
             >
-              <span aria-hidden>{current.flag}</span>
+              <span className="text-base leading-none" aria-hidden>
+                {current.flag}
+              </span>
               <span className="hidden sm:inline">{current.label}</span>
-              <ChevronDown className="size-3.5" />
+              <span className="text-xs uppercase tracking-widest text-muted-foreground sm:hidden">
+                {current.code}
+              </span>
+              <ChevronDown
+                className={`size-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+              />
             </button>
             {open && (
-              <ul className="glass absolute end-0 z-50 mt-2 w-48 overflow-hidden rounded-xl py-1">
+              <ul
+                role="listbox"
+                className="glass absolute end-0 z-50 mt-2 w-52 origin-top-right animate-scale-in overflow-hidden rounded-xl border border-border/70 bg-background/70 py-1 shadow-[0_20px_60px_-20px_var(--gold)] backdrop-blur-md"
+              >
                 {LANGUAGES.map((l) => (
                   <li key={l.code}>
                     <button
+                      role="option"
+                      aria-selected={l.code === lang}
                       onClick={() => {
                         setLang(l.code as LangCode);
                         setOpen(false);
                       }}
-                      className="flex w-full items-center gap-3 px-4 py-2 text-start text-sm transition-colors hover:bg-primary/10"
+                      className={`flex w-full items-center gap-3 px-4 py-2 text-start text-sm transition-colors hover:bg-primary/10 hover:text-primary ${
+                        l.code === lang ? "bg-primary/10 text-primary" : ""
+                      }`}
                     >
-                      <span aria-hidden>{l.flag}</span>
-                      {l.label}
+                      <span className="text-base leading-none" aria-hidden>
+                        {l.flag}
+                      </span>
+                      <span className="flex-1">{l.label}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                        {l.code}
+                      </span>
                     </button>
                   </li>
                 ))}
