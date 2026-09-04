@@ -77,13 +77,8 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         <div className="relative grid size-28 place-items-center rounded-full border border-primary/50 bg-velvet/70 shadow-[0_0_60px_-10px_var(--gold)]">
           <Globe2 className="size-10 animate-pulse text-primary" />
         </div>
-        <div className="mt-3 flex items-center justify-between gap-3 text-xs">
-          <p key={stage.label} className="animate-fade-in text-muted-foreground">
-            {stage.label}
-          </p>
-          <span className="tabular-nums text-primary">{Math.round(progress)}%</span>
-        </div>
       </div>
+
 
 
       <div className="mt-10 w-[min(88vw,520px)] px-4">
