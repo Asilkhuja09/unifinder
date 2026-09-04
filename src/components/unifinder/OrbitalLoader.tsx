@@ -18,9 +18,16 @@ const ORBIT_TAGS = [
 /** Global match-generation window: exactly 30 seconds. */
 export const LOADER_DURATION_MS = 30000;
 
+const STAGES = [
+  { until: 33, label: "Scanning top global universities…" },
+  { until: 66, label: "Analyzing financial aid & STEM criteria…" },
+  { until: 100, label: "Finalizing your custom recommendations…" },
+];
+
 export function OrbitalLoader({ onDone }: { onDone: () => void }) {
   const { t } = useI18n();
   const [progress, setProgress] = useState(0);
+  const stage = STAGES.find((s) => progress < s.until) ?? STAGES[STAGES.length - 1]!;
 
   useEffect(() => {
     const start = performance.now();
