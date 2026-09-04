@@ -61,6 +61,7 @@ const KEYWORDS: Array<[RegExp, keyof typeof THEMES]> = [
 ];
 
 export function majorTheme(major: string): MajorTheme {
-  for (const [re, key] of KEYWORDS) if (re.test(major)) return THEMES[key];
-  return THEMES.humanities;
+  const fallback = THEMES["humanities"]!;
+  for (const [re, key] of KEYWORDS) if (re.test(major)) return THEMES[key] ?? fallback;
+  return fallback;
 }
