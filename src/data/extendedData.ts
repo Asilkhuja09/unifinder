@@ -62,7 +62,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Law", "Economics", "Medicine", "Political Science"],
     description:
       "The oldest institution of higher learning in the United States, founded in 1636. Harvard practises need-blind admission for international applicants and meets 100% of demonstrated financial need without loans.",
-    website: "https://www.harvard.edu",
+    website: "https://www.harvard.edu/",
     mapsQuery: "Harvard University, Cambridge, MA 02138, USA",
   },
   {
@@ -78,7 +78,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Engineering", "Computer Science", "Physics", "Mathematics"],
     description:
       "A research university founded in 1861 and organised around five schools. MIT is need-blind for all applicants, including international students, and awards aid purely on demonstrated need.",
-    website: "https://www.mit.edu",
+    website: "https://web.mit.edu/",
     mapsQuery: "Massachusetts Institute of Technology, 77 Massachusetts Ave, Cambridge, MA",
   },
   {
@@ -94,7 +94,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Computer Science", "Business", "Engineering", "Entrepreneurship"],
     description:
       "Founded in 1885 in the heart of Silicon Valley, Stanford hosts the Knight-Hennessy Scholars programme and offers need-based aid to international undergraduates.",
-    website: "https://www.stanford.edu",
+    website: "https://www.stanford.edu/",
     mapsQuery: "Stanford University, 450 Jane Stanford Way, Stanford, CA 94305",
   },
   {
@@ -110,7 +110,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Philosophy", "Politics", "Law", "Medicine"],
     description:
       "Teaching existed at Oxford in some form from 1096, making it the oldest university in the English-speaking world. Its collegiate tutorial system and the Rhodes and Clarendon scholarships serve international students.",
-    website: "https://www.ox.ac.uk",
+    website: "https://www.ox.ac.uk/",
     mapsQuery: "University of Oxford, Wellington Square, Oxford OX1 2JD, UK",
   },
   {
@@ -126,7 +126,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Architecture", "Neuroscience", "Economics", "Education"],
     description:
       "Founded in 1826 as the first university in London and the first in England to admit students of any religion, UCL is a member of the Russell Group with strong global research output.",
-    website: "https://www.ucl.ac.uk",
+    website: "https://www.london.ac.uk/",
     mapsQuery: "University College London, Gower Street, London WC1E 6BT, UK",
   },
   {
@@ -142,7 +142,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Computer Science", "Medicine", "Artificial Intelligence"],
     description:
       "Established in 1827, U of T is Canada's largest research university and the birthplace of insulin and modern deep-learning research. The Lester B. Pearson Scholarship fully funds international undergraduates.",
-    website: "https://www.utoronto.ca",
+    website: "https://www.utoronto.ca/",
     mapsQuery: "University of Toronto, 27 King's College Circle, Toronto, ON",
   },
   {
@@ -158,7 +158,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Forestry", "Earth Sciences", "Business", "Engineering"],
     description:
       "Founded in 1908, UBC runs the International Scholars Programs, which include the Karen McKellin International Leader of Tomorrow Award covering full need for international undergraduates.",
-    website: "https://www.ubc.ca",
+    website: "https://www.bcit.ca/",
     mapsQuery: "University of British Columbia, 2329 West Mall, Vancouver, BC",
   },
   {
@@ -174,7 +174,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Mechanical Engineering", "Informatics", "Physics"],
     description:
       "Founded in 1868, TUM is a German Universities of Excellence institution. Tuition for most programmes is limited to modest semester fees, with additional support available through DAAD.",
-    website: "https://www.tum.de",
+    website: "https://www.tum.de/",
     mapsQuery: "Technical University of Munich, Arcisstraße 21, 80333 München, Germany",
   },
   {
@@ -190,7 +190,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Medicine", "Life Sciences", "Philosophy", "Law"],
     description:
       "Germany's oldest university, founded in 1386. Baden-Württemberg charges a modest fee for non-EU students, and DAAD funding is widely used by international scholars here.",
-    website: "https://www.uni-heidelberg.de",
+    website: "https://www.heidelberg.edu/",
     mapsQuery: "Heidelberg University, Grabengasse 1, 69117 Heidelberg, Germany",
   },
   {
@@ -206,7 +206,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Engineering", "Computer Science", "Architecture", "Chemistry"],
     description:
       "Founded in 1855 as the Swiss Federal Polytechnic, ETH Zurich counts 20+ Nobel laureates among its affiliates and charges famously low public tuition.",
-    website: "https://ethz.ch",
+    website: "https://www.ethz.ch/",
     mapsQuery: "ETH Zurich, Rämistrasse 101, 8092 Zürich, Switzerland",
   },
   {
@@ -222,7 +222,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Economics", "Finance", "Management", "Data Science"],
     description:
       "Founded in 1902 as Italy's first university to grant a degree in economics. Bocconi awards merit-based tuition waivers and full scholarships to top international applicants.",
-    website: "https://www.unibocconi.eu",
+    website: "https://www.unibocconi.eu/",
     mapsQuery: "Bocconi University, Via Roberto Sarfatti 25, 20136 Milano, Italy",
   },
   {
@@ -238,7 +238,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Engineering", "Architecture", "Public Policy", "Computer Science"],
     description:
       "Founded in 1911 on the former Qing dynasty royal gardens. Tsinghua hosts the Schwarzman Scholars programme and is a primary destination for Chinese Government Scholarship (CSC) recipients.",
-    website: "https://www.tsinghua.edu.cn/en/",
+    website: "https://www.tsinghua.edu.cn/",
     mapsQuery: "Tsinghua University, 30 Shuangqing Rd, Haidian District, Beijing, China",
   },
   {
@@ -254,7 +254,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Chinese Studies", "Economics", "Law", "Physics"],
     description:
       "Established in 1898 as the Imperial University of Peking, it is China's first modern national university and a major CSC and Yenching Academy host institution.",
-    website: "https://english.pku.edu.cn",
+    website: "https://www.pku.edu.cn/",
     mapsQuery: "Peking University, 5 Yiheyuan Rd, Haidian District, Beijing, China",
   },
   {
@@ -270,7 +270,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Physics", "Engineering", "Law", "Medicine"],
     description:
       "Founded in 1877, the University of Tokyo is Japan's leading research university and the main destination for MEXT scholarship students in the PEAK and global programmes.",
-    website: "https://www.u-tokyo.ac.jp/en/",
+    website: "https://www.titech.ac.jp/",
     mapsQuery: "University of Tokyo, 7-3-1 Hongo, Bunkyo City, Tokyo, Japan",
   },
   {
@@ -286,7 +286,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Computer Science", "Business", "Engineering", "Public Health"],
     description:
       "Founded in 1905 as a medical school, NUS is Singapore's flagship university and offers the ASEAN Undergraduate Scholarship and Science & Technology Undergraduate Scholarship to internationals.",
-    website: "https://www.nus.edu.sg",
+    website: "https://www.nus.edu/",
     mapsQuery: "National University of Singapore, 21 Lower Kent Ridge Rd, Singapore",
   },
   {
@@ -302,7 +302,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Engineering", "Business", "Korean Studies", "Materials Science"],
     description:
       "Established in 1946 as Korea's first national university. SNU participates in the Global Korea Scholarship (GKS), which covers tuition, airfare and living stipends.",
-    website: "https://en.snu.ac.kr",
+    website: "https://www.snu.ac.kr/",
     mapsQuery: "Seoul National University, 1 Gwanak-ro, Gwanak-gu, Seoul, South Korea",
   },
   {
@@ -318,7 +318,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Medicine", "Law", "Arts", "Environmental Science"],
     description:
       "Founded in 1853, Melbourne is Australia's second-oldest university and offers the Melbourne International Undergraduate Scholarship as well as Australia Awards placements.",
-    website: "https://www.unimelb.edu.au",
+    website: "https://www.unimelb.edu.au/",
     mapsQuery: "University of Melbourne, Parkville VIC 3010, Australia",
   },
   {
@@ -334,7 +334,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Marine Science", "Engineering", "Business", "Education"],
     description:
       "Founded in 1883, Auckland is New Zealand's largest university and administers the University of Auckland International Student Excellence Scholarship.",
-    website: "https://www.auckland.ac.nz",
+    website: "https://www.auckland.ac.nz/",
     mapsQuery: "University of Auckland, 22 Princes Street, Auckland, New Zealand",
   },
   {
@@ -350,7 +350,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Sustainability", "Business", "Journalism", "Engineering"],
     description:
       "Founded in 1885, ASU is one of the largest public universities in the United States and awards automatic merit scholarships to qualifying international freshmen.",
-    website: "https://www.asu.edu",
+    website: "https://www.asu.edu/",
     mapsQuery: "Arizona State University, 1151 S Forest Ave, Tempe, AZ 85281",
   },
   {
@@ -366,7 +366,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Mathematics", "Computer Science", "Political Science"],
     description:
       "Founded in 1816, the University of Warsaw is Poland's largest university, known for its world-champion competitive programming teams and low-cost English-taught programmes.",
-    website: "https://en.uw.edu.pl",
+    website: "https://www.pw.edu.pl/",
     mapsQuery: "University of Warsaw, Krakowskie Przedmieście 26/28, Warsaw, Poland",
   },
   {
@@ -382,7 +382,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Computer Science", "Engineering", "Economics", "Architecture"],
     description:
       "Türkiye's first private non-profit university, founded in 1984. Bilkent teaches entirely in English and awards comprehensive merit scholarships covering full tuition plus a monthly stipend to high-scoring international applicants.",
-    website: "https://w3.bilkent.edu.tr",
+    website: "https://www.bilkent.edu.tr/",
     mapsQuery: "Bilkent University, Üniversiteler, 06800 Çankaya/Ankara, Türkiye",
   },
   {
@@ -398,7 +398,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Business", "Computer Science", "Media Studies"],
     description:
       "The Tashkent campus of Webster University (St. Louis, USA), offering fully accredited American degrees in Uzbekistan with transfer pathways to Webster's global campus network.",
-    website: "https://webster.uz",
+    website: "https://webster.uz/",
     mapsQuery: "Webster University in Tashkent, Tashkent, Uzbekistan",
   },
   {
@@ -414,7 +414,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Engineering", "Computer Science", "Mathematics", "Physics"],
     description:
       "A public research university in Berlin charging no tuition fees — only a semester contribution of roughly €350 — with a large catalogue of English-taught master's programmes in engineering and informatics.",
-    website: "https://www.tu.berlin",
+    website: "https://www.tu-berlin.de/",
     mapsQuery: "Technische Universität Berlin, Straße des 17. Juni 135, 10623 Berlin, Germany",
   },
   {
@@ -430,7 +430,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Business", "Computer Science", "Fine Arts", "Engineering"],
     description:
       "A large public university in Montréal known for co-op placements, an internationally diverse student body and one of Canada's most affordable big-city cost bases.",
-    website: "https://www.concordia.ca",
+    website: "https://www.concordia.ca/",
     mapsQuery: "Concordia University, 1455 De Maisonneuve Blvd W, Montreal, QC, Canada",
   },
   {
@@ -446,7 +446,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Computer Science", "Medicine", "Data Science", "Semiotics"],
     description:
       "Estonia's national university, founded in 1632, and the anchor of Europe's most digital society. Offers English-taught degrees with tuition waivers and stipends for top-ranked international applicants.",
-    website: "https://ut.ee/en",
+    website: "https://www.ut.ee/",
     mapsQuery: "University of Tartu, Ülikooli 18, 51005 Tartu, Estonia",
   },
   {
@@ -462,7 +462,7 @@ const BASE_UNIVERSITIES: University[] = [
     strengths: ["Design", "Engineering", "Computer Science", "Business"],
     description:
       "A global technology and design university headquartered in central Melbourne, with industry-embedded programmes and international merit scholarships of 20–50% tuition.",
-    website: "https://www.rmit.edu.au",
+    website: "https://www.griffith.edu.au/",
     mapsQuery: "RMIT University, 124 La Trobe St, Melbourne VIC 3000, Australia",
   },
 ];
@@ -790,7 +790,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New Jersey",
     strengths: ["Mathematics", "Public Policy", "Physics", "Economics"],
     description: "Princeton University is an internationally aid-friendly institution in Princeton, New Jersey, United States, founded in 1746. Recent cycles show an acceptance rate near 5.7% with published international tuition around $59,710 per year; it ranks about #17 globally and is recognised for Mathematics, Public Policy, Physics.",
-    website: "https://www.google.com/search?q=Princeton%20University%20official%20site",
+    website: "https://www.princeton.edu/",
     mapsQuery: "Princeton University, Princeton, New Jersey, United States",
   },
   {
@@ -807,7 +807,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New York",
     strengths: ["Journalism", "Business", "International Affairs", "Medicine"],
     description: "Columbia University is an internationally aid-friendly institution in New York, New York, United States, founded in 1754. Recent cycles show an acceptance rate near 3.9% with published international tuition around $68,400 per year; it ranks about #12 globally and is recognised for Journalism, Business, International Affairs.",
-    website: "https://www.google.com/search?q=Columbia%20University%20official%20site",
+    website: "https://www.columbia.edu/",
     mapsQuery: "Columbia University, New York, New York, United States",
   },
   {
@@ -824,7 +824,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Pennsylvania",
     strengths: ["Business", "Nursing", "Medicine", "Economics"],
     description: "University of Pennsylvania is an internationally aid-friendly institution in Philadelphia, Pennsylvania, United States, founded in 1740. Recent cycles show an acceptance rate near 5.8% with published international tuition around $63,452 per year; it ranks about #11 globally and is recognised for Business, Nursing, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Pennsylvania%20official%20site",
+    website: "https://www.pct.edu/",
     mapsQuery: "University of Pennsylvania, Philadelphia, Pennsylvania, United States",
   },
   {
@@ -841,7 +841,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New York",
     strengths: ["Agriculture", "Hotel Administration", "Engineering", "Architecture"],
     description: "Cornell University is an internationally aid-friendly institution in Ithaca, New York, United States, founded in 1865. Recent cycles show an acceptance rate near 7.3% with published international tuition around $65,204 per year; it ranks about #16 globally and is recognised for Agriculture, Hotel Administration, Engineering.",
-    website: "https://www.google.com/search?q=Cornell%20University%20official%20site",
+    website: "https://www.cornell-iowa.edu/",
     mapsQuery: "Cornell University, Ithaca, New York, United States",
   },
   {
@@ -858,7 +858,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Rhode Island",
     strengths: ["Liberal Arts", "Applied Mathematics", "Literary Arts"],
     description: "Brown University is an internationally aid-friendly institution in Providence, Rhode Island, United States, founded in 1764. Recent cycles show an acceptance rate near 5.2% with published international tuition around $65,146 per year; it ranks about #73 globally and is recognised for Liberal Arts, Applied Mathematics, Literary Arts.",
-    website: "https://www.google.com/search?q=Brown%20University%20official%20site",
+    website: "https://www.brown.edu/",
     mapsQuery: "Brown University, Providence, Rhode Island, United States",
   },
   {
@@ -875,7 +875,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New Hampshire",
     strengths: ["Economics", "Government", "Engineering"],
     description: "Dartmouth College is an internationally aid-friendly institution in Hanover, New Hampshire, United States, founded in 1769. Recent cycles show an acceptance rate near 6.4% with published international tuition around $64,710 per year; it ranks about #209 globally and is recognised for Economics, Government, Engineering.",
-    website: "https://www.google.com/search?q=Dartmouth%20College%20official%20site",
+    website: "https://www.dartmouth.edu/",
     mapsQuery: "Dartmouth College, Hanover, New Hampshire, United States",
   },
   {
@@ -892,7 +892,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Physics", "Astronomy", "Chemistry", "Engineering"],
     description: "California Institute of Technology is an internationally aid-friendly institution in Pasadena, California, United States, founded in 1891. Recent cycles show an acceptance rate near 3.1% with published international tuition around $63,255 per year; it ranks about #10 globally and is recognised for Physics, Astronomy, Chemistry.",
-    website: "https://www.google.com/search?q=California%20Institute%20of%20Technology%20official%20site",
+    website: "https://www.caltech.edu/",
     mapsQuery: "California Institute of Technology, Pasadena, California, United States",
   },
   {
@@ -909,7 +909,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Illinois",
     strengths: ["Economics", "Sociology", "Physics", "Law"],
     description: "University of Chicago is an internationally aid-friendly institution in Chicago, Illinois, United States, founded in 1890. Recent cycles show an acceptance rate near 5.4% with published international tuition around $64,965 per year; it ranks about #21 globally and is recognised for Economics, Sociology, Physics.",
-    website: "https://www.google.com/search?q=University%20of%20Chicago%20official%20site",
+    website: "https://www.uchicago.edu/",
     mapsQuery: "University of Chicago, Chicago, Illinois, United States",
   },
   {
@@ -926,7 +926,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "North Carolina",
     strengths: ["Medicine", "Public Policy", "Engineering"],
     description: "Duke University is an internationally aid-friendly institution in Durham, North Carolina, United States, founded in 1838. Recent cycles show an acceptance rate near 6.3% with published international tuition around $63,450 per year; it ranks about #53 globally and is recognised for Medicine, Public Policy, Engineering.",
-    website: "https://www.google.com/search?q=Duke%20University%20official%20site",
+    website: "https://www.duke.edu/",
     mapsQuery: "Duke University, Durham, North Carolina, United States",
   },
   {
@@ -943,7 +943,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Illinois",
     strengths: ["Journalism", "Theatre", "Business", "Engineering"],
     description: "Northwestern University is an internationally aid-friendly institution in Evanston, Illinois, United States, founded in 1851. Recent cycles show an acceptance rate near 7.2% with published international tuition around $65,997 per year; it ranks about #50 globally and is recognised for Journalism, Theatre, Business.",
-    website: "https://www.google.com/search?q=Northwestern%20University%20official%20site",
+    website: "https://www.northwestern.edu/",
     mapsQuery: "Northwestern University, Evanston, Illinois, United States",
   },
   {
@@ -960,7 +960,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Maryland",
     strengths: ["Medicine", "Public Health", "Biomedical Engineering"],
     description: "Johns Hopkins University is an internationally aid-friendly institution in Baltimore, Maryland, United States, founded in 1876. Recent cycles show an acceptance rate near 7.5% with published international tuition around $63,340 per year; it ranks about #28 globally and is recognised for Medicine, Public Health, Biomedical Engineering.",
-    website: "https://www.google.com/search?q=Johns%20Hopkins%20University%20official%20site",
+    website: "https://www.jhu.edu/",
     mapsQuery: "Johns Hopkins University, Baltimore, Maryland, United States",
   },
   {
@@ -977,7 +977,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Computer Science", "Engineering", "Chemistry", "Economics"],
     description: "University of California, Berkeley is a institution in Berkeley, California, United States, founded in 1868. Recent cycles show an acceptance rate near 11.4% with published international tuition around $48,465 per year; it ranks about #12 globally and is recognised for Computer Science, Engineering, Chemistry.",
-    website: "https://www.google.com/search?q=University%20of%20California%2C%20Berkeley%20official%20site",
+    website: "https://www.berkeley.edu/",
     mapsQuery: "University of California, Berkeley, Berkeley, California, United States",
   },
   {
@@ -994,7 +994,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Film", "Psychology", "Engineering", "Medicine"],
     description: "University of California, Los Angeles is a institution in Los Angeles, California, United States, founded in 1919. Recent cycles show an acceptance rate near 8.6% with published international tuition around $46,326 per year; it ranks about #42 globally and is recognised for Film, Psychology, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20California%2C%20Los%20Angeles%20official%20site",
+    website: "https://www.ucla.edu/",
     mapsQuery: "University of California, Los Angeles, Los Angeles, California, United States",
   },
   {
@@ -1011,7 +1011,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Bioengineering", "Oceanography", "Computer Science"],
     description: "University of California, San Diego is a institution in La Jolla, California, United States, founded in 1960. Recent cycles show an acceptance rate near 24.7% with published international tuition around $48,000 per year; it ranks about #62 globally and is recognised for Bioengineering, Oceanography, Computer Science.",
-    website: "https://www.google.com/search?q=University%20of%20California%2C%20San%20Diego%20official%20site",
+    website: "https://www.ucsd.edu/",
     mapsQuery: "University of California, San Diego, La Jolla, California, United States",
   },
   {
@@ -1028,7 +1028,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Agriculture", "Veterinary Medicine", "Viticulture"],
     description: "University of California, Davis is a institution in Davis, California, United States, founded in 1905. Recent cycles show an acceptance rate near 42% with published international tuition around $47,000 per year; it ranks about #132 globally and is recognised for Agriculture, Veterinary Medicine, Viticulture.",
-    website: "https://www.google.com/search?q=University%20of%20California%2C%20Davis%20official%20site",
+    website: "https://www.ucdavis.edu/",
     mapsQuery: "University of California, Davis, Davis, California, United States",
   },
   {
@@ -1045,7 +1045,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Computer Science", "Criminology", "Business"],
     description: "University of California, Irvine is a institution in Irvine, California, United States, founded in 1965. Recent cycles show an acceptance rate near 26% with published international tuition around $46,000 per year; it ranks about #192 globally and is recognised for Computer Science, Criminology, Business.",
-    website: "https://www.google.com/search?q=University%20of%20California%2C%20Irvine%20official%20site",
+    website: "https://www.uci.edu/",
     mapsQuery: "University of California, Irvine, Irvine, California, United States",
   },
   {
@@ -1062,7 +1062,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Michigan",
     strengths: ["Engineering", "Business", "Public Health"],
     description: "University of Michigan is an internationally aid-friendly institution in Ann Arbor, Michigan, United States, founded in 1817. Recent cycles show an acceptance rate near 17.7% with published international tuition around $57,273 per year; it ranks about #44 globally and is recognised for Engineering, Business, Public Health.",
-    website: "https://www.google.com/search?q=University%20of%20Michigan%20official%20site",
+    website: "https://www.umflint.edu/",
     mapsQuery: "University of Michigan, Ann Arbor, Michigan, United States",
   },
   {
@@ -1079,7 +1079,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Illinois",
     strengths: ["Computer Science", "Accounting", "Engineering"],
     description: "University of Illinois Urbana-Champaign is a institution in Urbana, Illinois, United States, founded in 1867. Recent cycles show an acceptance rate near 44.8% with published international tuition around $38,000 per year; it ranks about #64 globally and is recognised for Computer Science, Accounting, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Illinois%20Urbana-Champaign%20official%20site",
+    website: "https://illinois.edu/",
     mapsQuery: "University of Illinois Urbana-Champaign, Urbana, Illinois, United States",
   },
   {
@@ -1096,7 +1096,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Georgia",
     strengths: ["Engineering", "Computer Science", "Industrial Engineering"],
     description: "Georgia Institute of Technology is a institution in Atlanta, Georgia, United States, founded in 1885. Recent cycles show an acceptance rate near 16% with published international tuition around $33,020 per year; it ranks about #86 globally and is recognised for Engineering, Computer Science, Industrial Engineering.",
-    website: "https://www.google.com/search?q=Georgia%20Institute%20of%20Technology%20official%20site",
+    website: "https://www.gcsu.edu/",
     mapsQuery: "Georgia Institute of Technology, Atlanta, Georgia, United States",
   },
   {
@@ -1113,7 +1113,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Texas",
     strengths: ["Petroleum Engineering", "Computer Science", "Business"],
     description: "University of Texas at Austin is a institution in Austin, Texas, United States, founded in 1883. Recent cycles show an acceptance rate near 29% with published international tuition around $42,000 per year; it ranks about #58 globally and is recognised for Petroleum Engineering, Computer Science, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Texas%20at%20Austin%20official%20site",
+    website: "https://www.utexas.edu/",
     mapsQuery: "University of Texas at Austin, Austin, Texas, United States",
   },
   {
@@ -1130,7 +1130,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Washington",
     strengths: ["Computer Science", "Global Health", "Nursing"],
     description: "University of Washington is a institution in Seattle, Washington, United States, founded in 1861. Recent cycles show an acceptance rate near 48% with published international tuition around $41,997 per year; it ranks about #63 globally and is recognised for Computer Science, Global Health, Nursing.",
-    website: "https://www.google.com/search?q=University%20of%20Washington%20official%20site",
+    website: "https://www.washington.edu/",
     mapsQuery: "University of Washington, Seattle, Washington, United States",
   },
   {
@@ -1147,7 +1147,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New York",
     strengths: ["Business", "Film", "Law", "Politics"],
     description: "New York University is an internationally aid-friendly institution in New York, New York, United States, founded in 1831. Recent cycles show an acceptance rate near 12.2% with published international tuition around $60,438 per year; it ranks about #43 globally and is recognised for Business, Film, Law.",
-    website: "https://www.google.com/search?q=New%20York%20University%20official%20site",
+    website: "https://www.nyit.edu/",
     mapsQuery: "New York University, New York, New York, United States",
   },
   {
@@ -1164,7 +1164,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Pennsylvania",
     strengths: ["Computer Science", "Robotics", "Drama", "Design"],
     description: "Carnegie Mellon University is an internationally aid-friendly institution in Pittsburgh, Pennsylvania, United States, founded in 1900. Recent cycles show an acceptance rate near 11% with published international tuition around $63,829 per year; it ranks about #58 globally and is recognised for Computer Science, Robotics, Drama.",
-    website: "https://www.google.com/search?q=Carnegie%20Mellon%20University%20official%20site",
+    website: "https://www.cmu.edu/",
     mapsQuery: "Carnegie Mellon University, Pittsburgh, Pennsylvania, United States",
   },
   {
@@ -1181,7 +1181,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "California",
     strengths: ["Cinematic Arts", "Business", "Engineering"],
     description: "University of Southern California is an internationally aid-friendly institution in Los Angeles, California, United States, founded in 1880. Recent cycles show an acceptance rate near 9.8% with published international tuition around $69,904 per year; it ranks about #116 globally and is recognised for Cinematic Arts, Business, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Southern%20California%20official%20site",
+    website: "https://www.usc.edu/",
     mapsQuery: "University of Southern California, Los Angeles, California, United States",
   },
   {
@@ -1198,7 +1198,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Massachusetts",
     strengths: ["Communications", "Medicine", "Economics"],
     description: "Boston University is an internationally aid-friendly institution in Boston, Massachusetts, United States, founded in 1839. Recent cycles show an acceptance rate near 10.7% with published international tuition around $66,670 per year; it ranks about #108 globally and is recognised for Communications, Medicine, Economics.",
-    website: "https://www.google.com/search?q=Boston%20University%20official%20site",
+    website: "https://www.bc.edu/",
     mapsQuery: "Boston University, Boston, Massachusetts, United States",
   },
   {
@@ -1215,7 +1215,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Massachusetts",
     strengths: ["Co-op Engineering", "Computer Science", "Business"],
     description: "Northeastern University is an internationally aid-friendly institution in Boston, Massachusetts, United States, founded in 1898. Recent cycles show an acceptance rate near 5.6% with published international tuition around $64,000 per year; it ranks about #342 globally and is recognised for Co-op Engineering, Computer Science, Business.",
-    website: "https://www.google.com/search?q=Northeastern%20University%20official%20site",
+    website: "https://www.northeastern.edu/",
     mapsQuery: "Northeastern University, Boston, Massachusetts, United States",
   },
   {
@@ -1232,7 +1232,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Indiana",
     strengths: ["Aerospace Engineering", "Agriculture", "Pharmacy"],
     description: "Purdue University is a institution in West Lafayette, Indiana, United States, founded in 1869. Recent cycles show an acceptance rate near 50% with published international tuition around $28,794 per year; it ranks about #99 globally and is recognised for Aerospace Engineering, Agriculture, Pharmacy.",
-    website: "https://www.google.com/search?q=Purdue%20University%20official%20site",
+    website: "https://www.purdue.edu/",
     mapsQuery: "Purdue University, West Lafayette, Indiana, United States",
   },
   {
@@ -1249,7 +1249,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Pennsylvania",
     strengths: ["Engineering", "Meteorology", "Business"],
     description: "Pennsylvania State University is a institution in University Park, Pennsylvania, United States, founded in 1855. Recent cycles show an acceptance rate near 55% with published international tuition around $38,651 per year; it ranks about #93 globally and is recognised for Engineering, Meteorology, Business.",
-    website: "https://www.google.com/search?q=Pennsylvania%20State%20University%20official%20site",
+    website: "https://www.psu.edu/",
     mapsQuery: "Pennsylvania State University, University Park, Pennsylvania, United States",
   },
   {
@@ -1266,7 +1266,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Ohio",
     strengths: ["Business", "Agriculture", "Medicine"],
     description: "Ohio State University is a institution in Columbus, Ohio, United States, founded in 1870. Recent cycles show an acceptance rate near 53% with published international tuition around $36,722 per year; it ranks about #151 globally and is recognised for Business, Agriculture, Medicine.",
-    website: "https://www.google.com/search?q=Ohio%20State%20University%20official%20site",
+    website: "https://www.iastate.edu/",
     mapsQuery: "Ohio State University, Columbus, Ohio, United States",
   },
   {
@@ -1283,7 +1283,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Florida",
     strengths: ["Engineering", "Agriculture", "Journalism"],
     description: "University of Florida is a institution in Gainesville, Florida, United States, founded in 1853. Recent cycles show an acceptance rate near 23% with published international tuition around $28,658 per year; it ranks about #168 globally and is recognised for Engineering, Agriculture, Journalism.",
-    website: "https://www.google.com/search?q=University%20of%20Florida%20official%20site",
+    website: "https://www.fit.edu/",
     mapsQuery: "University of Florida, Gainesville, Florida, United States",
   },
   {
@@ -1300,7 +1300,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Maryland",
     strengths: ["Computer Science", "Criminology", "Aerospace"],
     description: "University of Maryland is a institution in College Park, Maryland, United States, founded in 1856. Recent cycles show an acceptance rate near 44% with published international tuition around $39,469 per year; it ranks about #169 globally and is recognised for Computer Science, Criminology, Aerospace.",
-    website: "https://www.google.com/search?q=University%20of%20Maryland%20official%20site",
+    website: "https://www.umuc.edu/",
     mapsQuery: "University of Maryland, College Park, Maryland, United States",
   },
   {
@@ -1317,7 +1317,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "New Jersey",
     strengths: ["Pharmacy", "Supply Chain", "Philosophy"],
     description: "Rutgers University is a institution in New Brunswick, New Jersey, United States, founded in 1766. Recent cycles show an acceptance rate near 66% with published international tuition around $33,963 per year; it ranks about #254 globally and is recognised for Pharmacy, Supply Chain, Philosophy.",
-    website: "https://www.google.com/search?q=Rutgers%20University%20official%20site",
+    website: "https://www.rutgers.edu/",
     mapsQuery: "Rutgers University, New Brunswick, New Jersey, United States",
   },
   {
@@ -1334,7 +1334,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Arizona",
     strengths: ["Sustainability", "Business", "Engineering"],
     description: "Arizona State University (Tempe) is an internationally aid-friendly institution in Tempe, Arizona, United States, founded in 1885. Recent cycles show an acceptance rate near 90% with published international tuition around $32,000 per year; it ranks about #179 globally and is recognised for Sustainability, Business, Engineering.",
-    website: "https://www.google.com/search?q=Arizona%20State%20University%20(Tempe)%20official%20site",
+    website: "https://www.asu.edu/",
     mapsQuery: "Arizona State University (Tempe), Tempe, Arizona, United States",
   },
   {
@@ -1351,7 +1351,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Arizona",
     strengths: ["Astronomy", "Optical Sciences", "Mining"],
     description: "University of Arizona is an internationally aid-friendly institution in Tucson, Arizona, United States, founded in 1885. Recent cycles show an acceptance rate near 87% with published international tuition around $39,000 per year; it ranks about #262 globally and is recognised for Astronomy, Optical Sciences, Mining.",
-    website: "https://www.google.com/search?q=University%20of%20Arizona%20official%20site",
+    website: "https://www.arizona.edu/",
     mapsQuery: "University of Arizona, Tucson, Arizona, United States",
   },
   {
@@ -1368,7 +1368,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Colorado",
     strengths: ["Aerospace", "Environmental Science", "Physics"],
     description: "University of Colorado Boulder is an internationally aid-friendly institution in Boulder, Colorado, United States, founded in 1876. Recent cycles show an acceptance rate near 80% with published international tuition around $42,000 per year; it ranks about #235 globally and is recognised for Aerospace, Environmental Science, Physics.",
-    website: "https://www.google.com/search?q=University%20of%20Colorado%20Boulder%20official%20site",
+    website: "https://www.colorado.edu/",
     mapsQuery: "University of Colorado Boulder, Boulder, Colorado, United States",
   },
   {
@@ -1385,7 +1385,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Utah",
     strengths: ["Computer Graphics", "Medicine", "Mining"],
     description: "University of Utah is an internationally aid-friendly institution in Salt Lake City, Utah, United States, founded in 1850. Recent cycles show an acceptance rate near 89% with published international tuition around $32,000 per year; it ranks about #345 globally and is recognised for Computer Graphics, Medicine, Mining.",
-    website: "https://www.google.com/search?q=University%20of%20Utah%20official%20site",
+    website: "https://www.utah.edu/",
     mapsQuery: "University of Utah, Salt Lake City, Utah, United States",
   },
   {
@@ -1402,7 +1402,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Oregon",
     strengths: ["Forestry", "Oceanography", "Engineering"],
     description: "Oregon State University is an internationally aid-friendly institution in Corvallis, Oregon, United States, founded in 1868. Recent cycles show an acceptance rate near 83% with published international tuition around $33,000 per year; it ranks about #417 globally and is recognised for Forestry, Oceanography, Engineering.",
-    website: "https://www.google.com/search?q=Oregon%20State%20University%20official%20site",
+    website: "https://www.oregonstate.edu/",
     mapsQuery: "Oregon State University, Corvallis, Oregon, United States",
   },
   {
@@ -1419,7 +1419,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Iowa",
     strengths: ["Agricultural Engineering", "Veterinary Medicine", "Design"],
     description: "Iowa State University is an internationally aid-friendly institution in Ames, Iowa, United States, founded in 1858. Recent cycles show an acceptance rate near 90% with published international tuition around $26,000 per year; it ranks about #501 globally and is recognised for Agricultural Engineering, Veterinary Medicine, Design.",
-    website: "https://www.google.com/search?q=Iowa%20State%20University%20official%20site",
+    website: "https://www.iastate.edu/",
     mapsQuery: "Iowa State University, Ames, Iowa, United States",
   },
   {
@@ -1436,7 +1436,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Kansas",
     strengths: ["Pharmacy", "Journalism", "Education"],
     description: "University of Kansas is an internationally aid-friendly institution in Lawrence, Kansas, United States, founded in 1865. Recent cycles show an acceptance rate near 88% with published international tuition around $29,000 per year; it ranks about #481 globally and is recognised for Pharmacy, Journalism, Education.",
-    website: "https://www.google.com/search?q=University%20of%20Kansas%20official%20site",
+    website: "https://www.ku.edu/",
     mapsQuery: "University of Kansas, Lawrence, Kansas, United States",
   },
   {
@@ -1453,7 +1453,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Alabama",
     strengths: ["Business", "Nursing", "Communications"],
     description: "University of Alabama is an internationally aid-friendly institution in Tuscaloosa, Alabama, United States, founded in 1831. Recent cycles show an acceptance rate near 80% with published international tuition around $33,200 per year; it ranks about #801 globally and is recognised for Business, Nursing, Communications.",
-    website: "https://www.google.com/search?q=University%20of%20Alabama%20official%20site",
+    website: "https://www.ua.edu/",
     mapsQuery: "University of Alabama, Tuscaloosa, Alabama, United States",
   },
   {
@@ -1470,7 +1470,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Texas",
     strengths: ["Petroleum Engineering", "Hospitality", "Business"],
     description: "University of Houston is an internationally aid-friendly institution in Houston, Texas, United States, founded in 1927. Recent cycles show an acceptance rate near 66% with published international tuition around $23,000 per year; it ranks about #601 globally and is recognised for Petroleum Engineering, Hospitality, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Houston%20official%20site",
+    website: "https://www.uh.edu/",
     mapsQuery: "University of Houston, Houston, Texas, United States",
   },
   {
@@ -1487,7 +1487,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     usState: "Illinois",
     strengths: ["Business", "Computing", "Theatre"],
     description: "DePaul University is an internationally aid-friendly institution in Chicago, Illinois, United States, founded in 1898. Recent cycles show an acceptance rate near 70% with published international tuition around $45,000 per year; it ranks about #801 globally and is recognised for Business, Computing, Theatre.",
-    website: "https://www.google.com/search?q=DePaul%20University%20official%20site",
+    website: "https://www.depaul.edu/",
     mapsQuery: "DePaul University, Chicago, Illinois, United States",
   },
   {
@@ -1503,7 +1503,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 5,
     strengths: ["Mathematics", "Natural Sciences", "Engineering", "Law"],
     description: "University of Cambridge is an internationally aid-friendly institution in Cambridge, United Kingdom, founded in 1209. Recent cycles show an acceptance rate near 21% with published international tuition around $40,000 per year; it ranks about #5 globally and is recognised for Mathematics, Natural Sciences, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Cambridge%20official%20site",
+    website: "https://www.cam.ac.uk/",
     mapsQuery: "University of Cambridge, Cambridge, United Kingdom",
   },
   {
@@ -1519,7 +1519,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 2,
     strengths: ["Engineering", "Medicine", "Computing", "Business"],
     description: "Imperial College London is an internationally aid-friendly institution in London, United Kingdom, founded in 1907. Recent cycles show an acceptance rate near 14.3% with published international tuition around $45,000 per year; it ranks about #2 globally and is recognised for Engineering, Medicine, Computing.",
-    website: "https://www.google.com/search?q=Imperial%20College%20London%20official%20site",
+    website: "https://www.imperial.ac.uk/",
     mapsQuery: "Imperial College London, London, United Kingdom",
   },
   {
@@ -1535,7 +1535,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 50,
     strengths: ["Economics", "Politics", "Law", "Finance"],
     description: "London School of Economics is an internationally aid-friendly institution in London, United Kingdom, founded in 1895. Recent cycles show an acceptance rate near 8.9% with published international tuition around $29,000 per year; it ranks about #50 globally and is recognised for Economics, Politics, Law.",
-    website: "https://www.google.com/search?q=London%20School%20of%20Economics%20official%20site",
+    website: "https://www.lse.ac.uk/",
     mapsQuery: "London School of Economics, London, United Kingdom",
   },
   {
@@ -1551,7 +1551,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 27,
     strengths: ["AI", "Medicine", "Veterinary", "Philosophy"],
     description: "University of Edinburgh is an internationally aid-friendly institution in Edinburgh, United Kingdom, founded in 1583. Recent cycles show an acceptance rate near 40% with published international tuition around $32,000 per year; it ranks about #27 globally and is recognised for AI, Medicine, Veterinary.",
-    website: "https://www.google.com/search?q=University%20of%20Edinburgh%20official%20site",
+    website: "https://www.ed.ac.uk/",
     mapsQuery: "University of Edinburgh, Edinburgh, United Kingdom",
   },
   {
@@ -1567,7 +1567,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 40,
     strengths: ["Medicine", "War Studies", "Law"],
     description: "King's College London is an internationally aid-friendly institution in London, United Kingdom, founded in 1829. Recent cycles show an acceptance rate near 42% with published international tuition around $33,000 per year; it ranks about #40 globally and is recognised for Medicine, War Studies, Law.",
-    website: "https://www.google.com/search?q=King's%20College%20London%20official%20site",
+    website: "https://www.imperial.ac.uk/",
     mapsQuery: "King's College London, London, United Kingdom",
   },
   {
@@ -1583,7 +1583,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 34,
     strengths: ["Materials Science", "Engineering", "Business"],
     description: "University of Manchester is an internationally aid-friendly institution in Manchester, United Kingdom, founded in 1824. Recent cycles show an acceptance rate near 56% with published international tuition around $31,000 per year; it ranks about #34 globally and is recognised for Materials Science, Engineering, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Manchester%20official%20site",
+    website: "https://www.manchester.ac.uk/",
     mapsQuery: "University of Manchester, Manchester, United Kingdom",
   },
   {
@@ -1599,7 +1599,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 69,
     strengths: ["Mathematics", "Economics", "Business"],
     description: "University of Warwick is an internationally aid-friendly institution in Coventry, United Kingdom, founded in 1965. Recent cycles show an acceptance rate near 45% with published international tuition around $32,000 per year; it ranks about #69 globally and is recognised for Mathematics, Economics, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Warwick%20official%20site",
+    website: "https://www.warwick.ac.uk/",
     mapsQuery: "University of Warwick, Coventry, United Kingdom",
   },
   {
@@ -1615,7 +1615,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 54,
     strengths: ["Engineering", "Veterinary", "Law"],
     description: "University of Bristol is an internationally aid-friendly institution in Bristol, United Kingdom, founded in 1876. Recent cycles show an acceptance rate near 52% with published international tuition around $30,000 per year; it ranks about #54 globally and is recognised for Engineering, Veterinary, Law.",
-    website: "https://www.google.com/search?q=University%20of%20Bristol%20official%20site",
+    website: "https://www.bristol.ac.uk/",
     mapsQuery: "University of Bristol, Bristol, United Kingdom",
   },
   {
@@ -1631,7 +1631,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 78,
     strengths: ["Medicine", "Engineering", "Nursing"],
     description: "University of Glasgow is an internationally aid-friendly institution in Glasgow, United Kingdom, founded in 1451. Recent cycles show an acceptance rate near 60% with published international tuition around $28,000 per year; it ranks about #78 globally and is recognised for Medicine, Engineering, Nursing.",
-    website: "https://www.google.com/search?q=University%20of%20Glasgow%20official%20site",
+    website: "https://www.gla.ac.uk/",
     mapsQuery: "University of Glasgow, Glasgow, United Kingdom",
   },
   {
@@ -1647,7 +1647,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 89,
     strengths: ["Theology", "Geography", "Law"],
     description: "Durham University is an internationally aid-friendly institution in Durham, United Kingdom, founded in 1832. Recent cycles show an acceptance rate near 52% with published international tuition around $30,000 per year; it ranks about #89 globally and is recognised for Theology, Geography, Law.",
-    website: "https://www.google.com/search?q=Durham%20University%20official%20site",
+    website: "https://www.dur.ac.uk/",
     mapsQuery: "Durham University, Durham, United Kingdom",
   },
   {
@@ -1663,7 +1663,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 95,
     strengths: ["International Relations", "Physics", "Art History"],
     description: "University of St Andrews is an internationally aid-friendly institution in St Andrews, United Kingdom, founded in 1413. Recent cycles show an acceptance rate near 45% with published international tuition around $34,000 per year; it ranks about #95 globally and is recognised for International Relations, Physics, Art History.",
-    website: "https://www.google.com/search?q=University%20of%20St%20Andrews%20official%20site",
+    website: "https://www.st-andrews.ac.uk/",
     mapsQuery: "University of St Andrews, St Andrews, United Kingdom",
   },
   {
@@ -1679,7 +1679,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 82,
     strengths: ["Business", "Food Science", "Engineering"],
     description: "University of Leeds is an internationally aid-friendly institution in Leeds, United Kingdom, founded in 1904. Recent cycles show an acceptance rate near 63% with published international tuition around $28,000 per year; it ranks about #82 globally and is recognised for Business, Food Science, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Leeds%20official%20site",
+    website: "https://www.leeds.ac.uk/",
     mapsQuery: "University of Leeds, Leeds, United Kingdom",
   },
   {
@@ -1695,7 +1695,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 105,
     strengths: ["Engineering", "Architecture", "Dentistry"],
     description: "University of Sheffield is an internationally aid-friendly institution in Sheffield, United Kingdom, founded in 1905. Recent cycles show an acceptance rate near 68% with published international tuition around $27,000 per year; it ranks about #105 globally and is recognised for Engineering, Architecture, Dentistry.",
-    website: "https://www.google.com/search?q=University%20of%20Sheffield%20official%20site",
+    website: "https://www.sheffield.ac.uk/",
     mapsQuery: "University of Sheffield, Sheffield, United Kingdom",
   },
   {
@@ -1711,7 +1711,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 80,
     strengths: ["Engineering", "Oceanography", "Audiology"],
     description: "University of Southampton is an internationally aid-friendly institution in Southampton, United Kingdom, founded in 1862. Recent cycles show an acceptance rate near 68% with published international tuition around $27,000 per year; it ranks about #80 globally and is recognised for Engineering, Oceanography, Audiology.",
-    website: "https://www.google.com/search?q=University%20of%20Southampton%20official%20site",
+    website: "https://www.southampton.ac.uk/",
     mapsQuery: "University of Southampton, Southampton, United Kingdom",
   },
   {
@@ -1727,7 +1727,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 97,
     strengths: ["Pharmacy", "Engineering", "Business"],
     description: "University of Nottingham is an internationally aid-friendly institution in Nottingham, United Kingdom, founded in 1881. Recent cycles show an acceptance rate near 66% with published international tuition around $28,000 per year; it ranks about #97 globally and is recognised for Pharmacy, Engineering, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Nottingham%20official%20site",
+    website: "https://www.nottingham.ac.uk/",
     mapsQuery: "University of Nottingham, Nottingham, United Kingdom",
   },
   {
@@ -1743,7 +1743,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 84,
     strengths: ["Business", "Sport Science", "Engineering"],
     description: "University of Birmingham is an internationally aid-friendly institution in Birmingham, United Kingdom, founded in 1900. Recent cycles show an acceptance rate near 68% with published international tuition around $28,000 per year; it ranks about #84 globally and is recognised for Business, Sport Science, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Birmingham%20official%20site",
+    website: "https://www.bham.ac.uk/",
     mapsQuery: "University of Birmingham, Birmingham, United Kingdom",
   },
   {
@@ -1759,7 +1759,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 202,
     strengths: ["Pharmacy", "Law", "Engineering"],
     description: "Queen's University Belfast is an internationally aid-friendly institution in Belfast, United Kingdom, founded in 1845. Recent cycles show an acceptance rate near 72% with published international tuition around $24,000 per year; it ranks about #202 globally and is recognised for Pharmacy, Law, Engineering.",
-    website: "https://www.google.com/search?q=Queen's%20University%20Belfast%20official%20site",
+    website: "https://www.qub.ac.uk/",
     mapsQuery: "Queen's University Belfast, Belfast, United Kingdom",
   },
   {
@@ -1775,7 +1775,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 29,
     strengths: ["Medicine", "Law", "Neuroscience"],
     description: "McGill University is an internationally aid-friendly institution in Montréal, Québec, Canada, founded in 1821. Recent cycles show an acceptance rate near 46% with published international tuition around $29,000 per year; it ranks about #29 globally and is recognised for Medicine, Law, Neuroscience.",
-    website: "https://www.google.com/search?q=McGill%20University%20official%20site",
+    website: "https://www.mcgill.ca/",
     mapsQuery: "McGill University, Montréal, Québec, Canada",
   },
   {
@@ -1791,7 +1791,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 115,
     strengths: ["Computer Science", "Co-op Engineering", "Mathematics"],
     description: "University of Waterloo is an internationally aid-friendly institution in Waterloo, Ontario, Canada, founded in 1957. Recent cycles show an acceptance rate near 53% with published international tuition around $42,000 per year; it ranks about #115 globally and is recognised for Computer Science, Co-op Engineering, Mathematics.",
-    website: "https://www.google.com/search?q=University%20of%20Waterloo%20official%20site",
+    website: "https://www.uwaterloo.ca/",
     mapsQuery: "University of Waterloo, Waterloo, Ontario, Canada",
   },
   {
@@ -1807,7 +1807,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 176,
     strengths: ["Health Sciences", "Engineering", "Business"],
     description: "McMaster University is an internationally aid-friendly institution in Hamilton, Ontario, Canada, founded in 1887. Recent cycles show an acceptance rate near 58% with published international tuition around $38,000 per year; it ranks about #176 globally and is recognised for Health Sciences, Engineering, Business.",
-    website: "https://www.google.com/search?q=McMaster%20University%20official%20site",
+    website: "https://www.mcmaster.ca/",
     mapsQuery: "McMaster University, Hamilton, Ontario, Canada",
   },
   {
@@ -1823,7 +1823,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 96,
     strengths: ["Petroleum Engineering", "Nanotechnology", "Agriculture"],
     description: "University of Alberta is an internationally aid-friendly institution in Edmonton, Alberta, Canada, founded in 1908. Recent cycles show an acceptance rate near 58% with published international tuition around $29,000 per year; it ranks about #96 globally and is recognised for Petroleum Engineering, Nanotechnology, Agriculture.",
-    website: "https://www.google.com/search?q=University%20of%20Alberta%20official%20site",
+    website: "https://www.ualberta.ca/",
     mapsQuery: "University of Alberta, Edmonton, Alberta, Canada",
   },
   {
@@ -1839,7 +1839,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 209,
     strengths: ["Commerce", "Engineering", "Law"],
     description: "Queen's University is an internationally aid-friendly institution in Kingston, Ontario, Canada, founded in 1841. Recent cycles show an acceptance rate near 42% with published international tuition around $45,000 per year; it ranks about #209 globally and is recognised for Commerce, Engineering, Law.",
-    website: "https://www.google.com/search?q=Queen's%20University%20official%20site",
+    website: "https://www.queensu.ca/",
     mapsQuery: "Queen's University, Kingston, Ontario, Canada",
   },
   {
@@ -1855,7 +1855,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 343,
     strengths: ["Business (Ivey)", "Medicine", "Engineering"],
     description: "Western University is an internationally aid-friendly institution in London, Ontario, Canada, founded in 1878. Recent cycles show an acceptance rate near 58% with published international tuition around $40,000 per year; it ranks about #343 globally and is recognised for Business (Ivey), Medicine, Engineering.",
-    website: "https://www.google.com/search?q=Western%20University%20official%20site",
+    website: "https://www.wu.edu.az/",
     mapsQuery: "Western University, London, Ontario, Canada",
   },
   {
@@ -1871,7 +1871,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 203,
     strengths: ["Law", "Political Science", "Medicine"],
     description: "University of Ottawa is an internationally aid-friendly institution in Ottawa, Ontario, Canada, founded in 1848. Recent cycles show an acceptance rate near 72% with published international tuition around $35,000 per year; it ranks about #203 globally and is recognised for Law, Political Science, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Ottawa%20official%20site",
+    website: "https://www.uottawa.ca/",
     mapsQuery: "University of Ottawa, Ottawa, Ontario, Canada",
   },
   {
@@ -1887,7 +1887,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 182,
     strengths: ["Energy Engineering", "Geology", "Business"],
     description: "University of Calgary is an internationally aid-friendly institution in Calgary, Alberta, Canada, founded in 1966. Recent cycles show an acceptance rate near 65% with published international tuition around $28,000 per year; it ranks about #182 globally and is recognised for Energy Engineering, Geology, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Calgary%20official%20site",
+    website: "https://www.ucalgary.ca/",
     mapsQuery: "University of Calgary, Calgary, Alberta, Canada",
   },
   {
@@ -1903,7 +1903,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 318,
     strengths: ["Computing Science", "Criminology", "Communication"],
     description: "Simon Fraser University is an internationally aid-friendly institution in Burnaby, British Columbia, Canada, founded in 1965. Recent cycles show an acceptance rate near 68% with published international tuition around $32,000 per year; it ranks about #318 globally and is recognised for Computing Science, Criminology, Communication.",
-    website: "https://www.google.com/search?q=Simon%20Fraser%20University%20official%20site",
+    website: "https://www.sfu.ca/",
     mapsQuery: "Simon Fraser University, Burnaby, British Columbia, Canada",
   },
   {
@@ -1919,7 +1919,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 301,
     strengths: ["Marine Biology", "Medicine", "Law"],
     description: "Dalhousie University is an internationally aid-friendly institution in Halifax, Nova Scotia, Canada, founded in 1818. Recent cycles show an acceptance rate near 75% with published international tuition around $25,000 per year; it ranks about #301 globally and is recognised for Marine Biology, Medicine, Law.",
-    website: "https://www.google.com/search?q=Dalhousie%20University%20official%20site",
+    website: "https://www.dal.ca/",
     mapsQuery: "Dalhousie University, Halifax, Nova Scotia, Canada",
   },
   {
@@ -1935,7 +1935,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 671,
     strengths: ["Agriculture", "Engineering", "Medicine"],
     description: "University of Manitoba is an internationally aid-friendly institution in Winnipeg, Manitoba, Canada, founded in 1877. Recent cycles show an acceptance rate near 78% with published international tuition around $21,000 per year; it ranks about #671 globally and is recognised for Agriculture, Engineering, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Manitoba%20official%20site",
+    website: "https://www.umanitoba.ca/",
     mapsQuery: "University of Manitoba, Winnipeg, Manitoba, Canada",
   },
   {
@@ -1951,7 +1951,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 26,
     strengths: ["Engineering", "Computer Science", "Robotics"],
     description: "EPFL is an internationally aid-friendly institution in Lausanne, Switzerland, founded in 1853. Recent cycles show an acceptance rate near 30% with published international tuition around $1,600 per year; it ranks about #26 globally and is recognised for Engineering, Computer Science, Robotics.",
-    website: "https://www.google.com/search?q=EPFL%20official%20site",
+    website: "https://www.epfl.ch/",
     mapsQuery: "EPFL, Lausanne, Switzerland",
   },
   {
@@ -1967,7 +1967,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 59,
     strengths: ["Humanities", "Medicine", "Mathematics"],
     description: "Sorbonne University is an internationally aid-friendly institution in Paris, France, founded in 1257. Recent cycles show an acceptance rate near 40% with published international tuition around $3,800 per year; it ranks about #59 globally and is recognised for Humanities, Medicine, Mathematics.",
-    website: "https://www.google.com/search?q=Sorbonne%20University%20official%20site",
+    website: "https://www.sorbonne-universite.fr/",
     mapsQuery: "Sorbonne University, Paris, France",
   },
   {
@@ -1983,7 +1983,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 24,
     strengths: ["Physics", "Mathematics", "Economics"],
     description: "Université PSL is an internationally aid-friendly institution in Paris, France, founded in 2010. Recent cycles show an acceptance rate near 30% with published international tuition around $3,800 per year; it ranks about #24 globally and is recognised for Physics, Mathematics, Economics.",
-    website: "https://www.google.com/search?q=Universit%C3%A9%20PSL%20official%20site",
+    website: "https://www.universite-paris-saclay.fr/",
     mapsQuery: "Université PSL, Paris, France",
   },
   {
@@ -1999,7 +1999,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 38,
     strengths: ["Engineering", "Applied Mathematics", "Physics"],
     description: "École Polytechnique is an internationally aid-friendly institution in Palaiseau, France, founded in 1794. Recent cycles show an acceptance rate near 15% with published international tuition around $14,000 per year; it ranks about #38 globally and is recognised for Engineering, Applied Mathematics, Physics.",
-    website: "https://www.google.com/search?q=%C3%89cole%20Polytechnique%20official%20site",
+    website: "https://www.polytechnique.fr/",
     mapsQuery: "École Polytechnique, Palaiseau, France",
   },
   {
@@ -2015,7 +2015,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 242,
     strengths: ["Political Science", "International Affairs", "Law"],
     description: "Sciences Po is an internationally aid-friendly institution in Paris, France, founded in 1872. Recent cycles show an acceptance rate near 20% with published international tuition around $14,000 per year; it ranks about #242 globally and is recognised for Political Science, International Affairs, Law.",
-    website: "https://www.google.com/search?q=Sciences%20Po%20official%20site",
+    website: "https://www.sciencespo-rennes.fr/",
     mapsQuery: "Sciences Po, Paris, France",
   },
   {
@@ -2031,7 +2031,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 53,
     strengths: ["Communication", "Economics", "Data Science"],
     description: "University of Amsterdam is an internationally aid-friendly institution in Amsterdam, Netherlands, founded in 1632. Recent cycles show an acceptance rate near 60% with published international tuition around $13,000 per year; it ranks about #53 globally and is recognised for Communication, Economics, Data Science.",
-    website: "https://www.google.com/search?q=University%20of%20Amsterdam%20official%20site",
+    website: "https://www.uva.nl/",
     mapsQuery: "University of Amsterdam, Amsterdam, Netherlands",
   },
   {
@@ -2047,7 +2047,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 49,
     strengths: ["Aerospace", "Architecture", "Civil Engineering"],
     description: "Delft University of Technology is an internationally aid-friendly institution in Delft, Netherlands, founded in 1842. Recent cycles show an acceptance rate near 55% with published international tuition around $20,000 per year; it ranks about #49 globally and is recognised for Aerospace, Architecture, Civil Engineering.",
-    website: "https://www.google.com/search?q=Delft%20University%20of%20Technology%20official%20site",
+    website: "https://www.tudelft.nl/",
     mapsQuery: "Delft University of Technology, Delft, Netherlands",
   },
   {
@@ -2063,7 +2063,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 126,
     strengths: ["Law", "Archaeology", "Astronomy"],
     description: "Leiden University is an internationally aid-friendly institution in Leiden, Netherlands, founded in 1575. Recent cycles show an acceptance rate near 62% with published international tuition around $14,000 per year; it ranks about #126 globally and is recognised for Law, Archaeology, Astronomy.",
-    website: "https://www.google.com/search?q=Leiden%20University%20official%20site",
+    website: "https://www.stenden.com/",
     mapsQuery: "Leiden University, Leiden, Netherlands",
   },
   {
@@ -2079,7 +2079,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 105,
     strengths: ["Veterinary", "Geosciences", "Psychology"],
     description: "Utrecht University is an internationally aid-friendly institution in Utrecht, Netherlands, founded in 1636. Recent cycles show an acceptance rate near 65% with published international tuition around $13,000 per year; it ranks about #105 globally and is recognised for Veterinary, Geosciences, Psychology.",
-    website: "https://www.google.com/search?q=Utrecht%20University%20official%20site",
+    website: "https://www.uu.nl/",
     mapsQuery: "Utrecht University, Utrecht, Netherlands",
   },
   {
@@ -2095,7 +2095,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 124,
     strengths: ["Electrical Engineering", "Industrial Design", "Data Science"],
     description: "Eindhoven University of Technology is an internationally aid-friendly institution in Eindhoven, Netherlands, founded in 1956. Recent cycles show an acceptance rate near 66% with published international tuition around $18,000 per year; it ranks about #124 globally and is recognised for Electrical Engineering, Industrial Design, Data Science.",
-    website: "https://www.google.com/search?q=Eindhoven%20University%20of%20Technology%20official%20site",
+    website: "https://www.tue.nl/",
     mapsQuery: "Eindhoven University of Technology, Eindhoven, Netherlands",
   },
   {
@@ -2111,7 +2111,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 61,
     strengths: ["Engineering", "Biomedical Science", "Theology"],
     description: "KU Leuven is an internationally aid-friendly institution in Leuven, Belgium, founded in 1425. Recent cycles show an acceptance rate near 60% with published international tuition around $7,000 per year; it ranks about #61 globally and is recognised for Engineering, Biomedical Science, Theology.",
-    website: "https://www.google.com/search?q=KU%20Leuven%20official%20site",
+    website: "https://www.kuleuven.be/",
     mapsQuery: "KU Leuven, Leuven, Belgium",
   },
   {
@@ -2127,7 +2127,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 159,
     strengths: ["Bioscience Engineering", "Veterinary", "Psychology"],
     description: "Ghent University is an internationally aid-friendly institution in Ghent, Belgium, founded in 1817. Recent cycles show an acceptance rate near 65% with published international tuition around $6,000 per year; it ranks about #159 globally and is recognised for Bioscience Engineering, Veterinary, Psychology.",
-    website: "https://www.google.com/search?q=Ghent%20University%20official%20site",
+    website: "https://www.uhasselt.be/",
     mapsQuery: "Ghent University, Ghent, Belgium",
   },
   {
@@ -2143,7 +2143,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 100,
     strengths: ["Medicine", "Life Sciences", "Political Science"],
     description: "University of Copenhagen is an internationally aid-friendly institution in Copenhagen, Denmark, founded in 1479. Recent cycles show an acceptance rate near 60% with published international tuition around $13,000 per year; it ranks about #100 globally and is recognised for Medicine, Life Sciences, Political Science.",
-    website: "https://www.google.com/search?q=University%20of%20Copenhagen%20official%20site",
+    website: "https://www.ku.dk/",
     mapsQuery: "University of Copenhagen, Copenhagen, Denmark",
   },
   {
@@ -2159,7 +2159,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 104,
     strengths: ["Wind Energy", "Engineering", "Biotechnology"],
     description: "Technical University of Denmark is an internationally aid-friendly institution in Kongens Lyngby, Denmark, founded in 1829. Recent cycles show an acceptance rate near 63% with published international tuition around $17,000 per year; it ranks about #104 globally and is recognised for Wind Energy, Engineering, Biotechnology.",
-    website: "https://www.google.com/search?q=Technical%20University%20of%20Denmark%20official%20site",
+    website: "https://www.dtu.dk/",
     mapsQuery: "Technical University of Denmark, Kongens Lyngby, Denmark",
   },
   {
@@ -2175,7 +2175,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 73,
     strengths: ["Engineering", "Architecture", "Computer Science"],
     description: "KTH Royal Institute of Technology is an internationally aid-friendly institution in Stockholm, Sweden, founded in 1827. Recent cycles show an acceptance rate near 60% with published international tuition around $17,000 per year; it ranks about #73 globally and is recognised for Engineering, Architecture, Computer Science.",
-    website: "https://www.google.com/search?q=KTH%20Royal%20Institute%20of%20Technology%20official%20site",
+    website: "https://www.kth.se/",
     mapsQuery: "KTH Royal Institute of Technology, Stockholm, Sweden",
   },
   {
@@ -2191,7 +2191,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 85,
     strengths: ["Engineering", "Sustainability", "Medicine"],
     description: "Lund University is an internationally aid-friendly institution in Lund, Sweden, founded in 1666. Recent cycles show an acceptance rate near 60% with published international tuition around $15,000 per year; it ranks about #85 globally and is recognised for Engineering, Sustainability, Medicine.",
-    website: "https://www.google.com/search?q=Lund%20University%20official%20site",
+    website: "https://www.lu.se/",
     mapsQuery: "Lund University, Lund, Sweden",
   },
   {
@@ -2207,7 +2207,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 105,
     strengths: ["Pharmacy", "Physics", "Law"],
     description: "Uppsala University is an internationally aid-friendly institution in Uppsala, Sweden, founded in 1477. Recent cycles show an acceptance rate near 62% with published international tuition around $15,000 per year; it ranks about #105 globally and is recognised for Pharmacy, Physics, Law.",
-    website: "https://www.google.com/search?q=Uppsala%20University%20official%20site",
+    website: "https://www.uu.se/",
     mapsQuery: "Uppsala University, Uppsala, Sweden",
   },
   {
@@ -2223,7 +2223,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 139,
     strengths: ["Automotive Engineering", "Naval Architecture", "Physics"],
     description: "Chalmers University of Technology is an internationally aid-friendly institution in Gothenburg, Sweden, founded in 1829. Recent cycles show an acceptance rate near 65% with published international tuition around $17,500 per year; it ranks about #139 globally and is recognised for Automotive Engineering, Naval Architecture, Physics.",
-    website: "https://www.google.com/search?q=Chalmers%20University%20of%20Technology%20official%20site",
+    website: "https://www.chalmers.se/",
     mapsQuery: "Chalmers University of Technology, Gothenburg, Sweden",
   },
   {
@@ -2239,7 +2239,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 117,
     strengths: ["Law", "Informatics", "Peace Studies"],
     description: "University of Oslo is an internationally aid-friendly institution in Oslo, Norway, founded in 1811. Recent cycles show an acceptance rate near 60% with published international tuition around $600 per year; it ranks about #117 globally and is recognised for Law, Informatics, Peace Studies.",
-    website: "https://www.google.com/search?q=University%20of%20Oslo%20official%20site",
+    website: "https://www.uio.no/",
     mapsQuery: "University of Oslo, Oslo, Norway",
   },
   {
@@ -2255,7 +2255,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 271,
     strengths: ["Marine Technology", "Engineering", "Energy"],
     description: "Norwegian University of Science and Technology is an internationally aid-friendly institution in Trondheim, Norway, founded in 1996. Recent cycles show an acceptance rate near 65% with published international tuition around $600 per year; it ranks about #271 globally and is recognised for Marine Technology, Engineering, Energy.",
-    website: "https://www.google.com/search?q=Norwegian%20University%20of%20Science%20and%20Technology%20official%20site",
+    website: "https://www.ntnu.no/",
     mapsQuery: "Norwegian University of Science and Technology, Trondheim, Norway",
   },
   {
@@ -2271,7 +2271,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 115,
     strengths: ["Education", "Forestry", "Medicine"],
     description: "University of Helsinki is an internationally aid-friendly institution in Helsinki, Finland, founded in 1640. Recent cycles show an acceptance rate near 58% with published international tuition around $15,000 per year; it ranks about #115 globally and is recognised for Education, Forestry, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Helsinki%20official%20site",
+    website: "https://www.helsinki.fi/",
     mapsQuery: "University of Helsinki, Helsinki, Finland",
   },
   {
@@ -2287,7 +2287,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 109,
     strengths: ["Design", "Business", "Engineering"],
     description: "Aalto University is an internationally aid-friendly institution in Espoo, Finland, founded in 2010. Recent cycles show an acceptance rate near 62% with published international tuition around $15,000 per year; it ranks about #109 globally and is recognised for Design, Business, Engineering.",
-    website: "https://www.google.com/search?q=Aalto%20University%20official%20site",
+    website: "https://www.aalto.fi/",
     mapsQuery: "Aalto University, Espoo, Finland",
   },
   {
@@ -2303,7 +2303,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 159,
     strengths: ["Philosophy", "Physics", "Business"],
     description: "University of Vienna is an internationally aid-friendly institution in Vienna, Austria, founded in 1365. Recent cycles show an acceptance rate near 65% with published international tuition around $1,600 per year; it ranks about #159 globally and is recognised for Philosophy, Physics, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Vienna%20official%20site",
+    website: "https://www.univie.ac.at/",
     mapsQuery: "University of Vienna, Vienna, Austria",
   },
   {
@@ -2319,7 +2319,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 181,
     strengths: ["Architecture", "Informatics", "Mechanical Engineering"],
     description: "TU Wien is an internationally aid-friendly institution in Vienna, Austria, founded in 1815. Recent cycles show an acceptance rate near 70% with published international tuition around $1,600 per year; it ranks about #181 globally and is recognised for Architecture, Informatics, Mechanical Engineering.",
-    website: "https://www.google.com/search?q=TU%20Wien%20official%20site",
+    website: "https://www.tuwien.ac.at/",
     mapsQuery: "TU Wien, Vienna, Austria",
   },
   {
@@ -2335,7 +2335,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 87,
     strengths: ["Literature", "Medicine", "Computer Science"],
     description: "Trinity College Dublin is an internationally aid-friendly institution in Dublin, Ireland, founded in 1592. Recent cycles show an acceptance rate near 50% with published international tuition around $26,000 per year; it ranks about #87 globally and is recognised for Literature, Medicine, Computer Science.",
-    website: "https://www.google.com/search?q=Trinity%20College%20Dublin%20official%20site",
+    website: "https://www.ucd.ie/",
     mapsQuery: "Trinity College Dublin, Dublin, Ireland",
   },
   {
@@ -2351,7 +2351,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 126,
     strengths: ["Agriculture", "Business", "Veterinary"],
     description: "University College Dublin is an internationally aid-friendly institution in Dublin, Ireland, founded in 1854. Recent cycles show an acceptance rate near 60% with published international tuition around $25,000 per year; it ranks about #126 globally and is recognised for Agriculture, Business, Veterinary.",
-    website: "https://www.google.com/search?q=University%20College%20Dublin%20official%20site",
+    website: "https://www.dit.ie/",
     mapsQuery: "University College Dublin, Dublin, Ireland",
   },
   {
@@ -2367,7 +2367,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 164,
     strengths: ["Medicine", "Economics", "Biology"],
     description: "University of Barcelona is an internationally aid-friendly institution in Barcelona, Spain, founded in 1450. Recent cycles show an acceptance rate near 60% with published international tuition around $4,000 per year; it ranks about #164 globally and is recognised for Medicine, Economics, Biology.",
-    website: "https://www.google.com/search?q=University%20of%20Barcelona%20official%20site",
+    website: "https://web.ub.edu/",
     mapsQuery: "University of Barcelona, Barcelona, Spain",
   },
   {
@@ -2399,7 +2399,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 301,
     strengths: ["Business", "International Relations", "Design"],
     description: "IE University is an internationally aid-friendly institution in Madrid, Spain, founded in 1973. Recent cycles show an acceptance rate near 45% with published international tuition around $24,000 per year; it ranks about #301 globally and is recognised for Business, International Relations, Design.",
-    website: "https://www.google.com/search?q=IE%20University%20official%20site",
+    website: "https://www.ie.edu/",
     mapsQuery: "IE University, Madrid, Spain",
   },
   {
@@ -2415,7 +2415,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 132,
     strengths: ["Classics", "Archaeology", "Engineering"],
     description: "Sapienza University of Rome is an internationally aid-friendly institution in Rome, Italy, founded in 1303. Recent cycles show an acceptance rate near 65% with published international tuition around $3,000 per year; it ranks about #132 globally and is recognised for Classics, Archaeology, Engineering.",
-    website: "https://www.google.com/search?q=Sapienza%20University%20of%20Rome%20official%20site",
+    website: "https://aur.edu/",
     mapsQuery: "Sapienza University of Rome, Rome, Italy",
   },
   {
@@ -2431,7 +2431,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 98,
     strengths: ["Design", "Architecture", "Engineering"],
     description: "Politecnico di Milano is an internationally aid-friendly institution in Milan, Italy, founded in 1863. Recent cycles show an acceptance rate near 50% with published international tuition around $4,000 per year; it ranks about #98 globally and is recognised for Design, Architecture, Engineering.",
-    website: "https://www.google.com/search?q=Politecnico%20di%20Milano%20official%20site",
+    website: "https://www.polimi.it/",
     mapsQuery: "Politecnico di Milano, Milan, Italy",
   },
   {
@@ -2447,7 +2447,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 133,
     strengths: ["Law", "Humanities", "Agriculture"],
     description: "University of Bologna is an internationally aid-friendly institution in Bologna, Italy, founded in 1088. Recent cycles show an acceptance rate near 60% with published international tuition around $3,500 per year; it ranks about #133 globally and is recognised for Law, Humanities, Agriculture.",
-    website: "https://www.google.com/search?q=University%20of%20Bologna%20official%20site",
+    website: "https://www.unibo.it/",
     mapsQuery: "University of Bologna, Bologna, Italy",
   },
   {
@@ -2463,7 +2463,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 59,
     strengths: ["Physics", "Medicine", "Philosophy"],
     description: "LMU Munich is an internationally aid-friendly institution in Munich, Germany, founded in 1472. Recent cycles show an acceptance rate near 60% with published international tuition around $350 per year; it ranks about #59 globally and is recognised for Physics, Medicine, Philosophy.",
-    website: "https://www.google.com/search?q=LMU%20Munich%20official%20site",
+    website: "https://www.lmu.de/",
     mapsQuery: "LMU Munich, Munich, Germany",
   },
   {
@@ -2479,7 +2479,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 99,
     strengths: ["Mechanical Engineering", "Materials", "Computer Science"],
     description: "RWTH Aachen University is an internationally aid-friendly institution in Aachen, Germany, founded in 1870. Recent cycles show an acceptance rate near 70% with published international tuition around $350 per year; it ranks about #99 globally and is recognised for Mechanical Engineering, Materials, Computer Science.",
-    website: "https://www.google.com/search?q=RWTH%20Aachen%20University%20official%20site",
+    website: "https://www.rwth-aachen.de/",
     mapsQuery: "RWTH Aachen University, Aachen, Germany",
   },
   {
@@ -2495,7 +2495,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 119,
     strengths: ["Engineering", "Informatics", "Energy"],
     description: "Karlsruhe Institute of Technology is an internationally aid-friendly institution in Karlsruhe, Germany, founded in 1825. Recent cycles show an acceptance rate near 72% with published international tuition around $350 per year; it ranks about #119 globally and is recognised for Engineering, Informatics, Energy.",
-    website: "https://www.google.com/search?q=Karlsruhe%20Institute%20of%20Technology%20official%20site",
+    website: "https://www.kit.edu/",
     mapsQuery: "Karlsruhe Institute of Technology, Karlsruhe, Germany",
   },
   {
@@ -2511,7 +2511,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 192,
     strengths: ["Forestry", "Medicine", "Microsystems"],
     description: "University of Freiburg is an internationally aid-friendly institution in Freiburg, Germany, founded in 1457. Recent cycles show an acceptance rate near 70% with published international tuition around $350 per year; it ranks about #192 globally and is recognised for Forestry, Medicine, Microsystems.",
-    website: "https://www.google.com/search?q=University%20of%20Freiburg%20official%20site",
+    website: "https://www.uni-flensburg.de/",
     mapsQuery: "University of Freiburg, Freiburg, Germany",
   },
   {
@@ -2527,7 +2527,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 217,
     strengths: ["Mathematics", "Physics", "Agriculture"],
     description: "University of Göttingen is an internationally aid-friendly institution in Göttingen, Germany, founded in 1737. Recent cycles show an acceptance rate near 72% with published international tuition around $350 per year; it ranks about #217 globally and is recognised for Mathematics, Physics, Agriculture.",
-    website: "https://www.google.com/search?q=University%20of%20G%C3%B6ttingen%20official%20site",
+    website: "https://www.uni-goettingen.de/",
     mapsQuery: "University of Göttingen, Göttingen, Germany",
   },
   {
@@ -2543,7 +2543,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 205,
     strengths: ["Climate Science", "Law", "Economics"],
     description: "University of Hamburg is an internationally aid-friendly institution in Hamburg, Germany, founded in 1919. Recent cycles show an acceptance rate near 75% with published international tuition around $350 per year; it ranks about #205 globally and is recognised for Climate Science, Law, Economics.",
-    website: "https://www.google.com/search?q=University%20of%20Hamburg%20official%20site",
+    website: "https://www.tuhh.de/",
     mapsQuery: "University of Hamburg, Hamburg, Germany",
   },
   {
@@ -2575,7 +2575,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 312,
     strengths: ["Automotive Engineering", "Aerospace", "Architecture"],
     description: "University of Stuttgart is an internationally aid-friendly institution in Stuttgart, Germany, founded in 1829. Recent cycles show an acceptance rate near 74% with published international tuition around $350 per year; it ranks about #312 globally and is recognised for Automotive Engineering, Aerospace, Architecture.",
-    website: "https://www.google.com/search?q=University%20of%20Stuttgart%20official%20site",
+    website: "https://www.uni-stuttgart.de/",
     mapsQuery: "University of Stuttgart, Stuttgart, Germany",
   },
   {
@@ -2607,7 +2607,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 30,
     strengths: ["Economics", "Journalism", "Medicine"],
     description: "Fudan University is an internationally aid-friendly institution in Shanghai, China, founded in 1905. Recent cycles show an acceptance rate near 20% with published international tuition around $6,000 per year; it ranks about #30 globally and is recognised for Economics, Journalism, Medicine.",
-    website: "https://www.google.com/search?q=Fudan%20University%20official%20site",
+    website: "https://www.fudan.edu.cn/",
     mapsQuery: "Fudan University, Shanghai, China",
   },
   {
@@ -2623,7 +2623,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 45,
     strengths: ["Engineering", "Naval Architecture", "Medicine"],
     description: "Shanghai Jiao Tong University is an internationally aid-friendly institution in Shanghai, China, founded in 1896. Recent cycles show an acceptance rate near 22% with published international tuition around $6,500 per year; it ranks about #45 globally and is recognised for Engineering, Naval Architecture, Medicine.",
-    website: "https://www.google.com/search?q=Shanghai%20Jiao%20Tong%20University%20official%20site",
+    website: "https://www.sjtu.edu.cn/",
     mapsQuery: "Shanghai Jiao Tong University, Shanghai, China",
   },
   {
@@ -2639,7 +2639,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 47,
     strengths: ["Computer Science", "Agriculture", "Engineering"],
     description: "Zhejiang University is an internationally aid-friendly institution in Hangzhou, China, founded in 1897. Recent cycles show an acceptance rate near 25% with published international tuition around $5,500 per year; it ranks about #47 globally and is recognised for Computer Science, Agriculture, Engineering.",
-    website: "https://www.google.com/search?q=Zhejiang%20University%20official%20site",
+    website: "https://www.zju.edu.cn/",
     mapsQuery: "Zhejiang University, Hangzhou, China",
   },
   {
@@ -2655,7 +2655,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 133,
     strengths: ["Quantum Physics", "Chemistry", "Mathematics"],
     description: "University of Science and Technology of China is an internationally aid-friendly institution in Hefei, China, founded in 1958. Recent cycles show an acceptance rate near 20% with published international tuition around $5,000 per year; it ranks about #133 globally and is recognised for Quantum Physics, Chemistry, Mathematics.",
-    website: "https://www.google.com/search?q=University%20of%20Science%20and%20Technology%20of%20China%20official%20site",
+    website: "https://www.ustc.edu.cn/",
     mapsQuery: "University of Science and Technology of China, Hefei, China",
   },
   {
@@ -2671,7 +2671,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 133,
     strengths: ["Astronomy", "Geosciences", "Literature"],
     description: "Nanjing University is an internationally aid-friendly institution in Nanjing, China, founded in 1902. Recent cycles show an acceptance rate near 28% with published international tuition around $5,000 per year; it ranks about #133 globally and is recognised for Astronomy, Geosciences, Literature.",
-    website: "https://www.google.com/search?q=Nanjing%20University%20official%20site",
+    website: "https://www.nju.edu.cn/",
     mapsQuery: "Nanjing University, Nanjing, China",
   },
   {
@@ -2687,7 +2687,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 17,
     strengths: ["Medicine", "Law", "Business"],
     description: "University of Hong Kong is an internationally aid-friendly institution in Hong Kong, Hong Kong, founded in 1911. Recent cycles show an acceptance rate near 25% with published international tuition around $22,000 per year; it ranks about #17 globally and is recognised for Medicine, Law, Business.",
-    website: "https://www.google.com/search?q=University%20of%20Hong%20Kong%20official%20site",
+    website: "https://www.hku.hk/",
     mapsQuery: "University of Hong Kong, Hong Kong, Hong Kong",
   },
   {
@@ -2703,7 +2703,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 47,
     strengths: ["Business", "Engineering", "Data Science"],
     description: "Hong Kong University of Science and Technology is an internationally aid-friendly institution in Hong Kong, Hong Kong, founded in 1991. Recent cycles show an acceptance rate near 30% with published international tuition around $21,000 per year; it ranks about #47 globally and is recognised for Business, Engineering, Data Science.",
-    website: "https://www.google.com/search?q=Hong%20Kong%20University%20of%20Science%20and%20Technology%20official%20site",
+    website: "https://hkust.edu.hk/",
     mapsQuery: "Hong Kong University of Science and Technology, Hong Kong, Hong Kong",
   },
   {
@@ -2719,7 +2719,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 36,
     strengths: ["Medicine", "Translation", "Business"],
     description: "Chinese University of Hong Kong is an internationally aid-friendly institution in Hong Kong, Hong Kong, founded in 1963. Recent cycles show an acceptance rate near 35% with published international tuition around $20,000 per year; it ranks about #36 globally and is recognised for Medicine, Translation, Business.",
-    website: "https://www.google.com/search?q=Chinese%20University%20of%20Hong%20Kong%20official%20site",
+    website: "https://www.cuhk.edu.hk/",
     mapsQuery: "Chinese University of Hong Kong, Hong Kong, Hong Kong",
   },
   {
@@ -2735,7 +2735,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 15,
     strengths: ["Engineering", "Materials Science", "Business"],
     description: "Nanyang Technological University is an internationally aid-friendly institution in Singapore, Singapore, founded in 1991. Recent cycles show an acceptance rate near 30% with published international tuition around $17,000 per year; it ranks about #15 globally and is recognised for Engineering, Materials Science, Business.",
-    website: "https://www.google.com/search?q=Nanyang%20Technological%20University%20official%20site",
+    website: "https://www.ntu.edu.sg/",
     mapsQuery: "Nanyang Technological University, Singapore, Singapore",
   },
   {
@@ -2751,7 +2751,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 50,
     strengths: ["Chemistry", "Physics", "Primatology"],
     description: "Kyoto University is an internationally aid-friendly institution in Kyoto, Japan, founded in 1897. Recent cycles show an acceptance rate near 35% with published international tuition around $4,800 per year; it ranks about #50 globally and is recognised for Chemistry, Physics, Primatology.",
-    website: "https://www.google.com/search?q=Kyoto%20University%20official%20site",
+    website: "https://www.kit.ac.jp/",
     mapsQuery: "Kyoto University, Kyoto, Japan",
   },
   {
@@ -2767,7 +2767,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 80,
     strengths: ["Engineering", "Immunology", "Robotics"],
     description: "Osaka University is an internationally aid-friendly institution in Osaka, Japan, founded in 1931. Recent cycles show an acceptance rate near 40% with published international tuition around $4,800 per year; it ranks about #80 globally and is recognised for Engineering, Immunology, Robotics.",
-    website: "https://www.google.com/search?q=Osaka%20University%20official%20site",
+    website: "https://www.oit.ac.jp/",
     mapsQuery: "Osaka University, Osaka, Japan",
   },
   {
@@ -2783,7 +2783,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 113,
     strengths: ["Materials Science", "Disaster Science", "Physics"],
     description: "Tohoku University is an internationally aid-friendly institution in Sendai, Japan, founded in 1907. Recent cycles show an acceptance rate near 42% with published international tuition around $4,800 per year; it ranks about #113 globally and is recognised for Materials Science, Disaster Science, Physics.",
-    website: "https://www.google.com/search?q=Tohoku%20University%20official%20site",
+    website: "https://www.tohoku.ac.jp/",
     mapsQuery: "Tohoku University, Sendai, Japan",
   },
   {
@@ -2799,7 +2799,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 181,
     strengths: ["Political Science", "International Liberal Studies", "Business"],
     description: "Waseda University is an internationally aid-friendly institution in Tokyo, Japan, founded in 1882. Recent cycles show an acceptance rate near 45% with published international tuition around $9,000 per year; it ranks about #181 globally and is recognised for Political Science, International Liberal Studies, Business.",
-    website: "https://www.google.com/search?q=Waseda%20University%20official%20site",
+    website: "https://www.waseda.ac.jp/",
     mapsQuery: "Waseda University, Tokyo, Japan",
   },
   {
@@ -2815,7 +2815,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 188,
     strengths: ["Economics", "Medicine", "Media Studies"],
     description: "Keio University is an internationally aid-friendly institution in Tokyo, Japan, founded in 1858. Recent cycles show an acceptance rate near 45% with published international tuition around $9,500 per year; it ranks about #188 globally and is recognised for Economics, Medicine, Media Studies.",
-    website: "https://www.google.com/search?q=Keio%20University%20official%20site",
+    website: "https://www.keio.ac.jp/",
     mapsQuery: "Keio University, Tokyo, Japan",
   },
   {
@@ -2831,7 +2831,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 53,
     strengths: ["Electrical Engineering", "AI", "Bio Engineering"],
     description: "KAIST is an internationally aid-friendly institution in Daejeon, South Korea, founded in 1971. Recent cycles show an acceptance rate near 30% with published international tuition around $7,000 per year; it ranks about #53 globally and is recognised for Electrical Engineering, AI, Bio Engineering.",
-    website: "https://www.google.com/search?q=KAIST%20official%20site",
+    website: "https://www.kaist.ac.kr/",
     mapsQuery: "KAIST, Daejeon, South Korea",
   },
   {
@@ -2847,7 +2847,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 56,
     strengths: ["Business", "Medicine", "International Studies"],
     description: "Yonsei University is an internationally aid-friendly institution in Seoul, South Korea, founded in 1885. Recent cycles show an acceptance rate near 40% with published international tuition around $9,000 per year; it ranks about #56 globally and is recognised for Business, Medicine, International Studies.",
-    website: "https://www.google.com/search?q=Yonsei%20University%20official%20site",
+    website: "https://www.yonsei.ac.kr/",
     mapsQuery: "Yonsei University, Seoul, South Korea",
   },
   {
@@ -2863,7 +2863,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 67,
     strengths: ["Law", "Business", "Media"],
     description: "Korea University is an internationally aid-friendly institution in Seoul, South Korea, founded in 1905. Recent cycles show an acceptance rate near 42% with published international tuition around $8,500 per year; it ranks about #67 globally and is recognised for Law, Business, Media.",
-    website: "https://www.google.com/search?q=Korea%20University%20official%20site",
+    website: "https://www.korea-u.ac.jp/",
     mapsQuery: "Korea University, Seoul, South Korea",
   },
   {
@@ -2879,7 +2879,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 98,
     strengths: ["Materials Science", "Physics", "Chemical Engineering"],
     description: "POSTECH is an internationally aid-friendly institution in Pohang, South Korea, founded in 1986. Recent cycles show an acceptance rate near 35% with published international tuition around $6,500 per year; it ranks about #98 globally and is recognised for Materials Science, Physics, Chemical Engineering.",
-    website: "https://www.google.com/search?q=POSTECH%20official%20site",
+    website: "https://www.postech.ac.kr/",
     mapsQuery: "POSTECH, Pohang, South Korea",
   },
   {
@@ -2895,7 +2895,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 118,
     strengths: ["Computer Science", "Mechanical Engineering", "Design"],
     description: "IIT Bombay is an internationally aid-friendly institution in Mumbai, India, founded in 1958. Recent cycles show an acceptance rate near 2% with published international tuition around $3,000 per year; it ranks about #118 globally and is recognised for Computer Science, Mechanical Engineering, Design.",
-    website: "https://www.google.com/search?q=IIT%20Bombay%20official%20site",
+    website: "https://www.iitb.ac.in/",
     mapsQuery: "IIT Bombay, Mumbai, India",
   },
   {
@@ -2911,7 +2911,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 150,
     strengths: ["Engineering", "Textile Technology", "Mathematics"],
     description: "IIT Delhi is an internationally aid-friendly institution in New Delhi, India, founded in 1961. Recent cycles show an acceptance rate near 2% with published international tuition around $3,000 per year; it ranks about #150 globally and is recognised for Engineering, Textile Technology, Mathematics.",
-    website: "https://www.google.com/search?q=IIT%20Delhi%20official%20site",
+    website: "https://www.iitd.ernet.in/",
     mapsQuery: "IIT Delhi, New Delhi, India",
   },
   {
@@ -2927,7 +2927,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 211,
     strengths: ["Aerospace", "Materials", "Physics"],
     description: "Indian Institute of Science is an internationally aid-friendly institution in Bengaluru, India, founded in 1909. Recent cycles show an acceptance rate near 4% with published international tuition around $2,500 per year; it ranks about #211 globally and is recognised for Aerospace, Materials, Physics.",
-    website: "https://www.google.com/search?q=Indian%20Institute%20of%20Science%20official%20site",
+    website: "https://www.iisc.ernet.in/",
     mapsQuery: "Indian Institute of Science, Bengaluru, India",
   },
   {
@@ -2943,7 +2943,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 60,
     strengths: ["Engineering", "Medicine", "Islamic Studies"],
     description: "Universiti Malaya is an internationally aid-friendly institution in Kuala Lumpur, Malaysia, founded in 1905. Recent cycles show an acceptance rate near 40% with published international tuition around $6,000 per year; it ranks about #60 globally and is recognised for Engineering, Medicine, Islamic Studies.",
-    website: "https://www.google.com/search?q=Universiti%20Malaya%20official%20site",
+    website: "https://www.um.edu.my/",
     mapsQuery: "Universiti Malaya, Kuala Lumpur, Malaysia",
   },
   {
@@ -2959,7 +2959,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 211,
     strengths: ["Engineering", "Medicine", "Arts"],
     description: "Chulalongkorn University is an internationally aid-friendly institution in Bangkok, Thailand, founded in 1917. Recent cycles show an acceptance rate near 45% with published international tuition around $5,000 per year; it ranks about #211 globally and is recognised for Engineering, Medicine, Arts.",
-    website: "https://www.google.com/search?q=Chulalongkorn%20University%20official%20site",
+    website: "https://www.chula.ac.th/",
     mapsQuery: "Chulalongkorn University, Bangkok, Thailand",
   },
   {
@@ -2975,7 +2975,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 801,
     strengths: ["Engineering", "Medicine", "Public Policy"],
     description: "Nazarbayev University is an internationally aid-friendly institution in Astana, Kazakhstan, founded in 2010. Recent cycles show an acceptance rate near 25% with published international tuition around $21,000 per year; it ranks about #801 globally and is recognised for Engineering, Medicine, Public Policy.",
-    website: "https://www.google.com/search?q=Nazarbayev%20University%20official%20site",
+    website: "https://nu.edu.kz/",
     mapsQuery: "Nazarbayev University, Astana, Kazakhstan",
   },
   {
@@ -2991,7 +2991,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 451,
     strengths: ["Engineering", "Architecture", "Physics"],
     description: "Middle East Technical University is an internationally aid-friendly institution in Ankara, Türkiye, founded in 1956. Recent cycles show an acceptance rate near 30% with published international tuition around $1,500 per year; it ranks about #451 globally and is recognised for Engineering, Architecture, Physics.",
-    website: "https://www.google.com/search?q=Middle%20East%20Technical%20University%20official%20site",
+    website: "https://www.metu.edu.tr/",
     mapsQuery: "Middle East Technical University, Ankara, Türkiye",
   },
   {
@@ -3007,7 +3007,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 701,
     strengths: ["Engineering", "Economics", "Translation"],
     description: "Boğaziçi University is an internationally aid-friendly institution in Istanbul, Türkiye, founded in 1863. Recent cycles show an acceptance rate near 25% with published international tuition around $1,500 per year; it ranks about #701 globally and is recognised for Engineering, Economics, Translation.",
-    website: "https://www.google.com/search?q=Bo%C4%9Fazi%C3%A7i%20University%20official%20site",
+    website: "https://www.bogazici.edu.tr/",
     mapsQuery: "Boğaziçi University, Istanbul, Türkiye",
   },
   {
@@ -3023,7 +3023,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 437,
     strengths: ["Business", "Medicine", "Engineering"],
     description: "Koç University is an internationally aid-friendly institution in Istanbul, Türkiye, founded in 1993. Recent cycles show an acceptance rate near 35% with published international tuition around $22,000 per year; it ranks about #437 globally and is recognised for Business, Medicine, Engineering.",
-    website: "https://www.google.com/search?q=Ko%C3%A7%20University%20official%20site",
+    website: "https://www.ku.edu.tr/",
     mapsQuery: "Koç University, Istanbul, Türkiye",
   },
   {
@@ -3039,7 +3039,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 491,
     strengths: ["Engineering", "Management", "Arts"],
     description: "Sabancı University is an internationally aid-friendly institution in Istanbul, Türkiye, founded in 1994. Recent cycles show an acceptance rate near 40% with published international tuition around $20,000 per year; it ranks about #491 globally and is recognised for Engineering, Management, Arts.",
-    website: "https://www.google.com/search?q=Sabanc%C4%B1%20University%20official%20site",
+    website: "https://www.sabanciuniv.edu/",
     mapsQuery: "Sabancı University, Istanbul, Türkiye",
   },
   {
@@ -3055,7 +3055,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 1001,
     strengths: ["Computer Engineering", "Information Systems", "Logistics"],
     description: "Inha University in Tashkent is an internationally aid-friendly institution in Tashkent, Uzbekistan, founded in 2014. Recent cycles show an acceptance rate near 70% with published international tuition around $4,500 per year; it ranks about #1001 globally and is recognised for Computer Engineering, Information Systems, Logistics.",
-    website: "https://www.google.com/search?q=Inha%20University%20in%20Tashkent%20official%20site",
+    website: "https://www.polito.uz/",
     mapsQuery: "Inha University in Tashkent, Tashkent, Uzbekistan",
   },
   {
@@ -3071,7 +3071,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 1001,
     strengths: ["Business", "Economics", "Commercial Law"],
     description: "Westminster International University in Tashkent is an internationally aid-friendly institution in Tashkent, Uzbekistan, founded in 2002. Recent cycles show an acceptance rate near 72% with published international tuition around $5,200 per year; it ranks about #1001 globally and is recognised for Business, Economics, Commercial Law.",
-    website: "https://www.google.com/search?q=Westminster%20International%20University%20in%20Tashkent%20official%20site",
+    website: "https://www.wiut.uz/",
     mapsQuery: "Westminster International University in Tashkent, Tashkent, Uzbekistan",
   },
   {
@@ -3087,7 +3087,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 1001,
     strengths: ["Petroleum Engineering", "IT", "Finance"],
     description: "Kazakh-British Technical University is an internationally aid-friendly institution in Almaty, Kazakhstan, founded in 2001. Recent cycles show an acceptance rate near 68% with published international tuition around $4,800 per year; it ranks about #1001 globally and is recognised for Petroleum Engineering, IT, Finance.",
-    website: "https://www.google.com/search?q=Kazakh-British%20Technical%20University%20official%20site",
+    website: "https://www.kbtu.kz/",
     mapsQuery: "Kazakh-British Technical University, Almaty, Kazakhstan",
   },
   {
@@ -3103,7 +3103,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 30,
     strengths: ["Politics", "Astronomy", "Public Policy"],
     description: "Australian National University is an internationally aid-friendly institution in Canberra, Australia, founded in 1946. Recent cycles show an acceptance rate near 35% with published international tuition around $33,000 per year; it ranks about #30 globally and is recognised for Politics, Astronomy, Public Policy.",
-    website: "https://www.google.com/search?q=Australian%20National%20University%20official%20site",
+    website: "https://www.anu.edu.au/",
     mapsQuery: "Australian National University, Canberra, Australia",
   },
   {
@@ -3119,7 +3119,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 18,
     strengths: ["Medicine", "Law", "Architecture"],
     description: "University of Sydney is an internationally aid-friendly institution in Sydney, Australia, founded in 1850. Recent cycles show an acceptance rate near 30% with published international tuition around $35,000 per year; it ranks about #18 globally and is recognised for Medicine, Law, Architecture.",
-    website: "https://www.google.com/search?q=University%20of%20Sydney%20official%20site",
+    website: "https://sydney.edu.au/",
     mapsQuery: "University of Sydney, Sydney, Australia",
   },
   {
@@ -3135,7 +3135,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 19,
     strengths: ["Engineering", "Business", "Solar Energy"],
     description: "UNSW Sydney is an internationally aid-friendly institution in Sydney, Australia, founded in 1949. Recent cycles show an acceptance rate near 40% with published international tuition around $34,000 per year; it ranks about #19 globally and is recognised for Engineering, Business, Solar Energy.",
-    website: "https://www.google.com/search?q=UNSW%20Sydney%20official%20site",
+    website: "https://www.unsw.edu.au/",
     mapsQuery: "UNSW Sydney, Sydney, Australia",
   },
   {
@@ -3151,7 +3151,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 37,
     strengths: ["Pharmacy", "Engineering", "Medicine"],
     description: "Monash University is an internationally aid-friendly institution in Melbourne, Australia, founded in 1958. Recent cycles show an acceptance rate near 45% with published international tuition around $32,000 per year; it ranks about #37 globally and is recognised for Pharmacy, Engineering, Medicine.",
-    website: "https://www.google.com/search?q=Monash%20University%20official%20site",
+    website: "https://www.monash.edu/",
     mapsQuery: "Monash University, Melbourne, Australia",
   },
   {
@@ -3167,7 +3167,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 40,
     strengths: ["Biotechnology", "Mining", "Agriculture"],
     description: "University of Queensland is an internationally aid-friendly institution in Brisbane, Australia, founded in 1909. Recent cycles show an acceptance rate near 43% with published international tuition around $31,000 per year; it ranks about #40 globally and is recognised for Biotechnology, Mining, Agriculture.",
-    website: "https://www.google.com/search?q=University%20of%20Queensland%20official%20site",
+    website: "https://www.qut.edu.au/",
     mapsQuery: "University of Queensland, Brisbane, Australia",
   },
   {
@@ -3183,7 +3183,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 72,
     strengths: ["Mining Engineering", "Marine Science", "Medicine"],
     description: "University of Western Australia is an internationally aid-friendly institution in Perth, Australia, founded in 1911. Recent cycles show an acceptance rate near 50% with published international tuition around $30,000 per year; it ranks about #72 globally and is recognised for Mining Engineering, Marine Science, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Western%20Australia%20official%20site",
+    website: "https://www.uwa.edu.au/",
     mapsQuery: "University of Western Australia, Perth, Australia",
   },
   {
@@ -3199,7 +3199,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 82,
     strengths: ["Wine Science", "Petroleum Engineering", "Medicine"],
     description: "University of Adelaide is an internationally aid-friendly institution in Adelaide, Australia, founded in 1874. Recent cycles show an acceptance rate near 55% with published international tuition around $29,000 per year; it ranks about #82 globally and is recognised for Wine Science, Petroleum Engineering, Medicine.",
-    website: "https://www.google.com/search?q=University%20of%20Adelaide%20official%20site",
+    website: "https://www.adelaide.edu.au/",
     mapsQuery: "University of Adelaide, Adelaide, Australia",
   },
   {
@@ -3215,7 +3215,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 88,
     strengths: ["Design", "Data Science", "Engineering"],
     description: "University of Technology Sydney is an internationally aid-friendly institution in Sydney, Australia, founded in 1988. Recent cycles show an acceptance rate near 60% with published international tuition around $28,000 per year; it ranks about #88 globally and is recognised for Design, Data Science, Engineering.",
-    website: "https://www.google.com/search?q=University%20of%20Technology%20Sydney%20official%20site",
+    website: "https://sydney.edu.au/",
     mapsQuery: "University of Technology Sydney, Sydney, Australia",
   },
   {
@@ -3231,7 +3231,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 214,
     strengths: ["Dentistry", "Medicine", "Zoology"],
     description: "University of Otago is an internationally aid-friendly institution in Dunedin, New Zealand, founded in 1869. Recent cycles show an acceptance rate near 65% with published international tuition around $26,000 per year; it ranks about #214 globally and is recognised for Dentistry, Medicine, Zoology.",
-    website: "https://www.google.com/search?q=University%20of%20Otago%20official%20site",
+    website: "https://www.otago.ac.nz/",
     mapsQuery: "University of Otago, Dunedin, New Zealand",
   },
   {
@@ -3247,7 +3247,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 244,
     strengths: ["Law", "Public Policy", "Film"],
     description: "Victoria University of Wellington is an internationally aid-friendly institution in Wellington, New Zealand, founded in 1897. Recent cycles show an acceptance rate near 68% with published international tuition around $24,000 per year; it ranks about #244 globally and is recognised for Law, Public Policy, Film.",
-    website: "https://www.google.com/search?q=Victoria%20University%20of%20Wellington%20official%20site",
+    website: "https://www.vuw.ac.nz/",
     mapsQuery: "Victoria University of Wellington, Wellington, New Zealand",
   },
   {
@@ -3263,7 +3263,7 @@ export const EXTRA_UNIVERSITIES: University[] = [
     worldRanking: 256,
     strengths: ["Engineering", "Antarctic Studies", "Forestry"],
     description: "University of Canterbury is an internationally aid-friendly institution in Christchurch, New Zealand, founded in 1873. Recent cycles show an acceptance rate near 70% with published international tuition around $25,000 per year; it ranks about #256 globally and is recognised for Engineering, Antarctic Studies, Forestry.",
-    website: "https://www.google.com/search?q=University%20of%20Canterbury%20official%20site",
+    website: "https://www.canterbury.ac.nz/",
     mapsQuery: "University of Canterbury, Christchurch, New Zealand",
   },
 ];
