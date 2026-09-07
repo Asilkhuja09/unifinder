@@ -74,17 +74,17 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
             record, funding needs and target regions.
           </p>
           <dl className="mt-4 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
-            {[
-              ["Academics", profileScore.academics, 45],
-              ["Testing", profileScore.testing, 25],
-              ["Leadership", profileScore.activities, 15],
-              ["Profile depth", profileScore.completeness, 15],
-            ].map(([label, value, max]) => (
-              <div key={label as string} className="rounded-xl border border-border/70 p-3">
-                <dt className="text-muted-foreground">{label as string}</dt>
+            {([
+              { label: "Academics", value: profileScore.academics, max: 45 },
+              { label: "Testing", value: profileScore.testing, max: 25 },
+              { label: "Leadership", value: profileScore.activities, max: 15 },
+              { label: "Profile depth", value: profileScore.completeness, max: 15 },
+            ] as const).map((row) => (
+              <div key={row.label} className="rounded-xl border border-border/70 p-3">
+                <dt className="text-muted-foreground">{row.label}</dt>
                 <dd className="mt-1 text-primary">
-                  {value as number}
-                  <span className="text-muted-foreground"> / {max as number}</span>
+                  {row.value}
+                  <span className="text-muted-foreground"> / {row.max}</span>
                 </dd>
               </div>
             ))}
