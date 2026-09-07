@@ -2,71 +2,25 @@ import { useMemo, useState } from "react";
 import { Compass, ExternalLink, GraduationCap, MapPin, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
-import {
-  SCHOLARSHIPS,
-  UNIVERSITIES,
-  tierFromRate,
-  type University,
-} from "@/data/extendedData";
+import { SCHOLARSHIPS, type University } from "@/data/extendedData";
+import { matchUniversities, type MatchCategory } from "@/lib/matching";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import { cn } from "@/lib/utils";
 
-const tierOrder = ["1-25", "26-50", "51-75", "76-100"] as const;
+const CATEGORY_STYLE: Record<MatchCategory, { label: string; cls: string }> = {
+  reach: { label: "Reach", cls: "border-rose-400/40 text-rose-300" },
+  target: { label: "Target", cls: "border-primary/50 text-primary" },
+  safety: { label: "Safety", cls: "border-emerald-400/40 text-emerald-300" },
+};
 
-/** Hard exclusion protocol: elite rows never surface for the Accessible tier. */
-const ELITE_EXCLUDED = new Set([
-  "harvard",
-  "mit",
-  "stanford",
-  "oxford",
-  "ucl",
-  "ethz",
-  "tsinghua",
-  "peking",
-  "tokyo",
-  "nus",
-  "seoul",
-]);
-
-function matchUniversities(profile: Profile): University[] {
-  let pool = UNIVERSITIES;
-
-  if (profile.regions.length > 0) {
-    const scoped = pool.filter((u) => profile.regions.includes(u.region));
-    if (scoped.length > 0) pool = scoped;
-  }
-
-  if (profile.difficulty) {
-    const selectedIdx = tierOrder.indexOf(profile.difficulty);
-    // Accessible (76-100) requests must exclude ultra-competitive elites entirely.
-    pool = pool.filter((u) => {
-      const uniIdx = tierOrder.indexOf(tierFromRate(u.acceptanceRate));
-      if (selectedIdx === 3) {
-        if (ELITE_EXCLUDED.has(u.id) || u.acceptanceRate < 50) return false;
-        return uniIdx === 3 || uniIdx === 2;
-      }
-      return uniIdx >= selectedIdx - 1 && uniIdx <= selectedIdx + 1;
-    });
-  }
-
-  if (profile.needsAid === "yes") {
-    pool = pool.filter((u) => u.aidForInternationals);
-  }
-
-  const major = profile.major.toLowerCase();
-  return [...pool].sort((a, b) => {
-    const aM = a.strengths.some((s) => s.toLowerCase() === major) ? 1 : 0;
-    const bM = b.strengths.some((s) => s.toLowerCase() === major) ? 1 : 0;
-    if (aM !== bM) return bM - aM;
-    return a.acceptanceRate - b.acceptanceRate;
-  });
-}
 
 export function Results({ profile, onRestart }: { profile: Profile; onRestart: () => void }) {
   const { t } = useI18n();
   const [active, setActive] = useState<University | null>(null);
 
-  const unis = useMemo(() => matchUniversities(profile), [profile]);
+  const [limit, setLimit] = useState(24);
+  const { profileScore, matches } = useMemo(() => matchUniversities(profile), [profile]);
+  const shown = matches.slice(0, limit);
   const scholarships = useMemo(() => {
     const scoped = SCHOLARSHIPS.filter(
       (s) => profile.regions.length === 0 || profile.regions.includes(s.region),
@@ -99,36 +53,121 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
         </button>
       </header>
 
+      <div className="glass mb-10 grid gap-6 rounded-3xl p-6 sm:grid-cols-[auto_1fr] sm:items-center">
+        <div className="relative grid size-28 place-items-center rounded-full">
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: `conic-gradient(var(--gold) ${profileScore.total * 3.6}deg, color-mix(in oklab, var(--gold) 12%, transparent) 0deg)`,
+            }}
+          />
+          <div className="absolute inset-[6px] rounded-full bg-background/85" />
+          <div className="relative text-center">
+            <p className="font-display text-3xl text-primary">{profileScore.total}</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">/ 100</p>
+          </div>
+        </div>
+        <div>
+          <h3 className="font-display text-2xl text-gilded">Your admissions profile score</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {matches.length} institutions ranked by fit against your grades, testing, leadership
+            record, funding needs and target regions.
+          </p>
+          <dl className="mt-4 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+            {([
+              { label: "Academics", value: profileScore.academics, max: 45 },
+              { label: "Testing", value: profileScore.testing, max: 25 },
+              { label: "Leadership", value: profileScore.activities, max: 15 },
+              { label: "Profile depth", value: profileScore.completeness, max: 15 },
+            ] as const).map((row) => (
+              <div key={row.label} className="rounded-xl border border-border/70 p-3">
+                <dt className="text-muted-foreground">{row.label}</dt>
+                <dd className="mt-1 text-primary">
+                  {row.value}
+                  <span className="text-muted-foreground"> / {row.max}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {unis.map((u) => (
-          <article key={u.id} className="glass flex flex-col rounded-2xl p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent">{u.region}</p>
-            <h3 className="mt-2 font-display text-2xl leading-tight text-primary">{u.name}</h3>
-            <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <MapPin className="size-3.5" /> {u.city}, {u.country}
-            </p>
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <dt className="text-xs text-muted-foreground">{t("acceptance")}</dt>
-                <dd className="text-foreground">{u.acceptanceRate}%</dd>
+        {shown.map((m, i) => {
+          const u = m.university;
+          const cat = CATEGORY_STYLE[m.category];
+          return (
+            <article key={u.id} className="glass flex flex-col rounded-2xl p-6">
+              <div className="flex items-start justify-between gap-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-accent">
+                  #{i + 1} · {u.region}
+                </p>
+                <span
+                  className={cn("rounded-full border px-2.5 py-1 text-[10px] uppercase", cat.cls)}
+                >
+                  {cat.label}
+                </span>
               </div>
-              <div>
-                <dt className="text-xs text-muted-foreground">{t("tuition")}</dt>
-                <dd className="text-foreground">${u.tuitionUSD.toLocaleString()}</dd>
+              <h3 className="mt-2 font-display text-2xl leading-tight text-primary">{u.name}</h3>
+              <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin className="size-3.5" /> {u.city}, {u.country}
+              </p>
+
+              <div className="mt-4">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">Match fit</span>
+                  <span className="text-primary">{m.score}%</span>
+                </div>
+                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary/70">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold"
+                    style={{ width: `${m.score}%` }}
+                  />
+                </div>
               </div>
-            </dl>
-            <button
-              onClick={() => setActive(u)}
-              className="mt-6 rounded-xl border border-primary/40 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
-            >
-              {t("viewCampus")}
-            </button>
-          </article>
-        ))}
-        {unis.length === 0 && (
+
+              <ul className="mt-4 space-y-1.5 text-xs text-muted-foreground">
+                {m.reasons.map((r) => (
+                  <li key={r} className="flex gap-2">
+                    <span className="text-primary">•</span>
+                    {r}
+                  </li>
+                ))}
+              </ul>
+
+              <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <dt className="text-xs text-muted-foreground">{t("acceptance")}</dt>
+                  <dd className="text-foreground">{u.acceptanceRate}%</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-muted-foreground">{t("tuition")}</dt>
+                  <dd className="text-foreground">${u.tuitionUSD.toLocaleString()}</dd>
+                </div>
+              </dl>
+              <button
+                onClick={() => setActive(u)}
+                className="mt-6 rounded-xl border border-primary/40 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
+              >
+                {t("viewCampus")}
+              </button>
+            </article>
+          );
+        })}
+        {matches.length === 0 && (
           <p className="text-muted-foreground">No institutions match this filter combination.</p>
         )}
       </div>
+
+      {limit < matches.length && (
+        <button
+          onClick={() => setLimit((l) => l + 24)}
+          className="glass mx-auto mt-8 block rounded-xl px-6 py-2.5 text-sm transition-colors hover:border-primary/60"
+        >
+          Show more matches ({matches.length - limit} remaining)
+        </button>
+      )}
+
 
       <h2 className="mb-6 mt-16 text-3xl font-semibold text-gilded">{t("scholarshipResults")}</h2>
       <div className="grid gap-5 md:grid-cols-2">
