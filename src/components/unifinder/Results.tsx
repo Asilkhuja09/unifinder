@@ -2,14 +2,16 @@ import { useMemo, useState } from "react";
 import { Compass, ExternalLink, GraduationCap, MapPin, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
-import {
-  SCHOLARSHIPS,
-  UNIVERSITIES,
-  tierFromRate,
-  type University,
-} from "@/data/extendedData";
+import { SCHOLARSHIPS, type University } from "@/data/extendedData";
+import { matchUniversities, type MatchCategory } from "@/lib/matching";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import { cn } from "@/lib/utils";
+
+const CATEGORY_STYLE: Record<MatchCategory, { label: string; cls: string }> = {
+  reach: { label: "Reach", cls: "border-rose-400/40 text-rose-300" },
+  target: { label: "Target", cls: "border-primary/50 text-primary" },
+  safety: { label: "Safety", cls: "border-emerald-400/40 text-emerald-300" },
+};
 
 const tierOrder = ["1-25", "26-50", "51-75", "76-100"] as const;
 
