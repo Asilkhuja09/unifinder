@@ -13,56 +13,6 @@ const CATEGORY_STYLE: Record<MatchCategory, { label: string; cls: string }> = {
   safety: { label: "Safety", cls: "border-emerald-400/40 text-emerald-300" },
 };
 
-const tierOrder = ["1-25", "26-50", "51-75", "76-100"] as const;
-
-/** Hard exclusion protocol: elite rows never surface for the Accessible tier. */
-const ELITE_EXCLUDED = new Set([
-  "harvard",
-  "mit",
-  "stanford",
-  "oxford",
-  "ucl",
-  "ethz",
-  "tsinghua",
-  "peking",
-  "tokyo",
-  "nus",
-  "seoul",
-]);
-
-function matchUniversities(profile: Profile): University[] {
-  let pool = UNIVERSITIES;
-
-  if (profile.regions.length > 0) {
-    const scoped = pool.filter((u) => profile.regions.includes(u.region));
-    if (scoped.length > 0) pool = scoped;
-  }
-
-  if (profile.difficulty) {
-    const selectedIdx = tierOrder.indexOf(profile.difficulty);
-    // Accessible (76-100) requests must exclude ultra-competitive elites entirely.
-    pool = pool.filter((u) => {
-      const uniIdx = tierOrder.indexOf(tierFromRate(u.acceptanceRate));
-      if (selectedIdx === 3) {
-        if (ELITE_EXCLUDED.has(u.id) || u.acceptanceRate < 50) return false;
-        return uniIdx === 3 || uniIdx === 2;
-      }
-      return uniIdx >= selectedIdx - 1 && uniIdx <= selectedIdx + 1;
-    });
-  }
-
-  if (profile.needsAid === "yes") {
-    pool = pool.filter((u) => u.aidForInternationals);
-  }
-
-  const major = profile.major.toLowerCase();
-  return [...pool].sort((a, b) => {
-    const aM = a.strengths.some((s) => s.toLowerCase() === major) ? 1 : 0;
-    const bM = b.strengths.some((s) => s.toLowerCase() === major) ? 1 : 0;
-    if (aM !== bM) return bM - aM;
-    return a.acceptanceRate - b.acceptanceRate;
-  });
-}
 
 export function Results({ profile, onRestart }: { profile: Profile; onRestart: () => void }) {
   const { t } = useI18n();
