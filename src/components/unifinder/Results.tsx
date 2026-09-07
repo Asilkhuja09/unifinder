@@ -18,7 +18,9 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
   const { t } = useI18n();
   const [active, setActive] = useState<University | null>(null);
 
-  const unis = useMemo(() => matchUniversities(profile), [profile]);
+  const [limit, setLimit] = useState(24);
+  const { profileScore, matches } = useMemo(() => matchUniversities(profile), [profile]);
+  const shown = matches.slice(0, limit);
   const scholarships = useMemo(() => {
     const scoped = SCHOLARSHIPS.filter(
       (s) => profile.regions.length === 0 || profile.regions.includes(s.region),
