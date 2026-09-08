@@ -76,9 +76,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null);
       if (session) {
         sessionCookie.write(session);
+        setGateOpen(false);
         if (_event === "SIGNED_IN") setWelcoming(true);
+      } else if (_event === "SIGNED_OUT") {
+        sessionCookie.clear();
+        setHint(null);
       }
-      else sessionCookie.clear();
       setLoading(false);
     });
 
