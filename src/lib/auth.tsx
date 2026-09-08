@@ -64,9 +64,9 @@ type AuthCtx = {
 // Cached on globalThis so a hot-reload of this module cannot create a second
 // context instance (which would make consumers see an empty provider).
 const g = globalThis as typeof globalThis & {
-  __uf_auth_ctx?: React.Context<AuthCtx | null>;
+  __uf_auth_ctx?: Context<AuthCtx | null>;
 };
-const Ctx: React.Context<AuthCtx | null> =
+const Ctx: Context<AuthCtx | null> =
   g.__uf_auth_ctx ?? (g.__uf_auth_ctx = createContext<AuthCtx | null>(null));
 
 export function AuthProvider({ children }: { children: ReactNode }) {
