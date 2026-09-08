@@ -65,6 +65,96 @@ export type Database = {
         }
         Relationships: []
       }
+      student_profiles: {
+        Row: {
+          country: string
+          created_at: string
+          difficulty: string
+          extracurricular: string
+          first_name: string
+          gpa: string
+          gpa_scale: string
+          id: string
+          income: string
+          last_name: string
+          major: string
+          needs_aid: string
+          no_tests: boolean
+          regions: Json
+          tests: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          difficulty?: string
+          extracurricular?: string
+          first_name?: string
+          gpa?: string
+          gpa_scale?: string
+          id?: string
+          income?: string
+          last_name?: string
+          major?: string
+          needs_aid?: string
+          no_tests?: boolean
+          regions?: Json
+          tests?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          difficulty?: string
+          extracurricular?: string
+          first_name?: string
+          gpa?: string
+          gpa_scale?: string
+          id?: string
+          income?: string
+          last_name?: string
+          major?: string
+          needs_aid?: string
+          no_tests?: boolean
+          regions?: Json
+          tests?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transcripts: {
+        Row: {
+          created_at: string
+          file_name: string
+          id: string
+          size_bytes: number
+          storage_path: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          id?: string
+          size_bytes?: number
+          storage_path: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          id?: string
+          size_bytes?: number
+          storage_path?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       university_favorites: {
         Row: {
           created_at: string
