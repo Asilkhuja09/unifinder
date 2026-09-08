@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Loader2, ShieldCheck, X } from "lucide-react";
+import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
