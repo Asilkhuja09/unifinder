@@ -76,18 +76,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null);
       if (session) {
         sessionCookie.write(session);
+        setGateOpen(false);
         if (_event === "SIGNED_IN") setWelcoming(true);
+      } else if (_event === "SIGNED_OUT") {
+        sessionCookie.clear();
+        setHint(null);
       }
-      else sessionCookie.clear();
       setLoading(false);
     });
 
     // Asynchronous re-authentication of the persisted session on cold start.
-    void supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user ?? null);
-      if (data.session) sessionCookie.write(data.session);
-      setLoading(false);
-    });
+    void supabase.auth
+      .getSession()
+      .then(({ data, error }) => {
+        if (error) console.error("[auth] getSession failed", error);
+        setUser(data.session?.user ?? null);
+        if (data.session) sessionCookie.write(data.session);
+      })
+      .catch((e) => console.error("[auth] getSession threw", e))
+      .finally(() => setLoading(false));
 
     return () => sub.subscription.unsubscribe();
   }, []);

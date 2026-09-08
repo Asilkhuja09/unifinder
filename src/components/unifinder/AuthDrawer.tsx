@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Loader2, ShieldCheck, X } from "lucide-react";
+import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -47,16 +48,41 @@ export function AuthDrawer() {
   const signIn = async (provider: "google" | "apple") => {
     setErr(null);
     setBusy(provider);
-    const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
+    const label = provider === "google" ? "Google" : "Apple";
+    try {
+      const result = await lovable.auth.signInWithOAuth(provider, {
+        redirect_uri: window.location.origin,
+      });
+
+      if (result.error) {
+        const raw = String(
+          (result.error as { message?: string }).message ?? result.error,
+        );
+        const friendly = /closed|cancel|abort/i.test(raw)
+          ? `${label} sign-in window was closed before finishing.`
+          : /network|fetch|timeout/i.test(raw)
+            ? "Network error — check your connection and try again."
+            : /provider|unsupported|disabled/i.test(raw)
+              ? `${label} sign-in is not available right now.`
+              : raw;
+        console.error(`[auth] ${provider} sign-in failed`, result.error);
+        setErr(friendly);
+        toast.error("Sign-in failed", { description: friendly });
+        return;
+      }
+
+      if ("redirected" in result && result.redirected) return;
+
+      toast.success(`Signed in with ${label}`);
+      closeGate();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error(`[auth] ${provider} sign-in threw`, e);
+      setErr(msg);
+      toast.error("Sign-in failed", { description: msg });
+    } finally {
       setBusy(null);
-      return setErr(String(result.error.message ?? result.error));
     }
-    if ("redirected" in result && result.redirected) return;
-    setBusy(null);
-    closeGate();
   };
 
   return (
