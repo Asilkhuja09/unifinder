@@ -15,6 +15,7 @@ import {
   type University,
 } from "@/data/extendedData";
 import { UniversityModal } from "@/components/unifinder/UniversityModal";
+import { UniversityCard } from "@/components/unifinder/UniversityCard";
 
 const selectCls =
   "rounded-xl border border-border bg-velvet/60 px-3 py-2 text-sm text-foreground outline-none focus:border-primary/70";
@@ -160,44 +161,13 @@ export function UniversityDirectory() {
 
       <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {rows.map((u) => (
-          <article key={u.id} className="glass flex flex-col rounded-2xl p-6">
-            <div className="flex items-start justify-between gap-3">
-              <p className="text-xs uppercase tracking-[0.2em] text-accent">
-                {u.region}
-                {u.worldRanking ? ` · World #${u.worldRanking}` : ""}
-              </p>
-              <button
-                onClick={() => void toggle(u.id, u.name)}
-                aria-label={ids.has(u.id) ? "Remove from favorites" : "Save to favorites"}
-                aria-pressed={ids.has(u.id)}
-                className="rounded-full border border-border p-2 transition-colors hover:border-primary/60"
-              >
-                <Heart
-                  className={`size-4 ${ids.has(u.id) ? "fill-primary text-primary" : "text-muted-foreground"}`}
-                />
-              </button>
-            </div>
-            <h2 className="mt-2 font-display text-2xl leading-tight text-primary">{u.name}</h2>
-            <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <MapPin className="size-3.5" /> {u.city}, {u.country}
-            </p>
-            <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <div>
-                <dt className="text-xs text-muted-foreground">{t("acceptance")}</dt>
-                <dd className="text-foreground">{u.acceptanceRate}%</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-muted-foreground">{t("tuition")}</dt>
-                <dd className="text-foreground">${u.tuitionUSD.toLocaleString()}</dd>
-              </div>
-            </dl>
-            <button
-              onClick={() => setActive(u)}
-              className="mt-6 rounded-xl border border-primary/40 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
-            >
-              {t("viewCampus")}
-            </button>
-          </article>
+          <UniversityCard
+            key={u.id}
+            university={u}
+            favorite={ids.has(u.id)}
+            onFavorite={() => void toggle(u.id, u.name)}
+            onView={() => setActive(u)}
+          />
         ))}
         {rows.length === 0 && (
           <p className="text-muted-foreground">No institutions match this search.</p>
