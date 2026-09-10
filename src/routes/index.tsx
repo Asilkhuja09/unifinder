@@ -5,6 +5,7 @@ import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react"
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useI18n } from "@/lib/i18n";
 import heroVideo from "@/assets/hero-bg.mp4.asset.json";
+import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
 
 const title = "UniFinder Global — Elite Universities & Full-Ride Scholarships";
 const description =
@@ -45,21 +46,6 @@ const FAQ = [
 
 function Content() {
   const { t } = useI18n();
-  const [stats, setStats] = useState({ records: 18420, scholarships: 962, countries: 148 });
-  const [sessionSeconds, setSessionSeconds] = useState(0);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setStats((s) => ({
-        records: s.records + Math.floor(Math.random() * 9) + 1,
-        scholarships: s.scholarships + (Math.random() > 0.6 ? 1 : 0),
-        countries: s.countries,
-      }));
-      setSessionSeconds((v) => v + 12);
-    }, 12000);
-    return () => window.clearInterval(id);
-  }, []);
-
   const sections = [
     {
       to: "/assessment" as const,
@@ -117,26 +103,7 @@ function Content() {
         </section>
 
         <section className="mx-auto w-full max-w-5xl px-4">
-          <div className="glass rounded-2xl p-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-accent">{t("liveFeed")}</p>
-            <div className="mt-4 grid gap-4 sm:grid-cols-3">
-              {[
-                { label: t("dbUpdated"), value: stats.records },
-                { label: t("scholarshipsTracked"), value: stats.scholarships },
-                { label: t("countriesCovered"), value: stats.countries },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="font-display text-3xl text-primary tabular-nums">
-                    {s.value.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{s.label}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mt-4 text-xs text-muted-foreground">
-              {t("sessionDuration")}: {Math.floor(sessionSeconds / 60)}m {sessionSeconds % 60}s
-            </p>
-          </div>
+          <LiveIntelligenceFeed />
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 py-16">
