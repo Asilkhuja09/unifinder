@@ -5,7 +5,6 @@ import {
   Heart,
   LogIn,
   LogOut,
-  MapPin,
   Save,
   Trash2,
   Upload,
@@ -17,6 +16,10 @@ import { useAuth } from "@/lib/auth";
 import { useFavorites } from "@/lib/favorites";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
+import { UniversityCard } from "@/components/unifinder/UniversityCard";
+import { UniversityModal } from "@/components/unifinder/UniversityModal";
+import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
+import { Button } from "@/components/ui/button";
 import {
   DIFFICULTY_TIERS,
   INCOME_BRACKETS,
@@ -27,6 +30,7 @@ import {
   type DifficultyTier,
   type Region,
   type TestName,
+  type University,
 } from "@/data/extendedData";
 
 const title = "Student Profile & Dashboard — UniFinder Global";
@@ -60,7 +64,7 @@ const label = "mb-1.5 block text-xs uppercase tracking-[0.18em] text-muted-foreg
 
 function ProfilePage() {
   const { user, hint, openGate, signOut } = useAuth();
-  const { favorites, loading: favLoading } = useFavorites();
+  const { favorites, ids, toggle, loading: favLoading } = useFavorites();
   const { profile, setProfile, loading, saving, save } = useStudentProfile();
   const [tab, setTab] = useState<Tab>("dashboard");
 
@@ -92,19 +96,20 @@ function ProfilePage() {
         </div>
         <div className="ms-auto flex flex-wrap items-center gap-2">
           {user ? (
-            <button
+            <Button
+              variant="outline"
               onClick={() => void signOut()}
               className="glass flex items-center gap-2 rounded-full px-5 py-2.5 text-sm transition-colors hover:border-primary/60 hover:text-primary"
             >
               <LogOut className="size-4" /> Sign out
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               onClick={openGate}
               className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground"
             >
               <LogIn className="size-4" /> Sign in
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -142,6 +147,8 @@ function ProfilePage() {
           loading={loading}
           result={result}
           favorites={favorites}
+          favoriteIds={ids}
+          onToggleFavorite={toggle}
           favLoading={favLoading}
         />
       )}
@@ -169,16 +176,23 @@ function Dashboard({
   loading,
   result,
   favorites,
+  favoriteIds,
+  onToggleFavorite,
   favLoading,
 }: {
   loading: boolean;
   result: ReturnType<typeof matchUniversities> | null;
   favorites: { university_id: string; university_name: string }[];
+  favoriteIds: Set<string>;
+  onToggleFavorite: (universityId: string, universityName: string) => Promise<void>;
   favLoading: boolean;
 }) {
   const top = result?.matches.slice(0, 6) ?? [];
+  const [active, setActive] = useState<University | null>(null);
   return (
     <div className="mt-8 space-y-12">
+      <LiveIntelligenceFeed compact />
+
       <div>
         <h2 className="font-display text-2xl text-primary">Profile strength</h2>
         {loading && <p className="mt-3 text-sm text-muted-foreground">Loading your profile…</p>}
@@ -211,25 +225,18 @@ function Dashboard({
       {top.length > 0 && (
         <div>
           <h2 className="font-display text-2xl text-primary">Your top matches</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="mt-4 grid gap-5 lg:grid-cols-2">
             {top.map((m) => (
-              <article key={m.university.id} className="glass rounded-2xl p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display text-lg text-primary">{m.university.name}</h3>
-                  <span className="shrink-0 rounded-full border border-primary/40 px-3 py-1 text-xs text-primary">
-                    {m.score}%
-                  </span>
-                </div>
-                <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin className="size-3.5" /> {m.university.city}, {m.university.country} ·{" "}
-                  <span className="capitalize">{m.category}</span>
-                </p>
-                <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
-                  {m.reasons.map((r) => (
-                    <li key={r}>• {r}</li>
-                  ))}
-                </ul>
-              </article>
+              <UniversityCard
+                key={m.university.id}
+                university={m.university}
+                category={m.category}
+                matchScore={m.score}
+                reasons={m.reasons}
+                favorite={favoriteIds.has(m.university.id)}
+                onFavorite={() => void onToggleFavorite(m.university.id, m.university.name)}
+                onView={() => setActive(m.university)}
+              />
             ))}
           </div>
         </div>
@@ -249,28 +256,24 @@ function Dashboard({
             and tap the heart on any institution.
           </p>
         )}
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="mt-4 grid gap-5 lg:grid-cols-2">
           {favorites.map((f) => {
             const u = UNIVERSITIES.find((x) => x.id === f.university_id);
+            if (!u) return null;
             return (
-              <article key={f.university_id} className="glass rounded-2xl p-5">
-                <h3 className="font-display text-xl text-primary">{f.university_name}</h3>
-                {u && (
-                  <>
-                    <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                      <MapPin className="size-3.5" /> {u.city}, {u.country}
-                    </p>
-                    <p className="mt-3 text-xs text-muted-foreground">
-                      Acceptance {u.acceptanceRate}% · Tuition ${u.tuitionUSD.toLocaleString()}
-                      {u.worldRanking ? ` · World #${u.worldRanking}` : ""}
-                    </p>
-                  </>
-                )}
-              </article>
+              <UniversityCard
+                key={f.university_id}
+                university={u}
+                favorite
+                onFavorite={() => void onToggleFavorite(u.id, u.name)}
+                onView={() => setActive(u)}
+              />
             );
           })}
         </div>
       </div>
+
+      {active && <UniversityModal university={active} onClose={() => setActive(null)} />}
     </div>
   );
 }
