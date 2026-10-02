@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useI18n } from "@/lib/i18n";

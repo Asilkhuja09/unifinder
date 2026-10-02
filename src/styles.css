@@ -59,6 +59,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-feed: var(--feed);
+  --color-status-success: var(--status-success);
+  --color-status-reach: var(--status-reach);
 }
 
 :root {
@@ -91,6 +94,9 @@
   --gradient-gold: linear-gradient(135deg, var(--gold-soft), var(--gold));
   --shadow-lux: 0 24px 60px -24px oklch(0 0 0 / 70%);
   --glass: oklch(0.22 0.06 264 / 55%);
+  --feed: oklch(0.125 0.052 264);
+  --status-success: oklch(0.78 0.18 155);
+  --status-reach: oklch(0.75 0.16 28);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -218,4 +224,48 @@
 
 @utility radar-sweep {
   animation: radar-sweep 2.4s linear infinite;
+}
+
+@utility intelligence-panel {
+  background:
+    linear-gradient(135deg, color-mix(in oklab, var(--feed) 96%, transparent), color-mix(in oklab, var(--velvet) 82%, transparent));
+  box-shadow: 0 24px 70px -36px color-mix(in oklab, var(--gold) 45%, transparent);
+}
+
+@utility university-card {
+  background:
+    linear-gradient(155deg, color-mix(in oklab, var(--feed) 96%, transparent), color-mix(in oklab, var(--velvet) 78%, transparent));
+  box-shadow: 0 28px 70px -42px color-mix(in oklab, var(--gold) 38%, transparent);
+  transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+
+.university-card:hover {
+  border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+  box-shadow: 0 30px 80px -40px color-mix(in oklab, var(--gold) 48%, transparent);
+  transform: translateY(-2px);
+}
+
+.feed-scroll {
+  animation: feed-scroll 20s linear infinite;
+}
+
+.feed-window:hover .feed-scroll {
+  animation-play-state: paused;
+}
+
+@keyframes feed-scroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .feed-scroll,
+  .orbit-spin,
+  .orbit-counter,
+  .radar-sweep {
+    animation: none;
+  }
+  .university-card { transition: none; }
+  .university-card:hover { transform: none; }
 }

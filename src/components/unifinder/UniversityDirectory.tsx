@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Heart, MapPin, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
 import { useFavorites } from "@/lib/favorites";
@@ -21,7 +21,7 @@ const selectCls =
   "rounded-xl border border-border bg-velvet/60 px-3 py-2 text-sm text-foreground outline-none focus:border-primary/70";
 
 export function UniversityDirectory() {
-  const { t } = useI18n();
+  useI18n();
   const { ids, toggle } = useFavorites();
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState<Region | "all">("all");
