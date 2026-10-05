@@ -233,6 +233,7 @@ function Dashboard({
                 category={m.category}
                 matchScore={m.score}
                 reasons={m.reasons}
+                factors={m.factors}
                 favorite={favoriteIds.has(m.university.id)}
                 onFavorite={() => void onToggleFavorite(m.university.id, m.university.name)}
                 onView={() => setActive(m.university)}

@@ -107,6 +107,14 @@ export type UniversityMatch = {
   score: number; // 0–100 fit
   category: MatchCategory;
   reasons: string[];
+  factors: {
+    gpa: number;
+    tests: number;
+    major: number;
+    region: number;
+    difficulty: number;
+    funding: number;
+  };
 };
 
 const INCOME_CEILING: Record<string, number> = {
@@ -129,9 +137,21 @@ function majorAlignment(profile: Profile, uni: University): number {
   return best || 0.25;
 }
 
+function academicSignals(profile: Profile, uni: University) {
+  const gpa = normalizedGpa(profile);
+  const tests = normalizedTests(profile);
+  const expected = clamp01(0.91 - uni.acceptanceRate / 300);
+  const gpaFit = clamp01(0.72 + (gpa - expected) * 1.8);
+  const testFit = profile.noTests
+    ? 0.45
+    : clamp01(0.7 + (tests - Math.max(0.35, expected - 0.08)) * 1.5);
+  return { gpa, tests, expected, gpaFit, testFit };
+}
+
 /**
  * Fit of one university against one profile.
- * Weights: admissibility 35, major 25, funding 20, region 12, tier 8.
+ * Profile-fit weights: GPA 25, tests 15, major 20, target region 15,
+ * admissions difficulty 20, and funding 5.
  */
 export function scoreUniversity(
   profile: Profile,
@@ -140,11 +160,12 @@ export function scoreUniversity(
 ): UniversityMatch {
   const reasons: string[] = [];
 
-  // Admissibility — how the applicant's readiness compares to selectivity.
-  const selectivity = 1 - clamp01(uni.acceptanceRate / 100); // 1 = hardest
-  const gap = readiness / 100 - selectivity;
-  const admissibility = clamp01(0.5 + gap * 1.2);
-  const category: MatchCategory = gap < -0.12 ? "reach" : gap > 0.12 ? "safety" : "target";
+  const academic = academicSignals(profile, uni);
+  const applicantSignal = profile.noTests ? academic.gpa : academic.gpa * 0.68 + academic.tests * 0.32;
+  const gap = applicantSignal - academic.expected;
+  const category: MatchCategory = gap < -0.1 ? "reach" : gap > 0.12 ? "safety" : "target";
+  if (academic.gpaFit >= 0.72) reasons.push("GPA aligns with this university’s selectivity");
+  if (!profile.noTests && academic.testFit >= 0.72) reasons.push("Test score strengthens admission fit");
 
   const major = majorAlignment(profile, uni);
   if (major >= 0.85) reasons.push(`Departmental strength in ${profile.major}`);
@@ -162,7 +183,7 @@ export function scoreUniversity(
   }
   if (uni.tuitionUSD <= ceiling) reasons.push("Tuition within your stated budget band");
 
-  const region = profile.regions.length === 0 || profile.regions.includes(uni.region) ? 1 : 0.25;
+  const region = profile.regions.length === 0 || profile.regions.includes(uni.region) ? 1 : 0.1;
   if (region === 1 && profile.regions.length > 0) reasons.push(`Located in a target region (${uni.region})`);
 
   let tier = 0.5;
@@ -170,15 +191,23 @@ export function scoreUniversity(
     const distance = Math.abs(
       TIER_ORDER.indexOf(tierFromRate(uni.acceptanceRate)) - TIER_ORDER.indexOf(profile.difficulty),
     );
-    tier = distance === 0 ? 1 : distance === 1 ? 0.6 : 0.2;
+    tier = distance === 0 ? 1 : distance === 1 ? 0.4 : 0.1;
     if (distance === 0) reasons.push("Matches your chosen admissions difficulty tier");
   }
 
   const prestige = uni.worldRanking ? clamp01(1 - uni.worldRanking / 600) : 0.35;
 
-  const score = Math.round(
-    admissibility * 35 + major * 25 + funding * 20 + region * 12 + tier * 8 + prestige * 5,
-  );
+  const factors = {
+    gpa: Math.round(academic.gpaFit * 25),
+    tests: Math.round(academic.testFit * 15),
+    major: Math.round(major * 20),
+    region: Math.round(region * 15),
+    difficulty: Math.round(tier * 20),
+    funding: Math.round(funding * 5),
+  };
+  const fitTotal = Object.values(factors).reduce((sum, value) => sum + value, 0);
+  const confidenceAdjustment = Math.round((readiness / 100 - 0.5) * 4 + prestige * 2);
+  const score = fitTotal + confidenceAdjustment;
 
   if (reasons.length === 0) {
     reasons.push(
@@ -188,7 +217,13 @@ export function scoreUniversity(
     );
   }
 
-  return { university: uni, score: Math.min(100, score), category, reasons: reasons.slice(0, 3) };
+  return {
+    university: uni,
+    score: Math.max(0, Math.min(100, score)),
+    category,
+    reasons: reasons.slice(0, 3),
+    factors,
+  };
 }
 
 export type MatchResult = {
@@ -201,19 +236,9 @@ export function matchUniversities(profile: Profile): MatchResult {
   const profileScore = scoreProfile(profile);
   let pool: University[] = UNIVERSITIES;
 
-  if (profile.regions.length > 0) {
-    const scoped = pool.filter((u) => profile.regions.includes(u.region));
-    if (scoped.length > 0) pool = scoped;
-  }
-
   if (profile.difficulty === "76-100") {
     // Hard exclusion protocol for the Accessible tier.
     pool = pool.filter((u) => !ELITE_EXCLUDED.has(u.id) && u.acceptanceRate >= 50);
-  }
-
-  if (profile.needsAid === "yes") {
-    const aided = pool.filter((u) => u.aidForInternationals);
-    if (aided.length >= 6) pool = aided;
   }
 
   const matches = pool

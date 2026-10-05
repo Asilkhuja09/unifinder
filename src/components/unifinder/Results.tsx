@@ -57,8 +57,8 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
         <div>
           <h3 className="font-display text-2xl text-gilded">Your admissions profile score</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            {matches.length} institutions ranked by fit against your grades, testing, leadership
-            record, funding needs and target regions.
+            {matches.length} institutions ranked by GPA, test scores, major, target regions,
+            admissions difficulty and funding fit.
           </p>
           <dl className="mt-4 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
             {([
@@ -87,6 +87,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
             category={m.category}
             matchScore={m.score}
             reasons={m.reasons}
+            factors={m.factors}
             onView={() => setActive(m.university)}
           />
         ))}

@@ -1,3 +1,5 @@
+import { REGISTRY_UNIVERSITIES } from "@/data/registryUniversities";
+
 export type Region =
   | "USA"
   | "UK"
@@ -3306,6 +3308,7 @@ export const UNIVERSITIES: University[] = [
     usState: u.usState ?? BASE_RANKS[u.id]?.state,
   })),
   ...EXTRA_UNIVERSITIES,
+  ...REGISTRY_UNIVERSITIES,
 ];
 
 export type RankTier = "top50" | "top100" | "top300" | "other";
