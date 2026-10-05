@@ -87,6 +87,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
             category={m.category}
             matchScore={m.score}
             reasons={m.reasons}
+            factors={m.factors}
             onView={() => setActive(m.university)}
           />
         ))}

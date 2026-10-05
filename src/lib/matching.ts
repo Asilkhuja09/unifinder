@@ -140,18 +140,18 @@ function majorAlignment(profile: Profile, uni: University): number {
 function academicSignals(profile: Profile, uni: University) {
   const gpa = normalizedGpa(profile);
   const tests = normalizedTests(profile);
-  const expected = clamp01(0.92 - uni.acceptanceRate / 135);
-  const gpaFit = clamp01(0.52 + (gpa - expected) * 1.35);
+  const expected = clamp01(0.91 - uni.acceptanceRate / 300);
+  const gpaFit = clamp01(0.72 + (gpa - expected) * 1.8);
   const testFit = profile.noTests
-    ? 0.55
-    : clamp01(0.52 + (tests - Math.max(0.35, expected - 0.08)) * 1.25);
+    ? 0.45
+    : clamp01(0.7 + (tests - Math.max(0.35, expected - 0.08)) * 1.5);
   return { gpa, tests, expected, gpaFit, testFit };
 }
 
 /**
  * Fit of one university against one profile.
- * Profile-fit weights: GPA 30, tests 15, major 20, target region 15,
- * admissions difficulty 15, and funding 5.
+ * Profile-fit weights: GPA 25, tests 15, major 20, target region 15,
+ * admissions difficulty 20, and funding 5.
  */
 export function scoreUniversity(
   profile: Profile,
@@ -183,7 +183,7 @@ export function scoreUniversity(
   }
   if (uni.tuitionUSD <= ceiling) reasons.push("Tuition within your stated budget band");
 
-  const region = profile.regions.length === 0 || profile.regions.includes(uni.region) ? 1 : 0.25;
+  const region = profile.regions.length === 0 || profile.regions.includes(uni.region) ? 1 : 0.1;
   if (region === 1 && profile.regions.length > 0) reasons.push(`Located in a target region (${uni.region})`);
 
   let tier = 0.5;
@@ -191,18 +191,18 @@ export function scoreUniversity(
     const distance = Math.abs(
       TIER_ORDER.indexOf(tierFromRate(uni.acceptanceRate)) - TIER_ORDER.indexOf(profile.difficulty),
     );
-    tier = distance === 0 ? 1 : distance === 1 ? 0.6 : 0.2;
+    tier = distance === 0 ? 1 : distance === 1 ? 0.4 : 0.1;
     if (distance === 0) reasons.push("Matches your chosen admissions difficulty tier");
   }
 
   const prestige = uni.worldRanking ? clamp01(1 - uni.worldRanking / 600) : 0.35;
 
   const factors = {
-    gpa: Math.round(academic.gpaFit * 30),
+    gpa: Math.round(academic.gpaFit * 25),
     tests: Math.round(academic.testFit * 15),
     major: Math.round(major * 20),
     region: Math.round(region * 15),
-    difficulty: Math.round(tier * 15),
+    difficulty: Math.round(tier * 20),
     funding: Math.round(funding * 5),
   };
   const fitTotal = Object.values(factors).reduce((sum, value) => sum + value, 0);

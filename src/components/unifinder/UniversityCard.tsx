@@ -3,6 +3,7 @@ import campusFallback from "@/assets/campus-fallback.jpg";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
 import type { MatchCategory } from "@/lib/matching";
+import type { UniversityMatch } from "@/lib/matching";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -31,6 +32,7 @@ export function UniversityCard({
   category,
   matchScore,
   reasons = [],
+  factors,
   onView,
   favorite,
   onFavorite,
@@ -39,6 +41,7 @@ export function UniversityCard({
   category?: MatchCategory;
   matchScore?: number;
   reasons?: string[];
+  factors?: UniversityMatch["factors"];
   onView: () => void;
   favorite?: boolean;
   onFavorite?: () => void;
@@ -123,6 +126,16 @@ export function UniversityCard({
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
             <div className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold" style={{ width: `${matchScore}%` }} />
           </div>
+          {factors && (
+            <dl className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[9px] uppercase text-muted-foreground sm:grid-cols-6">
+              {Object.entries(factors).map(([label, value]) => (
+                <div key={label} className="rounded-lg border border-border/60 bg-feed/60 px-1 py-2">
+                  <dt>{label}</dt>
+                  <dd className="mt-0.5 font-semibold text-foreground">+{value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
         </div>
       )}
 
