@@ -6,4 +6,4 @@
 - [x] Verify mobile/desktop layouts and public-domain sign-in entry.
 - [x] Expand the university directory to 500+ registry-backed institutions.
 - [x] Rank the full eligible pool using GPA, tests, major, regions, and admissions difficulty.
-- [ ] Verify the expanded directory and transparent score breakdown in the preview.
+- [x] Verify the expanded directory and transparent score breakdown in the preview.
