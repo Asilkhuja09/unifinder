@@ -524,13 +524,37 @@ type I18nValue = {
   lang: LangCode;
   setLang: (l: LangCode) => void;
   t: (key: keyof Dict) => string;
+  tt: (text: string) => string;
   dir: "ltr" | "rtl";
 };
 
 const I18nContext = createContext<I18nValue | null>(null);
 
+const CACHE_PREFIX = "uf_i18n_";
+
+function loadCache(lang: LangCode): Record<string, string> {
+  try {
+    const raw = localStorage.getItem(CACHE_PREFIX + lang);
+    return raw ? (JSON.parse(raw) as Record<string, string>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveCache(lang: LangCode, cache: Record<string, string>) {
+  try {
+    localStorage.setItem(CACHE_PREFIX + lang, JSON.stringify(cache));
+  } catch {
+    /* storage full — keep in-memory only */
+  }
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<LangCode>("en");
+  const [cache, setCache] = useState<Record<string, string>>({});
+  const pendingRef = useRef<Set<string>>(new Set());
+  const flushingRef = useRef(false);
+  const cacheRef = useRef<Record<string, string>>({});
   const dir: "ltr" | "rtl" = lang === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
@@ -538,12 +562,62 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = dir;
   }, [lang, dir]);
 
+  useEffect(() => {
+    cacheRef.current = loadCache(lang);
+    pendingRef.current = new Set();
+    setCache({ ...cacheRef.current });
+  }, [lang]);
+
+  const flush = useCallback(async () => {
+    if (flushingRef.current) return;
+    flushingRef.current = true;
+    try {
+      while (pendingRef.current.size > 0) {
+        const batch = [...pendingRef.current].slice(0, 40);
+        batch.forEach((s) => pendingRef.current.delete(s));
+        const langName = LANGUAGES.find((l) => l.code === lang)?.label ?? lang;
+        try {
+          const { translations } = await translateBatch({
+            data: { lang, langName, texts: batch },
+          });
+          batch.forEach((source, i) => {
+            const translated = translations[i]?.trim();
+            if (translated) cacheRef.current[source] = translated;
+          });
+          saveCache(lang, cacheRef.current);
+          setCache({ ...cacheRef.current });
+        } catch (error) {
+          console.error("Translation batch failed", error);
+        }
+      }
+    } finally {
+      flushingRef.current = false;
+    }
+  }, [lang]);
+
   const t = useCallback(
     (key: keyof Dict) => dict[lang]?.[key] ?? en[key],
     [lang],
   );
 
-  const value = useMemo(() => ({ lang, setLang, t, dir }), [lang, t, dir]);
+  const tt = useCallback(
+    (text: string) => {
+      if (lang === "en" || !text.trim()) return text;
+      const hit = cache[text];
+      if (hit) return hit;
+      if (!pendingRef.current.has(text) && !(text in cacheRef.current)) {
+        pendingRef.current.add(text);
+        queueMicrotask(() => void flush());
+      }
+      return text;
+    },
+    [lang, cache, flush],
+  );
+
+  const value = useMemo(
+    () => ({ lang, setLang, t, tt, dir }),
+    [lang, t, tt, dir],
+  );
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
