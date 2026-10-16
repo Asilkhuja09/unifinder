@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { streamText } from "ai";
+import { Output, streamText } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
@@ -30,11 +30,11 @@ export const translateBatch = createServerFn({ method: "POST" })
         "proper nouns (university, city, scholarship names), numbers, %, URLs and emoji unchanged. " +
         "Return only the translations, one per input line, in the same order.",
       prompt: `Target language: ${data.langName} (${data.lang})\n\n${numbered}`,
-      output: {
+      output: Output.object({
         schema: z.object({
           translations: z.array(z.string()).length(data.texts.length),
         }),
-      },
+      }),
     });
 
     const output = await result.output;
