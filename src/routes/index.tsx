@@ -44,7 +44,7 @@ const FAQ = [
 ];
 
 function Content() {
-  const { t } = useI18n();
+  const { t, tt } = useI18n();
   const sections = [
     {
       to: "/assessment" as const,
@@ -106,7 +106,7 @@ function Content() {
         </section>
 
         <section className="mx-auto w-full max-w-6xl px-4 py-16">
-          <h2 className="mb-8 text-3xl font-semibold text-gilded">Explore the network</h2>
+          <h2 className="mb-8 text-3xl font-semibold text-gilded">{tt("Explore the network")}</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             {sections.map((s) => (
               <Link
@@ -115,10 +115,10 @@ function Content() {
                 className="glass group rounded-2xl p-6 transition-colors hover:border-primary/60"
               >
                 <s.icon className="size-6 text-primary" />
-                <h3 className="mt-4 font-display text-2xl text-primary">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                <h3 className="mt-4 font-display text-2xl text-primary">{tt(s.title)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tt(s.body)}</p>
                 <span className="mt-4 inline-block text-sm text-accent group-hover:underline">
-                  Open →
+                  {tt("Open")} →
                 </span>
               </Link>
             ))}
@@ -131,9 +131,9 @@ function Content() {
             {FAQ.map((f) => (
               <details key={f.q} className="glass rounded-2xl p-5">
                 <summary className="cursor-pointer font-display text-xl text-primary">
-                  {f.q}
+                  {tt(f.q)}
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tt(f.a)}</p>
               </details>
             ))}
           </div>

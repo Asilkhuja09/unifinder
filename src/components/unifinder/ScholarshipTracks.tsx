@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { ExternalLink, GraduationCap, Search } from "lucide-react";
 import { REGIONS, SCHOLARSHIPS, type Region } from "@/data/extendedData";
+import { useI18n } from "@/lib/i18n";
 
 export function ScholarshipTracks() {
+  const { tt } = useI18n();
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState<Region | "all">("all");
   const [needOnly, setNeedOnly] = useState(false);
@@ -23,10 +25,9 @@ export function ScholarshipTracks() {
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-16">
-      <h1 className="font-display text-4xl text-gilded sm:text-5xl">Sovereign Scholarship Tracks</h1>
+      <h1 className="font-display text-4xl text-gilded sm:text-5xl">{tt("Sovereign Scholarship Tracks")}</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-        Government and university funding programmes — DAAD, MEXT, CSC, GKS, Fulbright,
-        Knight-Hennessy and more — with coverage, deadlines and official portals.
+        {tt("Government and university funding programmes — DAAD, MEXT, CSC, GKS, Fulbright, Knight-Hennessy and more — with coverage, deadlines and official portals.")}
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -35,7 +36,7 @@ export function ScholarshipTracks() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search scholarships, sponsors…"
+            placeholder={tt("Search scholarships, sponsors…")}
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/70"
           />
         </label>
@@ -50,7 +51,7 @@ export function ScholarshipTracks() {
                   : "glass text-muted-foreground hover:text-primary"
               }`}
             >
-              {r === "all" ? "All regions" : r}
+              {r === "all" ? tt("All regions") : tt(r)}
             </button>
           ))}
           <button
@@ -61,7 +62,7 @@ export function ScholarshipTracks() {
                 : "glass text-muted-foreground hover:text-primary"
             }`}
           >
-            Need-based only
+            {tt("Need-based only")}
           </button>
         </div>
       </div>
@@ -73,14 +74,14 @@ export function ScholarshipTracks() {
               <GraduationCap className="size-4" /> {s.sponsor}
             </p>
             <h2 className="mt-2 font-display text-2xl text-primary">{s.name}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{s.description}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{tt(s.description)}</p>
             <p className="mt-3 text-sm">
-              <span className="text-primary/80">Coverage: </span>
-              {s.coverage}
+              <span className="text-primary/80">{tt("Coverage")}: </span>
+              {tt(s.coverage)}
             </p>
             <p className="mt-1 text-sm">
-              <span className="text-primary/80">Deadline: </span>
-              {s.deadline}
+              <span className="text-primary/80">{tt("Deadline")}: </span>
+              {tt(s.deadline)}
             </p>
             <a
               href={s.website}
@@ -88,12 +89,12 @@ export function ScholarshipTracks() {
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 text-sm text-primary underline-offset-4 hover:underline"
             >
-              Official portal <ExternalLink className="size-3.5" />
+              {tt("Official portal")} <ExternalLink className="size-3.5" />
             </a>
           </article>
         ))}
         {rows.length === 0 && (
-          <p className="text-muted-foreground">No scholarship tracks match this filter.</p>
+          <p className="text-muted-foreground">{tt("No scholarship tracks match this filter.")}</p>
         )}
       </div>
     </section>
