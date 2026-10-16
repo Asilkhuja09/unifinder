@@ -5,17 +5,17 @@ import { LANGUAGES, useI18n, type LangCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 
 export function Navbar({ onStart }: { onStart: () => void }) {
-  const { t, lang, setLang } = useI18n();
+  const { t, tt, lang, setLang } = useI18n();
   const { user, hint, openGate, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const current = LANGUAGES.find((l) => l.code === lang)!;
 
   const links = [
     { to: "/", label: t("navHome") },
-    { to: "/assessment", label: "Assessment" },
-    { to: "/universities", label: "University Directory" },
-    { to: "/scholarships", label: "Scholarships" },
-    { to: "/essay", label: "Essay Analyzer" },
+    { to: "/assessment", label: tt("Assessment") },
+    { to: "/universities", label: tt("University Directory") },
+    { to: "/scholarships", label: tt("Scholarships") },
+    { to: "/essay", label: tt("Essay Analyzer") },
   ] as const;
 
   return (

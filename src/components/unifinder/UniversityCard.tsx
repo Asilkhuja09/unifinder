@@ -5,6 +5,7 @@ import type { University } from "@/data/extendedData";
 import type { MatchCategory } from "@/lib/matching";
 import type { UniversityMatch } from "@/lib/matching";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
 const CATEGORY_STYLE: Record<MatchCategory, { label: string; className: string }> = {
@@ -46,6 +47,7 @@ export function UniversityCard({
   favorite?: boolean;
   onFavorite?: () => void;
 }) {
+  const { tt } = useI18n();
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
   const image = media.photos[0];
   const tag = cardTag(university, category);
@@ -80,7 +82,7 @@ export function UniversityCard({
               </p>
             </div>
             <span className={cn("shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase", tag.className)}>
-              {tag.label}
+              {tt(tag.label)}
             </span>
           </div>
         </div>
@@ -102,17 +104,17 @@ export function UniversityCard({
 
       <dl className="mt-5 grid grid-cols-3 gap-2">
         <div className="rounded-xl border border-status-success/35 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-status-success sm:text-[10px]">Qabul %</dt>
+          <dt className="text-[9px] font-semibold uppercase text-status-success sm:text-[10px]">{tt("Qabul %")}</dt>
           <dd className="mt-1 text-sm font-semibold text-status-success sm:text-base">{university.acceptanceRate}%</dd>
         </div>
         <div className="rounded-xl border border-primary/45 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-primary sm:text-[10px]">Muddati</dt>
+          <dt className="text-[9px] font-semibold uppercase text-primary sm:text-[10px]">{tt("Muddati")}</dt>
           <dd className="mt-1 text-sm font-semibold text-primary sm:text-base">{deadlineFor(university)}</dd>
         </div>
         <div className="rounded-xl border border-muted-foreground/45 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-muted-foreground sm:text-[10px]">Maksimal yordam</dt>
+          <dt className="text-[9px] font-semibold uppercase text-muted-foreground sm:text-[10px]">{tt("Maksimal yordam")}</dt>
           <dd className="mt-1 text-xs font-semibold text-foreground sm:text-sm">
-            {university.aidForInternationals ? "Up to full need" : `$${university.tuitionUSD.toLocaleString()}/yr`}
+            {university.aidForInternationals ? tt("Up to full need") : `$${university.tuitionUSD.toLocaleString()}/yr`}
           </dd>
         </div>
       </dl>
@@ -120,7 +122,7 @@ export function UniversityCard({
       {typeof matchScore === "number" && (
         <div className="mt-4">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Match fit</span>
+            <span className="text-muted-foreground">{tt("Match fit")}</span>
             <span className="font-semibold text-primary">{matchScore}%</span>
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-secondary">
@@ -130,7 +132,7 @@ export function UniversityCard({
             <dl className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[9px] uppercase text-muted-foreground sm:grid-cols-6">
               {Object.entries(factors).map(([label, value]) => (
                 <div key={label} className="rounded-lg border border-border/60 bg-feed/60 px-1 py-2">
-                  <dt>{label}</dt>
+                  <dt>{tt(label)}</dt>
                   <dd className="mt-0.5 font-semibold text-foreground">+{value}</dd>
                 </div>
               ))}
@@ -142,20 +144,20 @@ export function UniversityCard({
       <div className="mt-5 flex-1 rounded-2xl border border-border/70 bg-feed/65 p-4 sm:p-5">
         <p className="flex items-start gap-2 text-[10px] font-semibold uppercase text-primary">
           <Sparkles className="mt-0.5 size-3.5 shrink-0" />
-          {media.alumni.length > 0 ? "Mashhur bitiruvchilar" : "Asosiy yutuqlar"}
+          {media.alumni.length > 0 ? tt("Mashhur bitiruvchilar") : tt("Asosiy yutuqlar")}
         </p>
         {university.worldRanking && (
-          <p className="mt-3 font-display text-2xl text-foreground">World #{university.worldRanking}</p>
+          <p className="mt-3 font-display text-2xl text-foreground">{tt("World")} #{university.worldRanking}</p>
         )}
         <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
-          {highlights.map((item) => <li key={item}>• {item}</li>)}
-          {reasons.slice(0, 2).map((reason) => <li key={reason}>• {reason}</li>)}
+          {highlights.map((item) => <li key={item}>• {tt(item)}</li>)}
+          {reasons.slice(0, 2).map((reason) => <li key={reason}>• {tt(reason)}</li>)}
         </ul>
       </div>
 
       <div className="mt-5 grid grid-cols-[1fr_auto_auto] gap-2">
         <Button type="button" onClick={onView} className="h-11 rounded-xl bg-gradient-to-r from-gold-soft to-gold text-primary-foreground hover:opacity-90">
-          Batafsil <MoveRight />
+          {tt("Batafsil")} <MoveRight />
         </Button>
         <Button asChild variant="outline" size="icon" className="size-11 rounded-xl border-primary/70 bg-feed/70 text-primary">
           <a href={university.website} target="_blank" rel="noopener noreferrer" aria-label={`${university.name} official website`}>

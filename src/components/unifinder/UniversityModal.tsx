@@ -18,7 +18,7 @@ export function UniversityModal({
   university: University;
   onClose: () => void;
 }) {
-  const { t } = useI18n();
+  const { t, tt } = useI18n();
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
 
   return (
@@ -33,7 +33,7 @@ export function UniversityModal({
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-accent">
-              Founded {university.founded}
+              {tt("Founded")} {university.founded}
             </p>
             <h3 className="mt-1 font-display text-3xl text-gilded">{university.name}</h3>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -55,7 +55,7 @@ export function UniversityModal({
               key={s}
               className="rounded-xl border border-primary/25 bg-velvet/50 px-3 py-6 text-center text-sm text-primary"
             >
-              {s}
+              {tt(s)}
             </div>
           ))}
         </div>
@@ -71,7 +71,7 @@ export function UniversityModal({
                   className="h-48 w-full object-cover"
                 />
                 <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
-                  {p.caption}
+                  {tt(p.caption)}
                 </figcaption>
               </figure>
             ))}
@@ -81,7 +81,7 @@ export function UniversityModal({
           <dl className="mt-6 grid gap-3 sm:grid-cols-3">
             {media.stats.map((s) => (
               <div key={s.label} className="rounded-xl border border-border p-4">
-                <dt className="text-xs text-muted-foreground">{s.label}</dt>
+                <dt className="text-xs text-muted-foreground">{tt(s.label)}</dt>
                 <dd className="text-lg text-primary">{s.value}</dd>
               </div>
             ))}
@@ -89,13 +89,13 @@ export function UniversityModal({
         )}
         {media.alumni.length > 0 && (
           <p className="mt-4 text-sm text-muted-foreground">
-            <span className="text-primary/80">Notable alumni: </span>
-            {media.alumni.join(" · ")}
+            <span className="text-primary/80">{tt("Notable alumni")}: </span>
+            {media.alumni.map(tt).join(" · ")}
           </p>
         )}
 
         <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-          {university.description}
+          {tt(university.description)}
         </p>
 
         <dl className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -108,7 +108,7 @@ export function UniversityModal({
             <dd className="text-lg text-primary">${university.tuitionUSD.toLocaleString()}</dd>
           </div>
           <div className="rounded-xl border border-border p-4">
-            <dt className="text-xs text-muted-foreground">Aid for internationals</dt>
+            <dt className="text-xs text-muted-foreground">{tt("Aid for internationals")}</dt>
             <dd className="text-lg text-primary">
               {university.aidForInternationals ? t("yes") : t("no")}
             </dd>
@@ -129,7 +129,7 @@ export function UniversityModal({
             rel="noopener noreferrer"
             className="glass inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm"
           >
-            Official website <ExternalLink className="size-3.5" />
+            {tt("Official website")} <ExternalLink className="size-3.5" />
           </a>
         </div>
       </div>
