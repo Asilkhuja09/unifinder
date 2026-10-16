@@ -25,7 +25,7 @@ const STAGES = [
 ];
 
 export function OrbitalLoader({ onDone }: { onDone: () => void }) {
-  const { t } = useI18n();
+  const { t, tt } = useI18n();
   const [progress, setProgress] = useState(0);
   const stage = STAGES.find((s) => progress < s.until) ?? STAGES[STAGES.length - 1]!;
 
@@ -93,7 +93,7 @@ export function OrbitalLoader({ onDone }: { onDone: () => void }) {
         </div>
         <div className="mt-3 flex items-center justify-between gap-3 text-xs">
           <p key={stage.label} className="animate-fade-in text-muted-foreground">
-            {stage.label}
+            {tt(stage.label)}
           </p>
           <span className="tabular-nums text-primary">{Math.round(progress)}%</span>
         </div>

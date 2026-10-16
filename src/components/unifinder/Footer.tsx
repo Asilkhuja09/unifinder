@@ -35,7 +35,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} UniFinder Global — Private Network
+        © {new Date().getFullYear()} UniFinder Global — {t("tagline")}
       </div>
     </footer>
   );
