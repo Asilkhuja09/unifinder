@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Activity, CircleCheck, TrendingUp } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 const UPDATES = [
   "GKS · Seoul National University added 60 seats",
@@ -15,6 +16,7 @@ function formatTime(offsetMinutes: number) {
 }
 
 export function LiveIntelligenceFeed({ compact = false }: { compact?: boolean }) {
+  const { tt } = useI18n();
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
@@ -40,24 +42,24 @@ export function LiveIntelligenceFeed({ compact = false }: { compact?: boolean })
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-status-success">
-            JONLI RAZVEDKA OQIMI
+            {tt("JONLI RAZVEDKA OQIMI")}
           </p>
           <h2 className="mt-2 font-display text-2xl leading-tight text-foreground sm:text-3xl">
-            Baza yangilangan <span className="text-primary">1 daqiqa oldin</span>
+            {tt("Baza yangilangan")} <span className="text-primary">{tt("1 daqiqa oldin")}</span>
           </h2>
           <p className="mt-2 flex items-start gap-2 text-sm text-muted-foreground">
             <Activity className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-            Ma&apos;lumotlar har 30 daqiqa ichida xavfsiz API orqali sinxronlanadi
+            {tt("Ma'lumotlar har 30 daqiqa ichida xavfsiz API orqali sinxronlanadi")}
           </p>
         </div>
       </div>
 
       <div className="mt-5 grid gap-2 sm:grid-cols-2">
         <div className="flex min-h-12 items-center gap-2 rounded-xl border border-status-success/35 bg-status-success/10 px-4 py-2.5 text-sm font-semibold text-status-success">
-          <CircleCheck className="size-4 shrink-0" /> Barcha tizimlar ishlamoqda
+          <CircleCheck className="size-4 shrink-0" /> {tt("Barcha tizimlar ishlamoqda")}
         </div>
         <div className="flex min-h-12 items-center gap-2 rounded-xl border border-primary/70 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary">
-          <TrendingUp className="size-4 shrink-0" /> +182 yangi yozuv bugun
+          <TrendingUp className="size-4 shrink-0" /> {tt("+182 yangi yozuv bugun")}
         </div>
       </div>
 
@@ -72,7 +74,7 @@ export function LiveIntelligenceFeed({ compact = false }: { compact?: boolean })
               <time className="font-mono text-muted-foreground">{row.time}</time>
               <p className="min-w-0 font-medium leading-snug text-foreground">
                 <span className="me-2 text-primary">›</span>
-                {row.text}
+                {tt(row.text)}
               </p>
             </div>
           ))}
