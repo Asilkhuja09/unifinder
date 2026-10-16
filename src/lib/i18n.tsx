@@ -4,9 +4,11 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { translateBatch } from "@/lib/translate.functions";
 
 export const LANGUAGES = [
   { code: "en", label: "English", flag: "🇺🇸" },
