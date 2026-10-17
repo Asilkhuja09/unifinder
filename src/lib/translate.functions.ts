@@ -32,7 +32,7 @@ export const translateBatch = createServerFn({ method: "POST" })
       prompt: `Target language: ${data.langName} (${data.lang})\n\n${numbered}`,
       output: Output.object({
         schema: z.object({
-          translations: z.array(z.string()).length(data.texts.length),
+          translations: z.array(z.string()),
         }),
       }),
     });

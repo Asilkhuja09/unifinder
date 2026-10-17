@@ -54,7 +54,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void }) {
-  const { t, lang } = useI18n();
+  const { t, tt, lang } = useI18n();
   const { user, requireAuth } = useAuth();
 
   const [step, setStep] = useState(1);
@@ -258,13 +258,13 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   placeholder={
                     profile.gpaScale
                       ? `0 – ${GPA_SCALES.find((s) => s.id === profile.gpaScale)?.max}`
-                      : "Select a scale first"
+                      : tt("Select a scale first")
                   }
                 />
               </Field>
               {profile.gpaScale && profile.gpa !== "" && !valid && (
                 <p className="text-sm text-destructive sm:col-span-2">
-                  Enter a value between 0 and{" "}
+                  {tt("Enter a value between 0 and")}{" "}
                   {GPA_SCALES.find((s) => s.id === profile.gpaScale)?.max}.
                 </p>
               )}
@@ -302,7 +302,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   <div className="relative flex flex-wrap items-center justify-between gap-3 p-5">
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.28em] text-primary/80">
-                        {majorTheme(profile.major).label}
+                        {tt(majorTheme(profile.major).label)}
                       </p>
                       <p className="mt-1 text-lg font-semibold text-gilded">{profile.major}</p>
                     </div>
@@ -331,7 +331,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                 ))}
                 {filteredMajors.length === 0 && (
                   <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-                    No majors match “{majorQuery}”.
+                    {tt("No majors match")} “{majorQuery}”.
                   </p>
                 )}
               </div>
@@ -365,7 +365,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                           : "border-border bg-velvet/40 hover:border-primary/50",
                       )}
                     >
-                      {r}
+                      {tt(r)}
                     </button>
                   );
                 })}
@@ -401,9 +401,9 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                   {profile.noTests && <span className="size-2 rounded-sm bg-primary-foreground" />}
                 </span>
                 <span>
-                  None / No standardized test yet
+                  {tt("None / No standardized test yet")}
                   <span className="block text-xs text-muted-foreground">
-                    Continue without scores — matches will use academics and funding needs only.
+                    {tt("Continue without scores — matches will use academics and funding needs only.")}
                   </span>
                 </span>
               </button>
@@ -534,8 +534,8 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                             : "border-border bg-velvet/40 hover:border-primary/50",
                         )}
                       >
-                        <p className="font-display text-xl text-primary">{track.title}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">{track.detail}</p>
+                        <p className="font-display text-xl text-primary">{tt(track.title)}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">{tt(track.detail)}</p>
                       </button>
                     );
                   })}
@@ -578,8 +578,8 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                       : "border-border bg-velvet/40 hover:border-primary/50",
                   )}
                 >
-                  <p className="font-display text-2xl text-primary">{tier.label}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{tier.note}</p>
+                  <p className="font-display text-2xl text-primary">{tt(tier.label)}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{tt(tier.note)}</p>
                 </button>
               ))}
             </div>

@@ -21,7 +21,7 @@ const selectCls =
   "rounded-xl border border-border bg-velvet/60 px-3 py-2 text-sm text-foreground outline-none focus:border-primary/70";
 
 export function UniversityDirectory() {
-  useI18n();
+  const { tt } = useI18n();
   const { ids, toggle } = useFavorites();
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState<Region | "all">("all");
@@ -52,11 +52,9 @@ export function UniversityDirectory() {
 
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-16">
-      <h1 className="font-display text-4xl text-gilded sm:text-5xl">Global University Directory</h1>
+      <h1 className="font-display text-4xl text-gilded sm:text-5xl">{tt("Global University Directory")}</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-        {UNIVERSITIES.length} verified institutions across {REGIONS.length} regions, with
-        acceptance rates, tuition, world rankings, aid policy for internationals and campus
-        multimedia.
+        {UNIVERSITIES.length} {tt("verified institutions across")} {REGIONS.length} {tt("regions, with acceptance rates, tuition, world rankings, aid policy for internationals and campus multimedia.")}
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -65,7 +63,7 @@ export function UniversityDirectory() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search universities, countries, fields…"
+            placeholder={tt("Search universities, countries, fields…")}
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/70"
           />
         </label>
@@ -80,7 +78,7 @@ export function UniversityDirectory() {
                   : "glass text-muted-foreground hover:text-primary"
               }`}
             >
-              {r === "all" ? "All regions" : r}
+              {r === "all" ? tt("All regions") : tt(r)}
             </button>
           ))}
         </div>
@@ -114,13 +112,13 @@ export function UniversityDirectory() {
                 className="h-5 w-7 rounded-sm object-cover ring-1 ring-border"
               />
             ) : null}
-            Country
+            {tt("Country")}
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               className={selectCls}
             >
-              <option value="all">All countries</option>
+              <option value="all">{tt("All countries")}</option>
               {COUNTRY_LIST.map((c) => (
                 <option key={c} value={c}>
                   {countryFlagEmoji(c)} {c}
@@ -131,9 +129,9 @@ export function UniversityDirectory() {
         </div>
 
         <label className="flex items-center gap-2 text-xs text-muted-foreground">
-          US state
+          {tt("US state")}
           <select value={state} onChange={(e) => setState(e.target.value)} className={selectCls}>
-            <option value="all">All states</option>
+            <option value="all">{tt("All states")}</option>
             {US_STATES.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -142,21 +140,21 @@ export function UniversityDirectory() {
           </select>
         </label>
         <label className="flex items-center gap-2 text-xs text-muted-foreground">
-          World ranking
+          {tt("World ranking")}
           <select
             value={rank}
             onChange={(e) => setRank(e.target.value as RankTier | "all")}
             className={selectCls}
           >
-            <option value="all">Any tier</option>
+            <option value="all">{tt("Any tier")}</option>
             {RANK_TIERS.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.label}
+                {tt(r.label)}
               </option>
             ))}
           </select>
         </label>
-        <p className="self-center text-xs text-accent">{rows.length} matches</p>
+        <p className="self-center text-xs text-accent">{rows.length} {tt("matches")}</p>
       </div>
 
       <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -170,7 +168,7 @@ export function UniversityDirectory() {
           />
         ))}
         {rows.length === 0 && (
-          <p className="text-muted-foreground">No institutions match this search.</p>
+          <p className="text-muted-foreground">{tt("No institutions match this search.")}</p>
         )}
       </div>
 
