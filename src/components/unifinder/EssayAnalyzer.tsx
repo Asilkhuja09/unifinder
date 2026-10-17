@@ -329,7 +329,7 @@ export function EssayAnalyzer() {
           )}
           {user && !historyBusy && history.length === 0 && (
             <div className="glass rounded-2xl p-6 text-sm text-muted-foreground">
-              No evaluations yet. Analyse an essay and it will be archived here.
+              {tt("No evaluations yet. Analyse an essay and it will be archived here.")}
             </div>
           )}
           {history.map((row) => {
@@ -345,19 +345,19 @@ export function EssayAnalyzer() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-display text-lg text-primary">
-                      {row.prompt_topic || "Untitled personal statement"}
+                      {row.prompt_topic || tt("Untitled personal statement")}
                     </p>
                     <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                       <Clock className="size-3" />
-                      {new Date(row.created_at).toLocaleString()} · grammar {row.grammar_score} ·
-                      structure {row.structure_score}
+                      {new Date(row.created_at).toLocaleString()} · {tt("grammar")} {row.grammar_score} ·
+                      {tt("structure")} {row.structure_score}
                     </p>
                   </div>
                   <button
                     onClick={() => setOpenRow(open ? null : row.id)}
                     className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
                   >
-                    {open ? "Hide" : "View report"}
+                    {open ? tt("Hide") : tt("View report")}
                   </button>
                   <button
                     onClick={() => void remove(row.id)}
@@ -382,7 +382,7 @@ export function EssayAnalyzer() {
                     />
                     <details className="mt-4 rounded-xl border border-border bg-velvet/40 p-4">
                       <summary className="cursor-pointer text-sm text-primary">
-                        Original essay
+                        {tt("Original essay")}
                       </summary>
                       <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
                         {row.essay_text}
