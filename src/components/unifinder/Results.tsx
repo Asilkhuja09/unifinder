@@ -9,7 +9,7 @@ import { UniversityModal } from "@/components/unifinder/UniversityModal";
 import { Button } from "@/components/ui/button";
 
 export function Results({ profile, onRestart }: { profile: Profile; onRestart: () => void }) {
-  const { t } = useI18n();
+  const { t, tt } = useI18n();
   const [active, setActive] = useState<University | null>(null);
 
   const [limit, setLimit] = useState(24);
@@ -55,10 +55,9 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
           </div>
         </div>
         <div>
-          <h3 className="font-display text-2xl text-gilded">Your admissions profile score</h3>
+          <h3 className="font-display text-2xl text-gilded">{tt("Your admissions profile score")}</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            {matches.length} institutions ranked by GPA, test scores, major, target regions,
-            admissions difficulty and funding fit.
+            {matches.length} {tt("institutions ranked by GPA, test scores, major, target regions, admissions difficulty and funding fit.")}
           </p>
           <dl className="mt-4 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
             {([
@@ -68,7 +67,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
               { label: "Profile depth", value: profileScore.completeness, max: 15 },
             ] as const).map((row) => (
               <div key={row.label} className="rounded-xl border border-border/70 p-3">
-                <dt className="text-muted-foreground">{row.label}</dt>
+                <dt className="text-muted-foreground">{tt(row.label)}</dt>
                 <dd className="mt-1 text-primary">
                   {row.value}
                   <span className="text-muted-foreground"> / {row.max}</span>
@@ -92,7 +91,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
           />
         ))}
         {matches.length === 0 && (
-          <p className="text-muted-foreground">No institutions match this filter combination.</p>
+          <p className="text-muted-foreground">{tt("No institutions match this filter combination.")}</p>
         )}
       </div>
 
@@ -102,7 +101,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
           onClick={() => setLimit((l) => l + 24)}
           className="glass mx-auto mt-8 block rounded-xl px-6 py-2.5 text-sm transition-colors hover:border-primary/60"
         >
-          Show more matches ({matches.length - limit} remaining)
+          {tt("Show more matches")} ({matches.length - limit} {tt("remaining")})
         </Button>
       )}
 
@@ -115,14 +114,14 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
               <GraduationCap className="size-4" /> {s.sponsor}
             </p>
             <h3 className="mt-2 font-display text-2xl text-primary">{s.name}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{s.description}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{tt(s.description)}</p>
             <p className="mt-3 text-sm">
-              <span className="text-primary/80">Coverage: </span>
-              {s.coverage}
+              <span className="text-primary/80">{tt("Coverage")}: </span>
+              {tt(s.coverage)}
             </p>
             <p className="mt-1 text-sm">
-              <span className="text-primary/80">Deadline: </span>
-              {s.deadline}
+              <span className="text-primary/80">{tt("Deadline")}: </span>
+              {tt(s.deadline)}
             </p>
             <a
               href={s.website}
@@ -130,7 +129,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 text-sm text-primary underline-offset-4 hover:underline"
             >
-              Official portal <ExternalLink className="size-3.5" />
+              {tt("Official portal")} <ExternalLink className="size-3.5" />
             </a>
           </article>
         ))}
