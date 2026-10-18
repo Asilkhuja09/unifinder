@@ -295,6 +295,7 @@ function EditProfile({
   saving: boolean;
   onSave: (p: ReturnType<typeof useStudentProfile>["profile"]) => void;
 }) {
+  const { tt } = useI18n();
   const set = <K extends keyof typeof profile>(k: K, v: (typeof profile)[K]) =>
     setProfile({ ...profile, [k]: v });
 
@@ -317,7 +318,7 @@ function EditProfile({
       <fieldset disabled={disabled} className="space-y-8 disabled:opacity-60">
         <div className="glass grid gap-5 rounded-3xl p-6 sm:grid-cols-2">
           <div>
-            <label className={label}>First name</label>
+            <label className={label}>{tt("First name")}</label>
             <input
               className={field}
               value={profile.firstName}
@@ -326,7 +327,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Last name</label>
+            <label className={label}>{tt("Last name")}</label>
             <input
               className={field}
               value={profile.lastName}
@@ -335,7 +336,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Country of residence</label>
+            <label className={label}>{tt("Country of residence")}</label>
             <input
               className={field}
               value={profile.country}
@@ -344,7 +345,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Intended major</label>
+            <label className={label}>{tt("Intended major")}</label>
             <input
               className={field}
               value={profile.major}
@@ -362,13 +363,13 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>GPA scale</label>
+            <label className={label}>{tt("GPA scale")}</label>
             <select
               className={field}
               value={profile.gpaScale}
               onChange={(e) => set("gpaScale", e.target.value)}
             >
-              <option value="">Select scale</option>
+              <option value="">{tt("Select scale")}</option>
               <option value="4.0">4.0</option>
               <option value="5.0">5.0</option>
               <option value="10.0">10.0</option>
@@ -378,7 +379,7 @@ function EditProfile({
         </div>
 
         <div className="glass rounded-3xl p-6">
-          <p className={label}>Target regions</p>
+          <p className={label}>{tt("Target regions")}</p>
           <div className="flex flex-wrap gap-2">
             {REGIONS.map((r) => (
               <button
@@ -391,7 +392,7 @@ function EditProfile({
                     : "border border-border/70 text-muted-foreground hover:text-primary"
                 }`}
               >
-                {r}
+                {tt(r)}
               </button>
             ))}
           </div>
@@ -399,7 +400,7 @@ function EditProfile({
 
         <div className="glass rounded-3xl p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className={`${label} mb-0`}>Test scores</p>
+            <p className={`${label} mb-0`}>{tt("Test scores")}</p>
             <label className="flex items-center gap-2 text-sm text-muted-foreground">
               <input
                 type="checkbox"
@@ -412,7 +413,7 @@ function EditProfile({
                   })
                 }
               />
-              No standardized test yet
+              {tt("No standardized test yet")}
             </label>
           </div>
           {!profile.noTests && (
@@ -445,52 +446,52 @@ function EditProfile({
 
         <div className="glass grid gap-5 rounded-3xl p-6 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className={label}>Extracurriculars & leadership</label>
+            <label className={label}>{tt("Extracurriculars & leadership")}</label>
             <textarea
               className={`${field} min-h-28`}
               value={profile.extracurricular}
               onChange={(e) => set("extracurricular", e.target.value)}
-              placeholder="Olympiads, volunteering, research, clubs, leadership roles…"
+              placeholder={tt("Olympiads, volunteering, research, clubs, leadership roles…")}
             />
           </div>
           <div>
-            <label className={label}>Need financial aid?</label>
+            <label className={label}>{tt("Need financial aid?")}</label>
             <select
               className={field}
               value={profile.needsAid}
               onChange={(e) => set("needsAid", e.target.value as "yes" | "no" | "")}
             >
-              <option value="">Select</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              <option value="">{tt("Select")}</option>
+              <option value="yes">{tt("Yes")}</option>
+              <option value="no">{tt("No")}</option>
             </select>
           </div>
           <div>
-            <label className={label}>Annual family budget</label>
+            <label className={label}>{tt("Annual family budget")}</label>
             <select
               className={field}
               value={profile.income}
               onChange={(e) => set("income", e.target.value)}
             >
-              <option value="">Select</option>
+              <option value="">{tt("Select")}</option>
               {INCOME_BRACKETS.map((b) => (
                 <option key={b.id} value={b.id}>
-                  {b.label}
+                  {tt(b.label)}
                 </option>
               ))}
             </select>
           </div>
           <div className="sm:col-span-2">
-            <label className={label}>Admissions difficulty tier</label>
+            <label className={label}>{tt("Admissions difficulty tier")}</label>
             <select
               className={field}
               value={profile.difficulty}
               onChange={(e) => set("difficulty", e.target.value as DifficultyTier | "")}
             >
-              <option value="">Select</option>
+              <option value="">{tt("Select")}</option>
               {DIFFICULTY_TIERS.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.label} — {d.note}
+                  {tt(d.label)} — {tt(d.note)}
                 </option>
               ))}
             </select>
@@ -502,7 +503,7 @@ function EditProfile({
           disabled={saving}
           className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
         >
-          <Save className="size-4" /> {saving ? "Saving…" : "Save profile"}
+          <Save className="size-4" /> {saving ? tt("Saving…") : tt("Save profile")}
         </button>
       </fieldset>
     </form>
