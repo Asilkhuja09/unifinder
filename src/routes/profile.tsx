@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { useFavorites } from "@/lib/favorites";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
@@ -63,6 +64,7 @@ const field =
 const label = "mb-1.5 block text-xs uppercase tracking-[0.18em] text-muted-foreground";
 
 function ProfilePage() {
+  const { tt } = useI18n();
   const { user, hint, openGate, signOut } = useAuth();
   const { favorites, ids, toggle, loading: favLoading } = useFavorites();
   const { profile, setProfile, loading, saving, save } = useStudentProfile();
@@ -92,7 +94,7 @@ function ProfilePage() {
         </span>
         <div className="min-w-0">
           <h1 className="truncate font-display text-3xl text-gilded">{displayName}</h1>
-          <p className="truncate text-sm text-muted-foreground">{email || "Not signed in"}</p>
+          <p className="truncate text-sm text-muted-foreground">{email || tt("Not signed in")}</p>
         </div>
         <div className="ms-auto flex flex-wrap items-center gap-2">
           {user ? (
@@ -101,14 +103,14 @@ function ProfilePage() {
               onClick={() => void signOut()}
               className="glass flex items-center gap-2 rounded-full px-5 py-2.5 text-sm transition-colors hover:border-primary/60 hover:text-primary"
             >
-              <LogOut className="size-4" /> Sign out
+              <LogOut className="size-4" /> {tt("Sign out")}
             </Button>
           ) : (
             <Button
               onClick={openGate}
               className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground"
             >
-              <LogIn className="size-4" /> Sign in
+              <LogIn className="size-4" /> {tt("Sign in")}
             </Button>
           )}
         </div>
@@ -116,16 +118,16 @@ function ProfilePage() {
 
       {!user && (
         <p className="mt-6 text-sm text-muted-foreground">
-          Sign in to edit your profile, upload transcripts and keep your shortlist across devices.
+          {tt("Sign in to edit your profile, upload transcripts and keep your shortlist across devices.")}
         </p>
       )}
 
       <div className="mt-8 flex flex-wrap gap-2">
         {(
           [
-            ["dashboard", "Dashboard"],
-            ["edit", "Edit profile"],
-            ["transcripts", "Transcripts"],
+            ["dashboard", tt("Dashboard")],
+            ["edit", tt("Edit profile")],
+            ["transcripts", tt("Transcripts")],
           ] as const
         ).map(([id, text]) => (
           <button
@@ -162,7 +164,7 @@ function ProfilePage() {
           onSave={async (p) => {
             const { error } = await save(p);
             if (error) toast.error(error);
-            else toast.success("Profile saved");
+            else toast.success(tt("Profile saved"));
           }}
         />
       )}
@@ -187,6 +189,7 @@ function Dashboard({
   onToggleFavorite: (universityId: string, universityName: string) => Promise<void>;
   favLoading: boolean;
 }) {
+  const { tt } = useI18n();
   const top = result?.matches.slice(0, 6) ?? [];
   const [active, setActive] = useState<University | null>(null);
   return (
@@ -194,24 +197,24 @@ function Dashboard({
       <LiveIntelligenceFeed compact />
 
       <div>
-        <h2 className="font-display text-2xl text-primary">Profile strength</h2>
-        {loading && <p className="mt-3 text-sm text-muted-foreground">Loading your profile…</p>}
+        <h2 className="font-display text-2xl text-primary">{tt("Profile strength")}</h2>
+        {loading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your profile…")}</p>}
         {!loading && !result && (
           <p className="mt-3 text-sm text-muted-foreground">
-            Fill in the <span className="text-accent">Edit profile</span> tab (or complete the{" "}
+            {tt("Fill in the")} <span className="text-accent">{tt("Edit profile")}</span> {tt("tab (or complete the")}{" "}
             <Link to="/assessment" className="text-accent underline">
-              assessment
+              {tt("assessment")}
             </Link>
-            ) to unlock your personalised matches.
+            ) {tt("to unlock your personalised matches.")}
           </p>
         )}
         {result && (
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { k: "Overall", v: result.profileScore.total },
-              { k: "Academics", v: result.profileScore.academics },
-              { k: "Testing", v: result.profileScore.testing },
-              { k: "Activities", v: result.profileScore.activities },
+              { k: tt("Overall"), v: result.profileScore.total },
+              { k: tt("Academics"), v: result.profileScore.academics },
+              { k: tt("Testing"), v: result.profileScore.testing },
+              { k: tt("Activities"), v: result.profileScore.activities },
             ].map((s) => (
               <div key={s.k} className="glass rounded-2xl p-5">
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{s.k}</p>
@@ -224,7 +227,7 @@ function Dashboard({
 
       {top.length > 0 && (
         <div>
-          <h2 className="font-display text-2xl text-primary">Your top matches</h2>
+          <h2 className="font-display text-2xl text-primary">{tt("Your top matches")}</h2>
           <div className="mt-4 grid gap-5 lg:grid-cols-2">
             {top.map((m) => (
               <UniversityCard
@@ -245,16 +248,16 @@ function Dashboard({
 
       <div>
         <h2 className="flex items-center gap-2 font-display text-2xl text-primary">
-          <Heart className="size-5" /> Saved universities
+          <Heart className="size-5" /> {tt("Saved universities")}
         </h2>
-        {favLoading && <p className="mt-3 text-sm text-muted-foreground">Loading your shortlist…</p>}
+        {favLoading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your shortlist…")}</p>}
         {!favLoading && favorites.length === 0 && (
           <p className="mt-3 text-sm text-muted-foreground">
-            No saved universities yet. Open the{" "}
+            {tt("No saved universities yet. Open the")}{" "}
             <Link to="/universities" className="text-accent underline">
-              University Directory
+              {tt("University Directory")}
             </Link>{" "}
-            and tap the heart on any institution.
+            {tt("and tap the heart on any institution.")}
           </p>
         )}
         <div className="mt-4 grid gap-5 lg:grid-cols-2">
