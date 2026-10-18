@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { useFavorites } from "@/lib/favorites";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
@@ -63,6 +64,7 @@ const field =
 const label = "mb-1.5 block text-xs uppercase tracking-[0.18em] text-muted-foreground";
 
 function ProfilePage() {
+  const { tt } = useI18n();
   const { user, hint, openGate, signOut } = useAuth();
   const { favorites, ids, toggle, loading: favLoading } = useFavorites();
   const { profile, setProfile, loading, saving, save } = useStudentProfile();
@@ -92,7 +94,7 @@ function ProfilePage() {
         </span>
         <div className="min-w-0">
           <h1 className="truncate font-display text-3xl text-gilded">{displayName}</h1>
-          <p className="truncate text-sm text-muted-foreground">{email || "Not signed in"}</p>
+          <p className="truncate text-sm text-muted-foreground">{email || tt("Not signed in")}</p>
         </div>
         <div className="ms-auto flex flex-wrap items-center gap-2">
           {user ? (
@@ -101,14 +103,14 @@ function ProfilePage() {
               onClick={() => void signOut()}
               className="glass flex items-center gap-2 rounded-full px-5 py-2.5 text-sm transition-colors hover:border-primary/60 hover:text-primary"
             >
-              <LogOut className="size-4" /> Sign out
+              <LogOut className="size-4" /> {tt("Sign out")}
             </Button>
           ) : (
             <Button
               onClick={openGate}
               className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground"
             >
-              <LogIn className="size-4" /> Sign in
+              <LogIn className="size-4" /> {tt("Sign in")}
             </Button>
           )}
         </div>
@@ -116,16 +118,16 @@ function ProfilePage() {
 
       {!user && (
         <p className="mt-6 text-sm text-muted-foreground">
-          Sign in to edit your profile, upload transcripts and keep your shortlist across devices.
+          {tt("Sign in to edit your profile, upload transcripts and keep your shortlist across devices.")}
         </p>
       )}
 
       <div className="mt-8 flex flex-wrap gap-2">
         {(
           [
-            ["dashboard", "Dashboard"],
-            ["edit", "Edit profile"],
-            ["transcripts", "Transcripts"],
+            ["dashboard", tt("Dashboard")],
+            ["edit", tt("Edit profile")],
+            ["transcripts", tt("Transcripts")],
           ] as const
         ).map(([id, text]) => (
           <button
@@ -162,7 +164,7 @@ function ProfilePage() {
           onSave={async (p) => {
             const { error } = await save(p);
             if (error) toast.error(error);
-            else toast.success("Profile saved");
+            else toast.success(tt("Profile saved"));
           }}
         />
       )}
@@ -187,6 +189,7 @@ function Dashboard({
   onToggleFavorite: (universityId: string, universityName: string) => Promise<void>;
   favLoading: boolean;
 }) {
+  const { tt } = useI18n();
   const top = result?.matches.slice(0, 6) ?? [];
   const [active, setActive] = useState<University | null>(null);
   return (
@@ -194,24 +197,24 @@ function Dashboard({
       <LiveIntelligenceFeed compact />
 
       <div>
-        <h2 className="font-display text-2xl text-primary">Profile strength</h2>
-        {loading && <p className="mt-3 text-sm text-muted-foreground">Loading your profile…</p>}
+        <h2 className="font-display text-2xl text-primary">{tt("Profile strength")}</h2>
+        {loading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your profile…")}</p>}
         {!loading && !result && (
           <p className="mt-3 text-sm text-muted-foreground">
-            Fill in the <span className="text-accent">Edit profile</span> tab (or complete the{" "}
+            {tt("Fill in the")} <span className="text-accent">{tt("Edit profile")}</span> {tt("tab (or complete the")}{" "}
             <Link to="/assessment" className="text-accent underline">
-              assessment
+              {tt("assessment")}
             </Link>
-            ) to unlock your personalised matches.
+            ) {tt("to unlock your personalised matches.")}
           </p>
         )}
         {result && (
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { k: "Overall", v: result.profileScore.total },
-              { k: "Academics", v: result.profileScore.academics },
-              { k: "Testing", v: result.profileScore.testing },
-              { k: "Activities", v: result.profileScore.activities },
+              { k: tt("Overall"), v: result.profileScore.total },
+              { k: tt("Academics"), v: result.profileScore.academics },
+              { k: tt("Testing"), v: result.profileScore.testing },
+              { k: tt("Activities"), v: result.profileScore.activities },
             ].map((s) => (
               <div key={s.k} className="glass rounded-2xl p-5">
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{s.k}</p>
@@ -224,7 +227,7 @@ function Dashboard({
 
       {top.length > 0 && (
         <div>
-          <h2 className="font-display text-2xl text-primary">Your top matches</h2>
+          <h2 className="font-display text-2xl text-primary">{tt("Your top matches")}</h2>
           <div className="mt-4 grid gap-5 lg:grid-cols-2">
             {top.map((m) => (
               <UniversityCard
@@ -245,16 +248,16 @@ function Dashboard({
 
       <div>
         <h2 className="flex items-center gap-2 font-display text-2xl text-primary">
-          <Heart className="size-5" /> Saved universities
+          <Heart className="size-5" /> {tt("Saved universities")}
         </h2>
-        {favLoading && <p className="mt-3 text-sm text-muted-foreground">Loading your shortlist…</p>}
+        {favLoading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your shortlist…")}</p>}
         {!favLoading && favorites.length === 0 && (
           <p className="mt-3 text-sm text-muted-foreground">
-            No saved universities yet. Open the{" "}
+            {tt("No saved universities yet. Open the")}{" "}
             <Link to="/universities" className="text-accent underline">
-              University Directory
+              {tt("University Directory")}
             </Link>{" "}
-            and tap the heart on any institution.
+            {tt("and tap the heart on any institution.")}
           </p>
         )}
         <div className="mt-4 grid gap-5 lg:grid-cols-2">
@@ -292,6 +295,7 @@ function EditProfile({
   saving: boolean;
   onSave: (p: ReturnType<typeof useStudentProfile>["profile"]) => void;
 }) {
+  const { tt } = useI18n();
   const set = <K extends keyof typeof profile>(k: K, v: (typeof profile)[K]) =>
     setProfile({ ...profile, [k]: v });
 
@@ -314,7 +318,7 @@ function EditProfile({
       <fieldset disabled={disabled} className="space-y-8 disabled:opacity-60">
         <div className="glass grid gap-5 rounded-3xl p-6 sm:grid-cols-2">
           <div>
-            <label className={label}>First name</label>
+            <label className={label}>{tt("First name")}</label>
             <input
               className={field}
               value={profile.firstName}
@@ -323,7 +327,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Last name</label>
+            <label className={label}>{tt("Last name")}</label>
             <input
               className={field}
               value={profile.lastName}
@@ -332,7 +336,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Country of residence</label>
+            <label className={label}>{tt("Country of residence")}</label>
             <input
               className={field}
               value={profile.country}
@@ -341,7 +345,7 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>Intended major</label>
+            <label className={label}>{tt("Intended major")}</label>
             <input
               className={field}
               value={profile.major}
@@ -359,13 +363,13 @@ function EditProfile({
             />
           </div>
           <div>
-            <label className={label}>GPA scale</label>
+            <label className={label}>{tt("GPA scale")}</label>
             <select
               className={field}
               value={profile.gpaScale}
               onChange={(e) => set("gpaScale", e.target.value)}
             >
-              <option value="">Select scale</option>
+              <option value="">{tt("Select scale")}</option>
               <option value="4.0">4.0</option>
               <option value="5.0">5.0</option>
               <option value="10.0">10.0</option>
@@ -375,7 +379,7 @@ function EditProfile({
         </div>
 
         <div className="glass rounded-3xl p-6">
-          <p className={label}>Target regions</p>
+          <p className={label}>{tt("Target regions")}</p>
           <div className="flex flex-wrap gap-2">
             {REGIONS.map((r) => (
               <button
@@ -388,7 +392,7 @@ function EditProfile({
                     : "border border-border/70 text-muted-foreground hover:text-primary"
                 }`}
               >
-                {r}
+                {tt(r)}
               </button>
             ))}
           </div>
@@ -396,7 +400,7 @@ function EditProfile({
 
         <div className="glass rounded-3xl p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className={`${label} mb-0`}>Test scores</p>
+            <p className={`${label} mb-0`}>{tt("Test scores")}</p>
             <label className="flex items-center gap-2 text-sm text-muted-foreground">
               <input
                 type="checkbox"
@@ -409,7 +413,7 @@ function EditProfile({
                   })
                 }
               />
-              No standardized test yet
+              {tt("No standardized test yet")}
             </label>
           </div>
           {!profile.noTests && (
@@ -442,52 +446,52 @@ function EditProfile({
 
         <div className="glass grid gap-5 rounded-3xl p-6 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className={label}>Extracurriculars & leadership</label>
+            <label className={label}>{tt("Extracurriculars & leadership")}</label>
             <textarea
               className={`${field} min-h-28`}
               value={profile.extracurricular}
               onChange={(e) => set("extracurricular", e.target.value)}
-              placeholder="Olympiads, volunteering, research, clubs, leadership roles…"
+              placeholder={tt("Olympiads, volunteering, research, clubs, leadership roles…")}
             />
           </div>
           <div>
-            <label className={label}>Need financial aid?</label>
+            <label className={label}>{tt("Need financial aid?")}</label>
             <select
               className={field}
               value={profile.needsAid}
               onChange={(e) => set("needsAid", e.target.value as "yes" | "no" | "")}
             >
-              <option value="">Select</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+              <option value="">{tt("Select")}</option>
+              <option value="yes">{tt("Yes")}</option>
+              <option value="no">{tt("No")}</option>
             </select>
           </div>
           <div>
-            <label className={label}>Annual family budget</label>
+            <label className={label}>{tt("Annual family budget")}</label>
             <select
               className={field}
               value={profile.income}
               onChange={(e) => set("income", e.target.value)}
             >
-              <option value="">Select</option>
+              <option value="">{tt("Select")}</option>
               {INCOME_BRACKETS.map((b) => (
                 <option key={b.id} value={b.id}>
-                  {b.label}
+                  {tt(b.label)}
                 </option>
               ))}
             </select>
           </div>
           <div className="sm:col-span-2">
-            <label className={label}>Admissions difficulty tier</label>
+            <label className={label}>{tt("Admissions difficulty tier")}</label>
             <select
               className={field}
               value={profile.difficulty}
               onChange={(e) => set("difficulty", e.target.value as DifficultyTier | "")}
             >
-              <option value="">Select</option>
+              <option value="">{tt("Select")}</option>
               {DIFFICULTY_TIERS.map((d) => (
                 <option key={d.id} value={d.id}>
-                  {d.label} — {d.note}
+                  {tt(d.label)} — {tt(d.note)}
                 </option>
               ))}
             </select>
@@ -499,7 +503,7 @@ function EditProfile({
           disabled={saving}
           className="flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
         >
-          <Save className="size-4" /> {saving ? "Saving…" : "Save profile"}
+          <Save className="size-4" /> {saving ? tt("Saving…") : tt("Save profile")}
         </button>
       </fieldset>
     </form>
@@ -507,27 +511,28 @@ function EditProfile({
 }
 
 function Transcripts({ disabled }: { disabled: boolean }) {
+  const { tt } = useI18n();
   const { files, loading, uploading, upload, remove, openFile } = useTranscripts();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const onPick = async (file: File | undefined) => {
     if (!file) return;
     if (file.size > 20 * 1024 * 1024) {
-      toast.error("File is larger than 20 MB");
+      toast.error(tt("File is larger than 20 MB"));
       return;
     }
     const { error } = await upload(file);
     if (error) toast.error(error);
-    else toast.success(`${file.name} uploaded`);
+    else toast.success(`${file.name} ${tt("uploaded")}`);
   };
 
   return (
     <div className="mt-8">
       <div className="glass rounded-3xl p-7 text-center">
         <FileText className="mx-auto size-8 text-primary" />
-        <h2 className="mt-3 font-display text-2xl text-primary">Transcripts & documents</h2>
+        <h2 className="mt-3 font-display text-2xl text-primary">{tt("Transcripts & documents")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          PDF, image or Word files up to 20 MB. Only you can see these.
+          {tt("PDF, image or Word files up to 20 MB. Only you can see these.")}
         </p>
         <input
           ref={inputRef}
@@ -544,12 +549,12 @@ function Transcripts({ disabled }: { disabled: boolean }) {
           onClick={() => inputRef.current?.click()}
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
         >
-          <Upload className="size-4" /> {uploading ? "Uploading…" : "Upload transcript"}
+          <Upload className="size-4" /> {uploading ? tt("Uploading…") : tt("Upload transcript")}
         </button>
-        {disabled && <p className="mt-3 text-xs text-muted-foreground">Sign in to upload files.</p>}
+        {disabled && <p className="mt-3 text-xs text-muted-foreground">{tt("Sign in to upload files.")}</p>}
       </div>
 
-      {loading && <p className="mt-6 text-sm text-muted-foreground">Loading your documents…</p>}
+      {loading && <p className="mt-6 text-sm text-muted-foreground">{tt("Loading your documents…")}</p>}
 
       <div className="mt-6 space-y-3">
         {files.map((f: TranscriptRow) => (
@@ -565,7 +570,7 @@ function Transcripts({ disabled }: { disabled: boolean }) {
               onClick={() => void openFile(f)}
               className="rounded-full border border-border/70 px-4 py-1.5 text-xs transition-colors hover:border-primary/60 hover:text-primary"
             >
-              View
+              {tt("View")}
             </button>
             <button
               onClick={() => void remove(f)}

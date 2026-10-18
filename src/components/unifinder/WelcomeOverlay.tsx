@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Crown } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import { ConstellationFX } from "./ConstellationFX";
 
 export function WelcomeOverlay({ name, onDone }: { name: string; onDone: () => void }) {
+  const { tt } = useI18n();
   const [progress, setProgress] = useState(0);
   const [leaving, setLeaving] = useState(false);
 
@@ -34,10 +36,10 @@ export function WelcomeOverlay({ name, onDone }: { name: string; onDone: () => v
           <Crown className="size-8 text-primary" />
         </span>
         <h2 className="mt-8 font-display text-4xl text-gilded sm:text-5xl">
-          Welcome back{name ? `, ${name}` : ""}
+          {tt("Welcome back")}{name ? `, ${name}` : ""}
         </h2>
         <p className="mt-3 text-sm uppercase tracking-[0.35em] text-accent">
-          Unlocking elite portals…
+          {tt("Unlocking elite portals…")}
         </p>
         <div className="mt-10 h-1.5 w-72 overflow-hidden rounded-full bg-velvet/70 sm:w-96">
           <div
