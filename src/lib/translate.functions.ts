@@ -12,7 +12,7 @@ const inputSchema = z.object({
 export const translateBatch = createServerFn({ method: "POST" })
   .inputValidator(inputSchema)
   .handler(async ({ data }) => {
-    const apiKey = process.env.LOVABLE_API_KEY;
+    const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) throw new Error("Translation service is not configured.");
 
     const provider = createLovableAiGatewayProvider(apiKey, undefined, {
