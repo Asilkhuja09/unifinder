@@ -39,7 +39,7 @@ function AppleIcon() {
 
 export function AuthDrawer() {
   const { gateOpen, closeGate } = useAuth();
-  const { t } = useI18n();
+  const { t, tt } = useI18n();
   const [busy, setBusy] = useState<"google" | "apple" | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
@@ -59,27 +59,27 @@ export function AuthDrawer() {
           (result.error as { message?: string }).message ?? result.error,
         );
         const friendly = /closed|cancel|abort/i.test(raw)
-          ? `${label} sign-in window was closed before finishing.`
+          ? tt(`${label} sign-in window was closed before finishing.`)
           : /network|fetch|timeout/i.test(raw)
-            ? "Network error — check your connection and try again."
+            ? tt("Network error — check your connection and try again.")
             : /provider|unsupported|disabled/i.test(raw)
-              ? `${label} sign-in is not available right now.`
+              ? tt(`${label} sign-in is not available right now.`)
               : raw;
         console.error(`[auth] ${provider} sign-in failed`, result.error);
         setErr(friendly);
-        toast.error("Sign-in failed", { description: friendly });
+        toast.error(tt("Sign-in failed"), { description: friendly });
         return;
       }
 
       if ("redirected" in result && result.redirected) return;
 
-      toast.success(`Signed in with ${label}`);
+      toast.success(`${tt("Signed in with")} ${label}`);
       closeGate();
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       console.error(`[auth] ${provider} sign-in threw`, e);
       setErr(msg);
-      toast.error("Sign-in failed", { description: msg });
+      toast.error(tt("Sign-in failed"), { description: msg });
     } finally {
       setBusy(null);
     }
@@ -124,7 +124,7 @@ export function AuthDrawer() {
               className="glass flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-colors hover:border-primary/60 disabled:opacity-50"
             >
               {busy === "apple" ? <Loader2 className="size-5 animate-spin" /> : <AppleIcon />}
-              Continue with Apple
+              {tt("Continue with Apple")}
             </button>
           </div>
 

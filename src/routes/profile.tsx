@@ -511,27 +511,28 @@ function EditProfile({
 }
 
 function Transcripts({ disabled }: { disabled: boolean }) {
+  const { tt } = useI18n();
   const { files, loading, uploading, upload, remove, openFile } = useTranscripts();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const onPick = async (file: File | undefined) => {
     if (!file) return;
     if (file.size > 20 * 1024 * 1024) {
-      toast.error("File is larger than 20 MB");
+      toast.error(tt("File is larger than 20 MB"));
       return;
     }
     const { error } = await upload(file);
     if (error) toast.error(error);
-    else toast.success(`${file.name} uploaded`);
+    else toast.success(`${file.name} ${tt("uploaded")}`);
   };
 
   return (
     <div className="mt-8">
       <div className="glass rounded-3xl p-7 text-center">
         <FileText className="mx-auto size-8 text-primary" />
-        <h2 className="mt-3 font-display text-2xl text-primary">Transcripts & documents</h2>
+        <h2 className="mt-3 font-display text-2xl text-primary">{tt("Transcripts & documents")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          PDF, image or Word files up to 20 MB. Only you can see these.
+          {tt("PDF, image or Word files up to 20 MB. Only you can see these.")}
         </p>
         <input
           ref={inputRef}
@@ -548,12 +549,12 @@ function Transcripts({ disabled }: { disabled: boolean }) {
           onClick={() => inputRef.current?.click()}
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
         >
-          <Upload className="size-4" /> {uploading ? "Uploading…" : "Upload transcript"}
+          <Upload className="size-4" /> {uploading ? tt("Uploading…") : tt("Upload transcript")}
         </button>
-        {disabled && <p className="mt-3 text-xs text-muted-foreground">Sign in to upload files.</p>}
+        {disabled && <p className="mt-3 text-xs text-muted-foreground">{tt("Sign in to upload files.")}</p>}
       </div>
 
-      {loading && <p className="mt-6 text-sm text-muted-foreground">Loading your documents…</p>}
+      {loading && <p className="mt-6 text-sm text-muted-foreground">{tt("Loading your documents…")}</p>}
 
       <div className="mt-6 space-y-3">
         {files.map((f: TranscriptRow) => (
@@ -569,7 +570,7 @@ function Transcripts({ disabled }: { disabled: boolean }) {
               onClick={() => void openFile(f)}
               className="rounded-full border border-border/70 px-4 py-1.5 text-xs transition-colors hover:border-primary/60 hover:text-primary"
             >
-              View
+              {tt("View")}
             </button>
             <button
               onClick={() => void remove(f)}
