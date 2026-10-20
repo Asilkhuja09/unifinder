@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ConstellationFX } from "./ConstellationFX";
 import { emptyProfile, type Profile } from "@/lib/profile";
-import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
+import { countryFlagUrl } from "@/lib/flags";
 import { majorTheme } from "@/lib/majorThemes";
 import {
   AID_TRACKS,
