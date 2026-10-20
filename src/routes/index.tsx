@@ -74,10 +74,10 @@ function Content() {
 
   return (
     <>
-        <section className="relative mx-auto flex max-w-5xl flex-col items-center px-4 py-24 text-center sm:py-32">
-          <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
+        <section className="relative flex flex-col items-center py-24 text-center sm:py-32">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 bottom-0 overflow-hidden">
             <video
-              className="size-full object-cover"
+              className="absolute inset-0 size-full object-cover"
               src={heroVideo.url}
               autoPlay
               loop
@@ -85,9 +85,16 @@ function Content() {
               playsInline
               preload="metadata"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
-            <div className="absolute inset-0 bg-black/50" />
+            {/* Lighten the scrim so the video stays visible, but keep the headline readable */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/70" />
+            {/* Fade the top and bottom edges into the page background so nothing ends in a hard line */}
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+            {/* Gentle side vignette so the wide layer dissolves toward the edges */}
+            <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background/80 to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-background/80 to-transparent" />
           </div>
+          <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-4">
           <h1 className="font-display text-5xl leading-[1.05] text-gilded sm:text-7xl">
             {t("heroTitle")}
           </h1>
@@ -99,6 +106,7 @@ function Content() {
           >
             {t("heroCta")}
           </Link>
+          </div>
         </section>
 
         <section className="mx-auto w-full max-w-5xl px-4">
