@@ -15,7 +15,7 @@ function Shell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const { welcoming, dismissWelcome, user } = useAuth();
   return (
-    <div id="top" className="relative min-h-screen overflow-x-hidden">
+    <div id="top" className="relative min-h-screen overflow-x-clip">
       <div
         aria-hidden
         className="fixed inset-0 -z-20 bg-cover bg-center bg-no-repeat"

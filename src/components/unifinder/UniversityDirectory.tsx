@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { countryFlagEmoji, countryFlagUrl } from "@/lib/flags";
+import { countryFlagUrl } from "@/lib/flags";
 import { useFavorites } from "@/lib/favorites";
 
 import {
@@ -121,7 +121,7 @@ export function UniversityDirectory() {
               <option value="all">{tt("All countries")}</option>
               {COUNTRY_LIST.map((c) => (
                 <option key={c} value={c}>
-                  {countryFlagEmoji(c)} {c}
+                  {c}
                 </option>
               ))}
             </select>
