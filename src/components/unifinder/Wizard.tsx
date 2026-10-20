@@ -220,7 +220,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
                           <option value="">—</option>
                           {COUNTRIES.map((c) => (
                             <option key={c} value={c}>
-                              {countryFlagEmoji(c)} {c}
+                              {c}
                             </option>
                           ))}
                         </select>
