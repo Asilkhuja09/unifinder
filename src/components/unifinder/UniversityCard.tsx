@@ -1,6 +1,6 @@
 import { ExternalLink, Heart, Landmark, MapPin, MoveRight, Sparkles } from "lucide-react";
-import campusFallback from "@/assets/campus-fallback.jpg";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
+import { UniversityThumb } from "@/components/unifinder/UniversityThumb";
 import type { University } from "@/data/extendedData";
 import type { MatchCategory } from "@/lib/matching";
 import type { UniversityMatch } from "@/lib/matching";
@@ -44,7 +44,6 @@ export function UniversityCard({
 }) {
   const { t, tt } = useI18n();
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
-  const image = media.photos[0];
   const tag = cardTag(university, category);
   const isoCode = countryCode(university.country)?.toUpperCase() ?? null;
   const isEstimate = university.id.startsWith("registry-");
@@ -59,14 +58,7 @@ export function UniversityCard({
     <article className="university-card flex h-full flex-col rounded-3xl border border-primary/25 p-4 sm:p-6">
       <header className="flex items-start gap-4">
         <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl border border-primary/30 bg-feed">
-          <img
-            src={image?.url ?? campusFallback}
-            alt={image ? `${university.name} campus` : `${university.name} university campus`}
-            loading="lazy"
-            width={1280}
-            height={720}
-            className="size-full object-cover"
-          />
+          <UniversityThumb university={university} />
           {isoCode && (
             <div className="absolute inset-x-0 bottom-0 bg-feed/80 py-0.5 text-center text-[11px] font-semibold uppercase text-foreground backdrop-blur-sm">
               {isoCode}

@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Compass, ExternalLink, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
+import { useUniversityPhotos } from "@/lib/universityPhotos";
 
 export function openCampusMaps(uni: University) {
   window.open(
@@ -21,6 +23,20 @@ export function UniversityModal({
   const { t, tt } = useI18n();
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
 
+  // Curated photos win; every other university gets photos looked up from Wikipedia.
+  const hasCurated = media.photos.length > 0;
+  const { status, data } = useUniversityPhotos(university.id, university.name, !hasCurated);
+  const [failed, setFailed] = useState<Set<string>>(() => new Set());
+  const fetched = data?.photos ?? [];
+  const source: { url: string; caption: string }[] = hasCurated ? media.photos : fetched;
+  const gallery = source.filter((p) => !failed.has(p.url));
+  const loadingPhotos = !hasCurated && status !== "done";
+  const fromWikipedia = !hasCurated && fetched.length > 0;
+  const location =
+    !university.city || university.city === "Main campus"
+      ? university.country
+      : `${university.city}, ${university.country}`;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-background/70 p-0 backdrop-blur-sm sm:items-center sm:p-6"
@@ -37,7 +53,7 @@ export function UniversityModal({
             </p>
             <h3 className="mt-1 font-display text-3xl text-gilded">{university.name}</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              {university.city}, {university.country}
+              {location}
             </p>
           </div>
           <button
@@ -60,14 +76,22 @@ export function UniversityModal({
           ))}
         </div>
 
-        {media.photos.length > 0 && (
+        {loadingPhotos && (
+          <div className="mt-6 grid gap-3 sm:grid-cols-2" aria-hidden>
+            <div className="h-48 animate-pulse rounded-2xl border border-border bg-velvet/40" />
+            <div className="hidden h-48 animate-pulse rounded-2xl border border-border bg-velvet/40 sm:block" />
+          </div>
+        )}
+        {gallery.length > 0 && (
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {media.photos.map((p) => (
+            {gallery.map((p) => (
               <figure key={p.url} className="overflow-hidden rounded-2xl border border-border">
                 <img
                   src={p.url}
                   alt={`${university.name} — ${p.caption}`}
                   loading="lazy"
+                  decoding="async"
+                  onError={() => setFailed((prev) => new Set(prev).add(p.url))}
                   className="h-48 w-full object-cover"
                 />
                 <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
@@ -76,6 +100,24 @@ export function UniversityModal({
               </figure>
             ))}
           </div>
+        )}
+        {fromWikipedia && gallery.length > 0 && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            {tt("Photos from Wikipedia and Wikimedia Commons")}
+            {data?.article && (
+              <>
+                {" · "}
+                <a
+                  href={data.article}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-foreground"
+                >
+                  {tt("Source article")}
+                </a>
+              </>
+            )}
+          </p>
         )}
         {media.stats.length > 0 && (
           <dl className="mt-6 grid gap-3 sm:grid-cols-3">
