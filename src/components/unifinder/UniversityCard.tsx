@@ -6,6 +6,7 @@ import type { MatchCategory } from "@/lib/matching";
 import type { UniversityMatch } from "@/lib/matching";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { countryCode } from "@/lib/flags";
 import { Button } from "@/components/ui/button";
 
 const CATEGORY_STYLE: Record<MatchCategory, { label: string; className: string }> = {
@@ -20,12 +21,6 @@ function cardTag(university: University, category?: MatchCategory) {
     return { label: "Top 25", className: "border-primary/70 text-primary" };
   }
   return { label: university.region, className: "border-accent/50 text-accent" };
-}
-
-function deadlineFor(university: University) {
-  if (university.region === "USA" || university.region === "Canada") return "Jan 2027";
-  if (university.region === "UK") return "Oct 2026";
-  return "See portal";
 }
 
 export function UniversityCard({
@@ -47,10 +42,17 @@ export function UniversityCard({
   favorite?: boolean;
   onFavorite?: () => void;
 }) {
-  const { tt } = useI18n();
+  const { t, tt } = useI18n();
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
   const image = media.photos[0];
   const tag = cardTag(university, category);
+  const isoCode = countryCode(university.country)?.toUpperCase() ?? null;
+  const isEstimate = university.id.startsWith("registry-");
+  const approx = isEstimate ? "~" : "";
+  const location =
+    !university.city || university.city === "Main campus"
+      ? university.country
+      : `${university.city}, ${university.country}`;
   const highlights = media.alumni.length > 0 ? media.alumni.slice(0, 3) : university.strengths.slice(0, 3);
 
   return (
@@ -65,9 +67,11 @@ export function UniversityCard({
             height={720}
             className="size-full object-cover"
           />
-          <div className="absolute inset-x-0 bottom-0 bg-feed/80 py-0.5 text-center text-[9px] font-semibold uppercase text-foreground backdrop-blur-sm">
-            {university.country.slice(0, 2)}
-          </div>
+          {isoCode && (
+            <div className="absolute inset-x-0 bottom-0 bg-feed/80 py-0.5 text-center text-[11px] font-semibold uppercase text-foreground backdrop-blur-sm">
+              {isoCode}
+            </div>
+          )}
         </div>
 
         <div className="min-w-0 flex-1">
@@ -78,10 +82,10 @@ export function UniversityCard({
               </h3>
               <p className="mt-1 flex items-start gap-1.5 text-sm text-muted-foreground">
                 <MapPin className="mt-0.5 size-3.5 shrink-0" />
-                <span>{university.city}, {university.country}</span>
+                <span>{location}</span>
               </p>
             </div>
-            <span className={cn("shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase", tag.className)}>
+            <span className={cn("shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase", tag.className)}>
               {tt(tag.label)}
             </span>
           </div>
@@ -104,20 +108,27 @@ export function UniversityCard({
 
       <dl className="mt-5 grid grid-cols-3 gap-2">
         <div className="rounded-xl border border-status-success/35 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-status-success sm:text-[10px]">{tt("Qabul %")}</dt>
-          <dd className="mt-1 text-sm font-semibold text-status-success sm:text-base">{university.acceptanceRate}%</dd>
+          <dt className="text-[11px] font-semibold uppercase text-status-success">{tt("Acceptance")}</dt>
+          <dd className="mt-1 text-sm font-semibold text-status-success sm:text-base">{approx}{university.acceptanceRate}%</dd>
         </div>
         <div className="rounded-xl border border-primary/45 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-primary sm:text-[10px]">{tt("Muddati")}</dt>
-          <dd className="mt-1 text-sm font-semibold text-primary sm:text-base">{deadlineFor(university)}</dd>
+          <dt className="text-[11px] font-semibold uppercase text-primary">{tt("Tuition / yr")}</dt>
+          <dd className="mt-1 break-words text-sm font-semibold text-primary sm:text-base">
+            {approx}${university.tuitionUSD.toLocaleString()}
+          </dd>
         </div>
         <div className="rounded-xl border border-muted-foreground/45 bg-feed/70 p-3">
-          <dt className="text-[9px] font-semibold uppercase text-muted-foreground sm:text-[10px]">{tt("Maksimal yordam")}</dt>
-          <dd className="mt-1 text-xs font-semibold text-foreground sm:text-sm">
-            {university.aidForInternationals ? tt("Up to full need") : `$${university.tuitionUSD.toLocaleString()}/yr`}
+          <dt className="text-[11px] font-semibold uppercase text-muted-foreground">{tt("Int'l aid")}</dt>
+          <dd className="mt-1 text-xs font-semibold text-foreground sm:text-base">
+            {university.aidForInternationals ? tt("Available") : tt("Limited")}
           </dd>
         </div>
       </dl>
+      {isEstimate && (
+        <p className="mt-2 text-[11px] leading-snug text-muted-foreground">
+          {tt("Estimated figures. Confirm with the institution.")}
+        </p>
+      )}
 
       {typeof matchScore === "number" && (
         <div className="mt-4">
@@ -129,7 +140,7 @@ export function UniversityCard({
             <div className="h-full rounded-full bg-gradient-to-r from-accent via-gold-soft to-gold" style={{ width: `${matchScore}%` }} />
           </div>
           {factors && (
-            <dl className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[9px] uppercase text-muted-foreground sm:grid-cols-6">
+            <dl className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[11px] uppercase text-muted-foreground sm:grid-cols-6">
               {Object.entries(factors).map(([label, value]) => (
                 <div key={label} className="rounded-lg border border-border/60 bg-feed/60 px-1 py-2">
                   <dt>{tt(label)}</dt>
@@ -142,9 +153,9 @@ export function UniversityCard({
       )}
 
       <div className="mt-5 flex-1 rounded-2xl border border-border/70 bg-feed/65 p-4 sm:p-5">
-        <p className="flex items-start gap-2 text-[10px] font-semibold uppercase text-primary">
+        <p className="flex items-start gap-2 text-[11px] font-semibold uppercase text-primary">
           <Sparkles className="mt-0.5 size-3.5 shrink-0" />
-          {media.alumni.length > 0 ? tt("Mashhur bitiruvchilar") : tt("Asosiy yutuqlar")}
+          {media.alumni.length > 0 ? tt("Notable alumni") : tt("Key strengths")}
         </p>
         {university.worldRanking && (
           <p className="mt-3 font-display text-2xl text-foreground">{tt("World")} #{university.worldRanking}</p>
@@ -157,7 +168,7 @@ export function UniversityCard({
 
       <div className="mt-5 grid grid-cols-[1fr_auto_auto] gap-2">
         <Button type="button" onClick={onView} className="h-11 rounded-xl bg-gradient-to-r from-gold-soft to-gold text-primary-foreground hover:opacity-90">
-          {tt("Batafsil")} <MoveRight />
+          {t("viewDetails")} <MoveRight />
         </Button>
         <Button asChild variant="outline" size="icon" className="size-11 rounded-xl border-primary/70 bg-feed/70 text-primary">
           <a href={university.website} target="_blank" rel="noopener noreferrer" aria-label={`${university.name} official website`}>
