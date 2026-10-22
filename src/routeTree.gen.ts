@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AssessmentRouteImport } from './routes/assessment'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as EssayRouteImport } from './routes/essay'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EssayRoute = EssayRouteImport.update({
@@ -56,6 +62,7 @@ const UniversitiesRoute = UniversitiesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/compare': typeof CompareRoute
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/compare': typeof CompareRoute
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assessment': typeof AssessmentRoute
+  '/compare': typeof CompareRoute
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/assessment'
+    | '/compare'
     | '/essay'
     | '/profile'
     | '/scholarships'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/assessment'
+    | '/compare'
     | '/essay'
     | '/profile'
     | '/scholarships'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/assessment'
+    | '/compare'
     | '/essay'
     | '/profile'
     | '/scholarships'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssessmentRoute: typeof AssessmentRoute
+  CompareRoute: typeof CompareRoute
   EssayRoute: typeof EssayRoute
   ProfileRoute: typeof ProfileRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/assessment'
       fullPath: '/assessment'
       preLoaderRoute: typeof AssessmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/essay': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssessmentRoute: AssessmentRoute,
+  CompareRoute: CompareRoute,
   EssayRoute: EssayRoute,
   ProfileRoute: ProfileRoute,
   ScholarshipsRoute: ScholarshipsRoute,

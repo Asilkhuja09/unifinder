@@ -30,6 +30,7 @@ export function Navbar({ onStart }: { onStart: () => void }) {
     { to: "/", label: t("navHome") },
     { to: "/assessment", label: tt("Assessment") },
     { to: "/universities", label: tt("University Directory") },
+    { to: "/compare", label: tt("Compare") },
     { to: "/scholarships", label: tt("Scholarships") },
     { to: "/essay", label: tt("Essay Analyzer") },
     { to: "/stories", label: tt("Student Stories") },

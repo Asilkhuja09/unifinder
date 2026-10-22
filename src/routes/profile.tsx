@@ -6,6 +6,7 @@ import {
   LogIn,
   LogOut,
   Save,
+  Scale,
   Trash2,
   Upload,
   UserRound,
@@ -15,6 +16,7 @@ import { PageShell } from "@/components/unifinder/PageShell";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { useFavorites } from "@/lib/favorites";
+import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
 import { UniversityCard } from "@/components/unifinder/UniversityCard";
@@ -57,7 +59,7 @@ export const Route = createFileRoute("/profile")({
   ),
 });
 
-type Tab = "dashboard" | "edit" | "transcripts";
+type Tab = "dashboard" | "saved" | "compare" | "edit" | "transcripts";
 
 const field =
   "w-full rounded-xl border border-border/70 bg-background/40 px-4 py-2.5 text-sm outline-none transition-colors focus:border-primary/70";
@@ -126,6 +128,8 @@ function ProfilePage() {
         {(
           [
             ["dashboard", tt("Dashboard")],
+            ["saved", tt("Saved")],
+            ["compare", tt("Compare")],
             ["edit", tt("Edit profile")],
             ["transcripts", tt("Transcripts")],
           ] as const
@@ -154,6 +158,12 @@ function ProfilePage() {
           favLoading={favLoading}
         />
       )}
+
+      {tab === "saved" && (
+        <SavedTab favorites={favorites} loading={favLoading} onToggle={toggle} />
+      )}
+
+      {tab === "compare" && <CompareTab favorites={favorites} />}
 
       {tab === "edit" && (
         <EditProfile
@@ -246,12 +256,30 @@ function Dashboard({
         </div>
       )}
 
+      {active && <UniversityModal university={active} onClose={() => setActive(null)} />}
+    </div>
+  );
+}
+
+function SavedTab({
+  favorites,
+  loading,
+  onToggle,
+}: {
+  favorites: { university_id: string; university_name: string }[];
+  loading: boolean;
+  onToggle: (id: string, name: string) => Promise<void>;
+}) {
+  const { tt } = useI18n();
+  const [active, setActive] = useState<University | null>(null);
+  return (
+    <div className="mt-8 space-y-6">
       <div>
         <h2 className="flex items-center gap-2 font-display text-2xl text-primary">
           <Heart className="size-5" /> {tt("Saved universities")}
         </h2>
-        {favLoading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your shortlist…")}</p>}
-        {!favLoading && favorites.length === 0 && (
+        {loading && <p className="mt-3 text-sm text-muted-foreground">{tt("Loading your shortlist…")}</p>}
+        {!loading && favorites.length === 0 && (
           <p className="mt-3 text-sm text-muted-foreground">
             {tt("No saved universities yet. Open the")}{" "}
             <Link to="/universities" className="text-accent underline">
@@ -269,7 +297,7 @@ function Dashboard({
                 key={f.university_id}
                 university={u}
                 favorite
-                onFavorite={() => void onToggleFavorite(u.id, u.name)}
+                onFavorite={() => void onToggle(u.id, u.name)}
                 onView={() => setActive(u)}
               />
             );
@@ -278,6 +306,65 @@ function Dashboard({
       </div>
 
       {active && <UniversityModal university={active} onClose={() => setActive(null)} />}
+    </div>
+  );
+}
+
+function CompareTab({ favorites }: { favorites: { university_id: string; university_name: string }[] }) {
+  const { tt } = useI18n();
+  const ids = useCompare();
+  const picked = ids
+    .map((id) => UNIVERSITIES.find((u) => u.id === id))
+    .filter((u): u is University => u !== undefined);
+  const saved = favorites
+    .map((f) => UNIVERSITIES.find((u) => u.id === f.university_id))
+    .filter((u): u is University => u !== undefined && !ids.includes(u.id));
+  return (
+    <div className="mt-8 space-y-6">
+      <div className="glass rounded-2xl p-6">
+        <h2 className="flex items-center gap-2 font-display text-2xl text-primary">
+          <Scale className="size-5" /> {tt("Your comparison")}
+        </h2>
+        {picked.length === 0 ? (
+          <p className="mt-3 text-sm text-muted-foreground">
+            {tt("Nothing to compare yet. Add universities on the Compare page.")}
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-2">
+            {picked.map((u) => (
+              <li key={u.id} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-velvet/40 px-4 py-2.5 text-sm">
+                <span className="truncate">{u.name}</span>
+                <button type="button" onClick={() => toggleCompare(u.id)} className="shrink-0 text-xs text-muted-foreground underline hover:text-foreground">
+                  {tt("Remove")}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link to="/compare" className="mt-5 inline-block rounded-xl bg-gradient-to-r from-gold-soft to-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground">
+          {picked.length < 2 ? tt("Open Compare page") : tt("See comparison")}
+        </Link>
+      </div>
+
+      {saved.length > 0 && ids.length < COMPARE_MAX && (
+        <div className="glass rounded-2xl p-6">
+          <h3 className="flex items-center gap-2 text-sm font-semibold text-primary">
+            <Heart className="size-4" /> {tt("Compare from your saved list")}
+          </h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {saved.map((u) => (
+              <button
+                key={u.id}
+                type="button"
+                onClick={() => toggleCompare(u.id)}
+                className="rounded-full border border-border px-3 py-1 text-xs transition-colors hover:border-primary/60 hover:text-primary"
+              >
+                + {u.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
