@@ -1,20 +1,33 @@
-import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Search, Sparkles } from "lucide-react";
+import { useMemo, useRef, useState, type ComponentType } from "react";
+import {
+  Award,
+  BookOpen,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardCheck,
+  Coins,
+  GraduationCap,
+  Globe2,
+  Landmark,
+  Plus,
+  ShieldCheck,
+  Target,
+  Trophy,
+  User,
+  Wallet,
+} from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { ConstellationFX } from "./ConstellationFX";
 import { emptyProfile, type Profile } from "@/lib/profile";
-import { countryFlagUrl } from "@/lib/flags";
 import { majorTheme } from "@/lib/majorThemes";
 import {
   AID_TRACKS,
-  COUNTRIES,
   DIFFICULTY_TIERS,
   GPA_SCALES,
   INCOME_BRACKETS,
-  MAJORS,
-  REGIONS,
   TESTS,
   TEST_RANGES,
   type DifficultyTier,
@@ -22,54 +35,58 @@ import {
   type TestName,
 } from "@/data/extendedData";
 import { cn } from "@/lib/utils";
-
+import { Field, OptionCard, inputCls, stagger } from "./WizardParts";
+import { CountryPicker, MajorPicker, RegionPicker } from "./WizardPickers";
 
 const TOTAL_STEPS = 9;
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block space-y-2">
-      <span className="text-xs uppercase tracking-[0.18em] text-primary/80">{label}</span>
-      {children}
-    </label>
-  );
-}
+type Icon = ComponentType<{ className?: string }>;
 
-const inputCls =
-  "w-full rounded-xl border border-border bg-velvet/60 px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary/70 focus:ring-2 focus:ring-ring";
+const STEP_ICONS: Icon[] = [User, GraduationCap, BookOpen, Globe2, ClipboardCheck, Trophy, Coins, Wallet, Target];
 
-function Highlight({ text, query }: { text: string; query: string }) {
-  if (!query) return <>{text}</>;
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx === -1) return <>{text}</>;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <span className="rounded bg-gradient-to-br from-gold-soft to-gold px-0.5 font-semibold text-royal">
-        {text.slice(idx, idx + query.length)}
-      </span>
-      {text.slice(idx + query.length)}
-    </>
-  );
-}
+const STEP_HINTS = [
+  "Tell us who you are and where you study now.",
+  "Pick your grading scale, then enter your average.",
+  "Choose the field you want to study.",
+  "Where in the world would you like to study?",
+  "Add any English or admissions test scores you have.",
+  "Share what you do outside class: clubs, sports, projects, work.",
+  "Do you need scholarships or financial aid to study abroad?",
+  "Roughly what is your family's yearly income?",
+  "How selective should your matches be?",
+];
+
+const ACTIVITY_IDEAS = [
+  "Student council",
+  "Olympiad medal",
+  "Volunteering",
+  "Research project",
+  "Sports captain",
+  "Started a business",
+  "Coding club",
+  "Debate team",
+];
+
+const TRACK_ICONS: Record<string, Icon> = {
+  "full-ride": Trophy,
+  merit: Award,
+  sovereign: Landmark,
+};
 
 export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void }) {
-  const { t, tt, lang } = useI18n();
+  const { t, tt } = useI18n();
   const { user, requireAuth } = useAuth();
 
   const [step, setStep] = useState(1);
+  const dir = useRef<"fwd" | "back">("fwd");
   const [profile, setProfile] = useState<Profile>(emptyProfile);
-  const [majorQuery, setMajorQuery] = useState("");
 
   const set = <K extends keyof Profile>(key: K, value: Profile[K]) =>
     setProfile((p) => ({ ...p, [key]: value }));
 
-  const filteredMajors = useMemo(() => {
-    const q = majorQuery.trim().toLowerCase();
-    return MAJORS.filter((m) => m.toLowerCase().includes(q));
-  }, [majorQuery]);
-
   const stepTitles = [t("s1"), t("s2"), t("s3"), t("s4"), t("s5"), t("s6"), t("s7"), t("s8"), t("s9")];
+
+  const scale = GPA_SCALES.find((s) => s.id === profile.gpaScale);
 
   const valid = useMemo(() => {
     switch (step) {
@@ -80,14 +97,9 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
           profile.country !== ""
         );
       case 2: {
-        const scale = GPA_SCALES.find((s) => s.id === profile.gpaScale);
         const gpa = Number(profile.gpa);
         return (
-          !!scale &&
-          profile.gpa.trim() !== "" &&
-          Number.isFinite(gpa) &&
-          gpa > 0 &&
-          gpa <= scale.max
+          !!scale && profile.gpa.trim() !== "" && Number.isFinite(gpa) && gpa > 0 && gpa <= scale.max
         );
       }
       case 3:
@@ -104,8 +116,7 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
         return profile.extracurricular.trim().length >= 20;
       case 7:
         return (
-          profile.needsAid === "no" ||
-          (profile.needsAid === "yes" && profile.aidTracks.length > 0)
+          profile.needsAid === "no" || (profile.needsAid === "yes" && profile.aidTracks.length > 0)
         );
       case 8:
         return profile.income !== "";
@@ -114,23 +125,12 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
       default:
         return false;
     }
-  }, [step, profile]);
-
-  const toggleRegion = (r: Region) =>
-    set(
-      "regions",
-      profile.regions.includes(r)
-        ? profile.regions.filter((x) => x !== r)
-        : [...profile.regions, r],
-    );
+  }, [step, profile, scale]);
 
   const selectMajor = (m: string) => {
     set("major", m);
-    toast.success(lang === "uz" ? `Siz shuni tanladingiz: ${m}` : `You selected: ${m}`, {
-      description: majorTheme(m).label,
-    });
+    toast.success(`${tt("You selected")}: ${m}`, { description: tt(majorTheme(m).label) });
   };
-
 
   const toggleTest = (name: TestName) => {
     const active = profile.activeTests.includes(name);
@@ -142,475 +142,540 @@ export function Wizard({ onComplete }: { onComplete: (profile: Profile) => void 
     }));
   };
 
+  const goTo = (n: number) => {
+    dir.current = n > step ? "fwd" : "back";
+    setStep(n);
+  };
+
   const handleNext = () => {
     if (!valid) return;
     if (!requireAuth()) return;
     if (step === TOTAL_STEPS) onComplete(profile);
-    else setStep((s) => s + 1);
+    else goTo(step + 1);
   };
 
+  const gpaNum = Number(profile.gpa);
+  const gpaPct =
+    scale && Number.isFinite(gpaNum) && gpaNum > 0 ? Math.min(100, (gpaNum / scale.max) * 100) : 0;
+  const gpaOver = !!scale && profile.gpa.trim() !== "" && !valid;
+  const charCount = profile.extracurricular.trim().length;
+
+  const HeaderIcon = STEP_ICONS[step - 1] ?? User;
+
   return (
-    <section id="assessment" className="mx-auto w-full max-w-4xl px-4 py-16">
-      <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-10">
+    <section id="assessment" className="mx-auto w-full max-w-5xl px-4 py-16">
+      <div className="glass relative overflow-hidden rounded-3xl p-5 sm:p-8">
         <ConstellationFX density={0.00012} />
-        <header className="relative mb-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-primary/80">
-            {t("step")} {step} {t("of")} {TOTAL_STEPS}
-          </p>
-          <h2 className="mt-2 text-3xl font-semibold text-gilded">{stepTitles[step - 1]}</h2>
-          <div className="mt-5 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-gold-soft to-gold transition-[width] duration-500"
-              style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
-            />
-          </div>
-        </header>
 
-        <div className="relative min-h-[320px] space-y-6">
-          {step === 1 && (
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label={t("firstName")}>
-                <input
-                  className={inputCls}
-                  value={profile.firstName}
-                  onChange={(e) => set("firstName", e.target.value)}
-                  placeholder="Alex"
-                />
-              </Field>
-              <Field label={t("lastName")}>
-                <input
-                  className={inputCls}
-                  value={profile.lastName}
-                  onChange={(e) => set("lastName", e.target.value)}
-                  placeholder="Morgan"
-                />
-              </Field>
-              <div className="sm:col-span-2">
-                <div
-                  className="relative overflow-hidden rounded-2xl border border-border/70 bg-velvet/40 p-4 transition-all"
-                  style={
-                    profile.country
-                      ? { borderColor: "color-mix(in oklab, var(--gold) 45%, transparent)" }
-                      : undefined
-                  }
-                >
-                  {profile.country && countryFlagUrl(profile.country, 320) && (
-                    <img
-                      src={countryFlagUrl(profile.country, 320)!}
-                      alt=""
-                      aria-hidden
-                      className="pointer-events-none absolute inset-0 size-full object-cover opacity-15 blur-[2px] [mask-image:linear-gradient(to_left,black,transparent_75%)]"
-                    />
-                  )}
-                  <div className="relative">
-                    <Field label={t("country")}>
-                      <div className="flex items-center gap-3">
-                        {profile.country && countryFlagUrl(profile.country) && (
-                          <img
-                            src={countryFlagUrl(profile.country)!}
-                            alt={`${profile.country} flag`}
-                            className="h-7 w-10 shrink-0 rounded-md object-cover shadow-[0_0_18px_-6px_var(--gold)] ring-1 ring-border"
-                          />
-                        )}
-                        <select
-                          className={inputCls}
-                          value={profile.country}
-                          onChange={(e) => set("country", e.target.value)}
-                        >
-                          <option value="">—</option>
-                          {COUNTRIES.map((c) => (
-                            <option key={c} value={c}>
-                              {c}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </Field>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label={t("gpaScale")}>
-                <select
-                  className={inputCls}
-                  value={profile.gpaScale}
-                  onChange={(e) => set("gpaScale", e.target.value)}
-                >
-                  <option value="">—</option>
-                  {GPA_SCALES.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <Field label={t("gpa")}>
-                <input
-                  className={inputCls}
-                  inputMode="decimal"
-                  value={profile.gpa}
-                  onChange={(e) => set("gpa", e.target.value)}
-                  placeholder={
-                    profile.gpaScale
-                      ? `0 – ${GPA_SCALES.find((s) => s.id === profile.gpaScale)?.max}`
-                      : tt("Select a scale first")
-                  }
-                />
-              </Field>
-              {profile.gpaScale && profile.gpa !== "" && !valid && (
-                <p className="text-sm text-destructive sm:col-span-2">
-                  {tt("Enter a value between 0 and")}{" "}
-                  {GPA_SCALES.find((s) => s.id === profile.gpaScale)?.max}.
-                </p>
-              )}
-            </div>
-          )}
-
-          {step === 3 && (
-            <div className="space-y-4">
-              <div className="relative">
-                <Search className="absolute start-4 top-1/2 size-4 -translate-y-1/2 text-primary/70" />
-                <input
-                  className={cn(inputCls, "ps-11")}
-                  value={majorQuery}
-                  onChange={(e) => setMajorQuery(e.target.value)}
-                  placeholder={t("searchMajors")}
-                />
-              </div>
-              {profile.major && (
-                <div
-                  className="relative animate-fade-in overflow-hidden rounded-2xl border backdrop-blur-md transition-all"
-                  style={{
-                    borderColor: `color-mix(in oklab, ${majorTheme(profile.major).accent} 60%, transparent)`,
-                    boxShadow: `0 0 42px -14px ${majorTheme(profile.major).accent}`,
-                  }}
-                >
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-70"
-                    style={{
-                      background: majorTheme(profile.major).background,
-                      backgroundSize:
-                        majorTheme(profile.major).id === "tech" ? "26px 26px" : undefined,
-                    }}
-                  />
-                  <div className="relative flex flex-wrap items-center justify-between gap-3 p-5">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.28em] text-primary/80">
-                        {tt(majorTheme(profile.major).label)}
-                      </p>
-                      <p className="mt-1 text-lg font-semibold text-gilded">{profile.major}</p>
-                    </div>
-                    <Sparkles className="size-5 text-primary" />
-                  </div>
-                </div>
-              )}
-              <div className="max-h-72 space-y-1 overflow-y-auto rounded-2xl border border-border bg-velvet/40 p-2">
-                {filteredMajors.map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => selectMajor(m)}
-                    className={cn(
-                      "flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-start text-sm transition-all",
-                      profile.major === m
-                        ? "bg-primary/15 text-primary shadow-[0_0_26px_-10px_var(--gold)] ring-1 ring-primary/50 backdrop-blur-md"
-                        : "hover:bg-secondary/70",
-                    )}
-                  >
-                    <span>
-                      <Highlight text={m} query={majorQuery.trim()} />
-                    </span>
-                    {profile.major === m && <Sparkles className="size-4" />}
-                  </button>
-                ))}
-                {filteredMajors.length === 0 && (
-                  <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-                    {tt("No majors match")} “{majorQuery}”.
-                  </p>
-                )}
-              </div>
-
-            </div>
-          )}
-
-          {step === 4 && (
-            <div className="space-y-4">
-              <button
-                type="button"
-                onClick={() =>
-                  set("regions", profile.regions.length === REGIONS.length ? [] : [...REGIONS])
-                }
-                className="rounded-full border border-primary/40 px-4 py-2 text-xs uppercase tracking-[0.2em] text-primary transition-colors hover:bg-primary/10"
-              >
-                {t("selectAll")}
-              </button>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {REGIONS.map((r) => {
-                  const on = profile.regions.includes(r);
-                  return (
-                    <button
-                      key={r}
-                      type="button"
-                      onClick={() => toggleRegion(r)}
-                      className={cn(
-                        "rounded-2xl border px-4 py-4 text-sm transition-all",
-                        on
-                          ? "border-primary bg-primary/15 text-primary shadow-[0_0_24px_-8px_var(--gold)]"
-                          : "border-border bg-velvet/40 hover:border-primary/50",
-                      )}
-                    >
-                      {tt(r)}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {step === 5 && (
-            <div className="space-y-3">
-              <button
-                type="button"
-                onClick={() =>
-                  setProfile((p) => ({
-                    ...p,
-                    noTests: !p.noTests,
-                    activeTests: [],
-                    tests: {},
-                  }))
-                }
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-2xl border px-5 py-4 text-start text-sm transition-colors",
-                  profile.noTests
-                    ? "border-primary bg-primary/15 text-primary"
-                    : "border-border bg-velvet/40 hover:border-primary/50",
-                )}
-              >
-                <span
-                  className={cn(
-                    "grid size-5 place-items-center rounded-md border transition-colors",
-                    profile.noTests ? "border-primary bg-primary" : "border-border",
-                  )}
-                >
-                  {profile.noTests && <span className="size-2 rounded-sm bg-primary-foreground" />}
-                </span>
-                <span>
-                  {tt("None / No standardized test yet")}
-                  <span className="block text-xs text-muted-foreground">
-                    {tt("Continue without scores — matches will use academics and funding needs only.")}
-                  </span>
-                </span>
-              </button>
-              {TESTS.map((name) => {
-                const on = profile.activeTests.includes(name);
-                if (profile.noTests) return null;
+        <div className="relative grid gap-8 lg:grid-cols-[13.5rem_1fr]">
+          {/* Stepper: vertical rail on desktop, compact dots on mobile */}
+          <nav aria-label={tt("Assessment progress")} className="lg:pt-1">
+            <ol className="flex items-center justify-between gap-1 lg:flex-col lg:items-stretch lg:justify-start lg:gap-0">
+              {stepTitles.map((title, i) => {
+                const n = i + 1;
+                const done = n < step;
+                const current = n === step;
+                const Icon = STEP_ICONS[i] ?? User;
                 return (
-                  <div
-                    key={name}
-                    className="overflow-hidden rounded-2xl border border-border bg-velvet/40"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleTest(name)}
-                      className="flex w-full items-center justify-between px-5 py-4 text-sm"
-                    >
-                      <span className="flex items-center gap-3">
+                  <li key={n} className="relative flex lg:block">
+                    {n < TOTAL_STEPS && (
+                      <span
+                        aria-hidden
+                        className="absolute left-[1.1rem] top-9 hidden h-[calc(100%-1.4rem)] w-px overflow-hidden bg-border lg:block"
+                      >
                         <span
                           className={cn(
-                            "grid size-5 place-items-center rounded-md border transition-colors",
-                            on ? "border-primary bg-primary" : "border-border",
+                            "block w-full bg-primary transition-[height] duration-700",
+                            done ? "h-full" : "h-0",
                           )}
-                        >
-                          {on && <span className="size-2 rounded-sm bg-primary-foreground" />}
-                        </span>
-                        {name}
+                        />
                       </span>
-                      <span className="text-xs text-muted-foreground">{TEST_RANGES[name]}</span>
-                    </button>
-                    <div
-                      className={cn(
-                        "grid transition-all duration-300",
-                        on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-                      )}
+                    )}
+                    <button
+                      type="button"
+                      disabled={!done}
+                      onClick={() => goTo(n)}
+                      aria-current={current ? "step" : undefined}
+                      aria-label={`${n}. ${title}`}
+                      className="group flex items-center gap-3 rounded-xl py-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring enabled:cursor-pointer disabled:cursor-default lg:w-full"
                     >
-                      <div className="overflow-hidden">
-                        <div className="border-t border-border px-5 py-4">
-                          <Field label={`${name} ${t("score")}`}>
-                            <input
-                              className={inputCls}
-                              inputMode="decimal"
-                              value={profile.tests[name] ?? ""}
-                              onChange={(e) =>
-                                setProfile((p) => ({
-                                  ...p,
-                                  tests: { ...p.tests, [name]: e.target.value },
-                                }))
-                              }
-                              placeholder={TEST_RANGES[name]}
+                      <span
+                        className={cn(
+                          "relative grid size-9 shrink-0 place-items-center rounded-full border text-primary transition-all duration-500",
+                          current && "wiz-pulse-ring border-primary bg-primary/15 scale-110",
+                          done && "border-primary bg-primary text-primary-foreground",
+                          !current && !done && "border-border bg-velvet/50 text-muted-foreground",
+                        )}
+                      >
+                        {done ? (
+                          <Check key="c" className="wiz-pop size-4" strokeWidth={3} />
+                        ) : (
+                          <Icon className="size-4" />
+                        )}
+                      </span>
+                      <span
+                        className={cn(
+                          "hidden text-sm transition-colors lg:block",
+                          current ? "font-semibold text-primary" : done ? "text-foreground/85 group-hover:text-primary" : "text-muted-foreground",
+                        )}
+                      >
+                        {title}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+
+          <div className="min-w-0">
+            <header className="mb-7">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm text-primary/80">
+                  {t("step")} {step} {t("of")} {TOTAL_STEPS}
+                </p>
+                <HeaderIcon className="size-5 text-primary/70" />
+              </div>
+              <h2 key={step} className="wiz-rise mt-1 text-3xl font-semibold text-gilded">
+                {stepTitles[step - 1]}
+              </h2>
+              <p key={`h${step}`} className="wiz-rise mt-1 text-sm text-muted-foreground" style={stagger(1)}>
+                {tt(STEP_HINTS[step - 1] ?? "")}
+              </p>
+              <div className="relative mt-5 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+                <div
+                  className="relative h-full rounded-full bg-gradient-to-r from-gold-soft to-gold transition-[width] duration-700 ease-out"
+                  style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
+                >
+                  <span className="wiz-sheen absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                </div>
+              </div>
+            </header>
+
+            <div
+              key={step}
+              className={cn("min-h-[340px] space-y-6", dir.current === "fwd" ? "wiz-in-fwd" : "wiz-in-back")}
+            >
+              {step === 1 && (
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label={t("firstName")}>
+                    <input
+                      className={inputCls}
+                      value={profile.firstName}
+                      onChange={(e) => set("firstName", e.target.value)}
+                      placeholder="Alex"
+                      autoComplete="given-name"
+                    />
+                  </Field>
+                  <Field label={t("lastName")}>
+                    <input
+                      className={inputCls}
+                      value={profile.lastName}
+                      onChange={(e) => set("lastName", e.target.value)}
+                      placeholder="Morgan"
+                      autoComplete="family-name"
+                    />
+                  </Field>
+                  <div className="sm:col-span-2">
+                    <CountryPicker value={profile.country} onChange={(c) => set("country", c)} />
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div className="space-y-6">
+                  <div>
+                    <p className="mb-3 text-sm font-medium text-primary/90">{t("gpaScale")}</p>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {GPA_SCALES.map((s, i) => (
+                        <OptionCard
+                          key={s.id}
+                          index={i}
+                          selected={profile.gpaScale === s.id}
+                          onClick={() => set("gpaScale", s.id)}
+                          className="px-4 py-3.5"
+                        >
+                          <p className="pe-6 text-sm font-medium">{s.label}</p>
+                          <p className="text-xs text-muted-foreground">
+                            0 – {s.max}
+                          </p>
+                        </OptionCard>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div
+                    className={cn(
+                      "rounded-2xl border bg-velvet/40 p-5 transition-all duration-500",
+                      scale ? "border-primary/40" : "border-border opacity-60",
+                    )}
+                  >
+                    <div className="grid items-end gap-5 sm:grid-cols-[12rem_1fr]">
+                      <Field label={t("gpa")}>
+                        <input
+                          className={cn(inputCls, "text-lg font-semibold tabular-nums")}
+                          inputMode="decimal"
+                          disabled={!scale}
+                          value={profile.gpa}
+                          onChange={(e) => set("gpa", e.target.value)}
+                          placeholder={scale ? `0 – ${scale.max}` : tt("Select a scale first")}
+                        />
+                      </Field>
+                      <div>
+                        <div className="relative h-3 overflow-hidden rounded-full bg-secondary">
+                          <div
+                            className={cn(
+                              "h-full rounded-full transition-[width] duration-700 ease-out",
+                              gpaOver ? "bg-destructive" : "bg-gradient-to-r from-accent via-gold-soft to-gold",
+                            )}
+                            style={{ width: `${gpaPct}%` }}
+                          />
+                          {[25, 50, 75].map((p) => (
+                            <span
+                              key={p}
+                              aria-hidden
+                              className="absolute top-0 h-full w-px bg-background/60"
+                              style={{ left: `${p}%` }}
                             />
-                          </Field>
+                          ))}
+                        </div>
+                        <div className="mt-2 flex justify-between text-xs tabular-nums text-muted-foreground">
+                          <span>0</span>
+                          <span className={cn("transition-colors", gpaPct > 0 && "text-primary")}>
+                            {gpaPct > 0 ? `${Math.round(gpaPct)}%` : ""}
+                          </span>
+                          <span>{scale?.max ?? "—"}</span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {step === 6 && (
-            <div className="rounded-2xl border border-primary/25 bg-[oklch(0.14_0.05_264)] p-4 font-mono">
-              <div className="mb-3 flex items-center gap-2 text-xs text-primary/70">
-                <span className="size-2 rounded-full bg-destructive/70" />
-                <span className="size-2 rounded-full bg-primary/70" />
-                <span className="size-2 rounded-full bg-accent/70" />
-                <span className="ms-2 tracking-[0.2em]">leadership_profile.log</span>
-              </div>
-              <textarea
-                rows={9}
-                value={profile.extracurricular}
-                onChange={(e) => set("extracurricular", e.target.value)}
-                placeholder={t("extracurricular")}
-                className="w-full resize-none bg-transparent font-mono text-sm text-accent outline-none placeholder:text-muted-foreground/60"
-              />
-              <p className="text-right text-xs text-muted-foreground">
-                {profile.extracurricular.trim().length}/20 min {t("characters")}
-              </p>
-            </div>
-          )}
-
-          {step === 7 && (
-            <div className="space-y-5">
-              <p className="text-sm text-muted-foreground">{t("needAid")}</p>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {(["yes", "no"] as const).map((v) => (
-                  <button
-                    key={v}
-                    type="button"
-                    onClick={() =>
-                      setProfile((p) => ({
-                        ...p,
-                        needsAid: v,
-                        aidTracks: v === "no" ? [] : p.aidTracks,
-                      }))
-                    }
-                    className={cn(
-                      "rounded-2xl border px-6 py-8 text-lg transition-all",
-                      profile.needsAid === v
-                        ? "border-primary bg-primary/15 text-primary"
-                        : "border-border bg-velvet/40 hover:border-primary/50",
+                    {gpaOver && scale && (
+                      <p className="wiz-rise mt-3 text-sm text-destructive">
+                        {tt("Enter a value between 0 and")} {scale.max}.
+                      </p>
                     )}
+                  </div>
+                </div>
+              )}
+
+              {step === 3 && <MajorPicker value={profile.major} onSelect={selectMajor} />}
+
+              {step === 4 && (
+                <RegionPicker value={profile.regions} onChange={(next: Region[]) => set("regions", next)} />
+              )}
+
+              {step === 5 && (
+                <div className="space-y-3">
+                  <OptionCard
+                    selected={profile.noTests}
+                    index={0}
+                    onClick={() =>
+                      setProfile((p) => ({ ...p, noTests: !p.noTests, activeTests: [], tests: {} }))
+                    }
+                    className="w-full px-5 py-4"
                   >
-                    {v === "yes" ? t("yes") : t("no")}
-                  </button>
-                ))}
-              </div>
-              {profile.needsAid === "yes" && (
-                <div className="grid gap-3">
-                  {AID_TRACKS.map((track) => {
-                    const on = profile.aidTracks.includes(track.id);
+                    <p className="pe-8 text-sm font-medium">{tt("None / No standardized test yet")}</p>
+                    <p className="mt-0.5 pe-8 text-xs text-muted-foreground">
+                      {tt("Continue without scores — matches will use academics and funding needs only.")}
+                    </p>
+                  </OptionCard>
+
+                  {!profile.noTests && (
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {TESTS.map((name, i) => {
+                        const on = profile.activeTests.includes(name);
+                        return (
+                          <div
+                            key={name}
+                            style={stagger(i + 1)}
+                            className={cn(
+                              "wiz-rise relative overflow-hidden rounded-2xl border transition-all duration-300",
+                              on
+                                ? "border-primary bg-primary/12 shadow-[0_0_34px_-12px_var(--gold)]"
+                                : "border-border bg-velvet/40 hover:border-primary/50",
+                            )}
+                          >
+                            <button
+                              type="button"
+                              aria-pressed={on}
+                              onClick={() => toggleTest(name)}
+                              className="flex w-full items-center gap-3 px-4 py-4 text-start outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                              <span
+                                className={cn(
+                                  "grid size-11 place-items-center rounded-xl border text-xs font-bold transition-colors",
+                                  on
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border bg-secondary text-primary",
+                                )}
+                              >
+                                {name.slice(0, 3).toUpperCase()}
+                              </span>
+                              <span className="flex-1">
+                                <span className="block text-sm font-semibold">{name}</span>
+                                <span className="block text-xs text-muted-foreground">{TEST_RANGES[name]}</span>
+                              </span>
+                              {on && (
+                                <span className="wiz-pop grid size-5 place-items-center rounded-full bg-primary text-primary-foreground">
+                                  <Check className="size-3" strokeWidth={3.5} />
+                                </span>
+                              )}
+                            </button>
+                            <div
+                              className={cn(
+                                "grid transition-all duration-300",
+                                on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                              )}
+                            >
+                              <div className="overflow-hidden">
+                                <div className="border-t border-border/70 px-4 py-3">
+                                  <Field label={`${name} ${t("score")}`}>
+                                    <input
+                                      className={inputCls}
+                                      inputMode="decimal"
+                                      tabIndex={on ? 0 : -1}
+                                      value={profile.tests[name] ?? ""}
+                                      onChange={(e) =>
+                                        setProfile((p) => ({
+                                          ...p,
+                                          tests: { ...p.tests, [name]: e.target.value },
+                                        }))
+                                      }
+                                      placeholder={TEST_RANGES[name]}
+                                    />
+                                  </Field>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {step === 6 && (
+                <div className="space-y-4">
+                  <div className="rounded-2xl border border-primary/25 bg-[oklch(0.14_0.05_264)] p-4 font-mono transition-shadow focus-within:shadow-[0_0_34px_-12px_var(--gold)]">
+                    <div className="mb-3 flex items-center gap-2 text-xs text-primary/70">
+                      <span className="size-2 rounded-full bg-destructive/70" />
+                      <span className="size-2 rounded-full bg-primary/70" />
+                      <span className="size-2 rounded-full bg-accent/70" />
+                      <span className="ms-2 tracking-[0.2em]">leadership_profile.log</span>
+                    </div>
+                    <textarea
+                      rows={8}
+                      value={profile.extracurricular}
+                      onChange={(e) => set("extracurricular", e.target.value)}
+                      placeholder={t("extracurricular")}
+                      className="w-full resize-none bg-transparent font-mono text-sm text-accent outline-none placeholder:text-muted-foreground/60"
+                    />
+                    <div className="mt-2 flex items-center gap-3">
+                      <div className="h-1 flex-1 overflow-hidden rounded-full bg-secondary">
+                        <div
+                          className={cn(
+                            "h-full rounded-full transition-all duration-500",
+                            charCount >= 20 ? "bg-emerald-400" : "bg-primary",
+                          )}
+                          style={{ width: `${Math.min(100, (charCount / 20) * 100)}%` }}
+                        />
+                      </div>
+                      <p className="text-xs tabular-nums text-muted-foreground">
+                        {charCount}/20 min {t("characters")}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="mb-2 text-sm text-muted-foreground">{tt("Quick add")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {ACTIVITY_IDEAS.map((idea, i) => (
+                        <button
+                          key={idea}
+                          type="button"
+                          style={stagger(i)}
+                          onClick={() =>
+                            set(
+                              "extracurricular",
+                              `${profile.extracurricular.trim()}${profile.extracurricular.trim() ? "; " : ""}${tt(idea)}`,
+                            )
+                          }
+                          className="wiz-rise inline-flex items-center gap-1.5 rounded-full border border-border bg-velvet/40 px-3 py-1.5 text-sm outline-none transition-all hover:border-primary/60 hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-ring active:scale-95"
+                        >
+                          <Plus className="size-3.5 text-primary" />
+                          {tt(idea)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {step === 7 && (
+                <div className="space-y-5">
+                  <p className="text-sm font-medium text-primary/90">{t("needAid")}</p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {(["yes", "no"] as const).map((v, i) => {
+                      const Icon = v === "yes" ? Coins : ShieldCheck;
+                      const on = profile.needsAid === v;
+                      return (
+                        <OptionCard
+                          key={v}
+                          index={i}
+                          selected={on}
+                          onClick={() =>
+                            setProfile((p) => ({
+                              ...p,
+                              needsAid: v,
+                              aidTracks: v === "no" ? [] : p.aidTracks,
+                            }))
+                          }
+                          className="px-6 py-7"
+                        >
+                          <Icon className={cn("size-8 transition-transform duration-300 group-hover:scale-110", on ? "text-primary" : "text-primary/70")} />
+                          <p className="mt-3 text-xl font-semibold">{v === "yes" ? t("yes") : t("no")}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {v === "yes" ? tt("Show me scholarship tracks") : tt("I can cover the costs myself")}
+                          </p>
+                        </OptionCard>
+                      );
+                    })}
+                  </div>
+                  {profile.needsAid === "yes" && (
+                    <div className="grid gap-3">
+                      {AID_TRACKS.map((track, i) => {
+                        const on = profile.aidTracks.includes(track.id);
+                        const Icon = TRACK_ICONS[track.id] ?? Award;
+                        return (
+                          <OptionCard
+                            key={track.id}
+                            index={i}
+                            selected={on}
+                            onClick={() =>
+                              set(
+                                "aidTracks",
+                                on
+                                  ? profile.aidTracks.filter((x) => x !== track.id)
+                                  : [...profile.aidTracks, track.id],
+                              )
+                            }
+                            className="flex gap-4 p-5"
+                          >
+                            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+                              <Icon className="size-5" />
+                            </span>
+                            <span className="pe-6">
+                              <span className="block font-display text-xl text-primary">{tt(track.title)}</span>
+                              <span className="mt-1 block text-sm text-muted-foreground">{tt(track.detail)}</span>
+                            </span>
+                          </OptionCard>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {step === 8 && (
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-primary/90">{t("income")}</p>
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    {INCOME_BRACKETS.map((b, i) => {
+                      const on = profile.income === b.id;
+                      return (
+                        <OptionCard
+                          key={b.id}
+                          index={i}
+                          selected={on}
+                          onClick={() => set("income", b.id)}
+                          className="px-5 py-8 text-center"
+                        >
+                          <span className="flex justify-center gap-1" aria-hidden>
+                            {Array.from({ length: i + 1 }, (_, k) => (
+                              <Coins
+                                key={k}
+                                className={cn(
+                                  "size-7 transition-all duration-300 group-hover:-translate-y-1",
+                                  on ? "text-primary" : "text-primary/55",
+                                )}
+                              />
+                            ))}
+                          </span>
+                          <p className="mt-4 text-lg font-semibold tabular-nums">{b.label}</p>
+                        </OptionCard>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {step === 9 && (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {DIFFICULTY_TIERS.map((tier, i) => {
+                    const on = profile.difficulty === tier.id;
+                    const level = DIFFICULTY_TIERS.length - i;
                     return (
-                      <button
-                        key={track.id}
-                        type="button"
-                        onClick={() =>
-                          set(
-                            "aidTracks",
-                            on
-                              ? profile.aidTracks.filter((x) => x !== track.id)
-                              : [...profile.aidTracks, track.id],
-                          )
-                        }
-                        className={cn(
-                          "rounded-2xl border p-5 text-start transition-all",
-                          on
-                            ? "border-primary bg-primary/10"
-                            : "border-border bg-velvet/40 hover:border-primary/50",
-                        )}
+                      <OptionCard
+                        key={tier.id}
+                        index={i}
+                        selected={on}
+                        onClick={() => set("difficulty", tier.id as DifficultyTier)}
+                        className="p-6"
                       >
-                        <p className="font-display text-xl text-primary">{tt(track.title)}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">{tt(track.detail)}</p>
-                      </button>
+                        <span className="flex items-end gap-1" aria-hidden>
+                          {DIFFICULTY_TIERS.map((_, k) => (
+                            <span
+                              key={k}
+                              className={cn(
+                                "w-2 rounded-sm transition-all duration-500",
+                                k < level ? "bg-primary" : "bg-secondary",
+                              )}
+                              style={{ height: `${10 + k * 7}px`, transitionDelay: `${k * 60}ms` }}
+                            />
+                          ))}
+                        </span>
+                        <p className="mt-4 font-display text-2xl text-primary">{tt(tier.label)}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">{tt(tier.note)}</p>
+                      </OptionCard>
                     );
                   })}
                 </div>
               )}
             </div>
-          )}
 
-          {step === 8 && (
-            <div className="grid gap-4 sm:grid-cols-3">
-              {INCOME_BRACKETS.map((b) => (
-                <button
-                  key={b.id}
-                  type="button"
-                  onClick={() => set("income", b.id)}
-                  className={cn(
-                    "rounded-2xl border px-4 py-10 text-lg transition-all",
-                    profile.income === b.id
-                      ? "border-primary bg-primary/15 text-primary"
-                      : "border-border bg-velvet/40 hover:border-primary/50",
-                  )}
-                >
-                  {b.label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {step === 9 && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {DIFFICULTY_TIERS.map((tier) => (
-                <button
-                  key={tier.id}
-                  type="button"
-                  onClick={() => set("difficulty", tier.id as DifficultyTier)}
-                  className={cn(
-                    "rounded-2xl border p-6 text-start transition-all",
-                    profile.difficulty === tier.id
-                      ? "border-primary bg-primary/15 shadow-[0_0_30px_-10px_var(--gold)]"
-                      : "border-border bg-velvet/40 hover:border-primary/50",
-                  )}
-                >
-                  <p className="font-display text-2xl text-primary">{tt(tier.label)}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{tt(tier.note)}</p>
-                </button>
-              ))}
-            </div>
-          )}
+            <footer className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-6">
+              <button
+                type="button"
+                disabled={step === 1}
+                onClick={() => goTo(Math.max(1, step - 1))}
+                className="glass inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-medium outline-none transition-all hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-35"
+              >
+                <ChevronLeft className="size-4 rtl:rotate-180" />
+                {t("back")}
+              </button>
+              <button
+                type="button"
+                disabled={!valid}
+                onClick={handleNext}
+                className={cn(
+                  "relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_10px_40px_-12px_var(--gold)] outline-none transition-all focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none",
+                  valid && "enabled:hover:-translate-y-0.5 enabled:active:scale-[0.98]",
+                )}
+              >
+                {valid && (
+                  <span
+                    aria-hidden
+                    className="wiz-sheen pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                  />
+                )}
+                <span className="relative">{step === TOTAL_STEPS ? t("submit") : t("next")}</span>
+                <ChevronRight className="relative size-4 rtl:rotate-180" />
+              </button>
+              {!user && (
+                <p className="col-span-2 text-center text-xs text-muted-foreground">{t("authRequired")}</p>
+              )}
+            </footer>
+          </div>
         </div>
-
-        <footer className="relative mt-10 grid grid-cols-2 gap-4 border-t border-border pt-6">
-          <button
-            type="button"
-            disabled={step === 1}
-            onClick={() => setStep((s) => Math.max(1, s - 1))}
-            className="glass inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-medium transition-opacity disabled:cursor-not-allowed disabled:opacity-35"
-          >
-            <ChevronLeft className="size-4 rtl:rotate-180" />
-            {t("back")}
-          </button>
-          <button
-            type="button"
-            disabled={!valid}
-            onClick={handleNext}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-soft to-gold px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_10px_40px_-12px_var(--gold)] transition-all disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none"
-          >
-            {step === TOTAL_STEPS ? t("submit") : t("next")}
-            <ChevronRight className="size-4 rtl:rotate-180" />
-          </button>
-          {!user && (
-            <p className="col-span-2 text-center text-xs text-muted-foreground">
-              {t("authRequired")}
-            </p>
-          )}
-        </footer>
       </div>
     </section>
   );
