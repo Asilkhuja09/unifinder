@@ -32,6 +32,7 @@ export function Navbar({ onStart }: { onStart: () => void }) {
     { to: "/universities", label: tt("University Directory") },
     { to: "/scholarships", label: tt("Scholarships") },
     { to: "/essay", label: tt("Essay Analyzer") },
+    { to: "/stories", label: tt("Student Stories") },
   ] as const;
 
   return (
