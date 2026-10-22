@@ -26,6 +26,10 @@ export const Route = createFileRoute("/")({
 
 const FAQ = [
   {
+    q: "How is UniFinder different from asking a general AI chatbot for universities?",
+    a: "A general chatbot writes an answer from memory each time, so the same question can return different schools, and it can invent a deadline, a tuition figure or even a university that does not exist. UniFinder works the other way round: your 9-step profile is matched against a fixed directory of real institutions with the same rules every time, so you get the same ranked list again tomorrow, and every result shows why it fits (grades, test scores, region, selectivity, aid policy). Figures that are modelled estimates rather than published numbers are labelled as estimates, and every school and scholarship links to its official website so you can confirm before you apply. Scholarship tracks, campus photos and map routes sit in the same place, so you do not have to piece an answer together from several chat replies.",
+  },
+  {
     q: "How are university rankings and aid matches calculated?",
     a: "Each institution in the directory carries a composite world ranking (QS/THE band), a published acceptance rate, international tuition and an aid-for-internationals flag. Your assessment answers — target regions, difficulty tier, intended major, income bracket and funding needs — are applied as filters over that dataset, so a match means the school's ranking tier, selectivity and aid policy all fit your profile. Nothing is randomised.",
   },
