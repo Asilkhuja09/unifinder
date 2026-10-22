@@ -240,3 +240,120 @@ select option {
   .university-card { transition: none; }
   .university-card:hover { transform: none; }
 }
+
+/* ---------- Assessment wizard motion ---------- */
+@keyframes wiz-in-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes wiz-in-back {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes wiz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wiz-pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wiz-float {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes wiz-sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+
+@keyframes wiz-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--gold) 55%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 12px color-mix(in oklab, var(--gold) 0%, transparent);
+  }
+}
+
+@utility wiz-in-fwd {
+  animation: wiz-in-fwd 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@utility wiz-in-back {
+  animation: wiz-in-back 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@utility wiz-rise {
+  animation: wiz-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+
+@utility wiz-pop {
+  animation: wiz-pop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+@utility wiz-float {
+  animation: wiz-float 3.4s ease-in-out infinite;
+}
+
+@utility wiz-sheen {
+  animation: wiz-sheen 2.8s ease-in-out infinite;
+}
+
+@utility wiz-pulse-ring {
+  animation: wiz-pulse-ring 1.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wiz-in-fwd,
+  .wiz-in-back,
+  .wiz-rise,
+  .wiz-pop,
+  .wiz-float,
+  .wiz-sheen,
+  .wiz-pulse-ring {
+    animation: none !important;
+  }
+}
