@@ -170,6 +170,17 @@ export function Navbar({ onStart }: { onStart: () => void }) {
                   </Link>
                 ))}
                 <div className="my-3 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                {(user || hint) && (
+                  <Link
+                    to="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    activeProps={{ className: "bg-primary/10 text-primary" }}
+                    className="mb-1 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+                  >
+                    <UserRound className="size-4" />
+                    {tt("My profile")}
+                  </Link>
+                )}
                 {user || hint ? (
                   <button
                     onClick={() => {
