@@ -357,3 +357,12 @@ select option {
     animation: none !important;
   }
 }
+
+@keyframes compare-sweep {
+  from {
+    left: -35%;
+  }
+  to {
+    left: 100%;
+  }
+}
