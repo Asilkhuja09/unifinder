@@ -1,6 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, GraduationCap } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
+import { useStudentProfile } from "@/lib/student-profile";
 import type { Profile } from "@/lib/profile";
 import { SCHOLARSHIPS, type University } from "@/data/extendedData";
 import { matchUniversities } from "@/lib/matching";
@@ -11,6 +13,14 @@ import { Button } from "@/components/ui/button";
 export function Results({ profile, onRestart }: { profile: Profile; onRestart: () => void }) {
   const { t, tt } = useI18n();
   const [active, setActive] = useState<University | null>(null);
+  const { user } = useAuth();
+  const { save } = useStudentProfile();
+
+  // Keep the latest assessment in the signed-in student's profile, so the dashboard shows these matches.
+  useEffect(() => {
+    if (user) void save(profile);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, profile]);
 
   const [limit, setLimit] = useState(24);
   const { profileScore, matches } = useMemo(() => matchUniversities(profile), [profile]);
