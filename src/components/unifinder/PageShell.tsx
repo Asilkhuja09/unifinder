@@ -4,6 +4,7 @@ import worldNight from "@/assets/world-night.asset.json";
 import { AuthDrawer } from "@/components/unifinder/AuthDrawer";
 import { ConstellationFX } from "@/components/unifinder/ConstellationFX";
 import { Footer } from "@/components/unifinder/Footer";
+import { CompareTray } from "@/components/unifinder/CompareTray";
 import { Navbar } from "@/components/unifinder/Navbar";
 import { WelcomeOverlay } from "@/components/unifinder/WelcomeOverlay";
 import { AuthProvider, useAuth } from "@/lib/auth";
@@ -30,6 +31,7 @@ function Shell({ children }: { children: ReactNode }) {
       <main>{children}</main>
       <Footer />
       <AuthDrawer />
+      <CompareTray />
       {welcoming && (
         <WelcomeOverlay
           name={

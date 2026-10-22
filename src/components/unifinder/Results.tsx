@@ -135,7 +135,13 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
         ))}
       </div>
 
-      {active && <UniversityModal university={active} onClose={() => setActive(null)} />}
+      {active && (
+        <UniversityModal
+          university={active}
+          match={matches.find((m) => m.university.id === active.id)}
+          onClose={() => setActive(null)}
+        />
+      )}
     </section>
   );
 }

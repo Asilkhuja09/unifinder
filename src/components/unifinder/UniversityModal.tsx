@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Compass, ExternalLink, X } from "lucide-react";
+import { Compass, ExternalLink, Heart, Scale, Share2, X } from "lucide-react";
+import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
 import { useUniversityPhotos } from "@/lib/universityPhotos";
+import { useFavorites } from "@/lib/favorites";
+import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
+import type { UniversityMatch } from "@/lib/matching";
+import { ApplicationChecklist, CostCalculator, FitPanel } from "@/components/unifinder/UniversityExtras";
+import { cn } from "@/lib/utils";
 
 export function openCampusMaps(uni: University) {
   window.open(
@@ -16,11 +22,38 @@ export function openCampusMaps(uni: University) {
 export function UniversityModal({
   university,
   onClose,
+  match,
 }: {
   university: University;
   onClose: () => void;
+  /** Present when opened from personalised results; adds the fit breakdown. */
+  match?: UniversityMatch | undefined;
 }) {
   const { t, tt } = useI18n();
+  const { ids, toggle } = useFavorites();
+  const compared = useCompare();
+  const saved = ids.has(university.id);
+  const inCompare = compared.includes(university.id);
+
+  const share = async () => {
+    const text = `${university.name} — ${location}`;
+    try {
+      if (typeof navigator.share === "function") {
+        await navigator.share({ title: university.name, text, url: university.website });
+      } else {
+        await navigator.clipboard.writeText(`${text}\n${university.website}`);
+        toast.success(tt("Link copied"));
+      }
+    } catch {
+      /* share sheet dismissed */
+    }
+  };
+
+  const onCompare = () => {
+    const r = toggleCompare(university.id);
+    if (r === "full") toast.error(`${tt("You can compare up to")} ${COMPARE_MAX}`);
+    else toast.success(r === "added" ? tt("Added to compare") : tt("Removed from compare"));
+  };
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
 
   // Curated photos win; every other university gets photos looked up from Wikipedia.
@@ -62,6 +95,41 @@ export function UniversityModal({
             className="rounded-full border border-border p-2 text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />
+          </button>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            aria-pressed={saved}
+            onClick={() => void toggle(university.id, university.name)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+              saved ? "border-primary bg-primary/15 text-primary" : "border-border hover:border-primary/50",
+            )}
+          >
+            <Heart className={cn("size-4", saved && "fill-current")} />
+            {saved ? tt("Saved") : tt("Save")}
+          </button>
+          <button
+            type="button"
+            aria-pressed={inCompare}
+            onClick={onCompare}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+              inCompare ? "border-primary bg-primary/15 text-primary" : "border-border hover:border-primary/50",
+            )}
+          >
+            <Scale className="size-4" />
+            {inCompare ? tt("In compare") : tt("Compare")}
+          </button>
+          <button
+            type="button"
+            onClick={() => void share()}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-sm outline-none transition-colors hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Share2 className="size-4" />
+            {tt("Share")}
           </button>
         </div>
 
@@ -156,6 +224,10 @@ export function UniversityModal({
             </dd>
           </div>
         </dl>
+
+        {match && <FitPanel match={match} />}
+        <CostCalculator university={university} />
+        <ApplicationChecklist university={university} />
 
         <div className="mt-8 flex flex-wrap gap-3 border-t border-border pt-6">
           <button
