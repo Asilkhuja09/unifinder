@@ -65,6 +65,51 @@ export type Database = {
         }
         Relationships: []
       }
+      student_stories: {
+        Row: {
+          activities: string
+          admit_year: number | null
+          consent_publish: boolean
+          created_at: string
+          display_name: string
+          essay_text: string
+          id: string
+          major: string
+          status: string
+          university: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activities?: string
+          admit_year?: number | null
+          consent_publish?: boolean
+          created_at?: string
+          display_name?: string
+          essay_text?: string
+          id?: string
+          major?: string
+          status?: string
+          university?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activities?: string
+          admit_year?: number | null
+          consent_publish?: boolean
+          created_at?: string
+          display_name?: string
+          essay_text?: string
+          id?: string
+          major?: string
+          status?: string
+          university?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       student_profiles: {
         Row: {
           country: string
