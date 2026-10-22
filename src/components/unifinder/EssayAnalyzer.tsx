@@ -14,7 +14,9 @@ import {
   analyzeEssay,
   deleteEssayEvaluation,
   listEssayEvaluations,
+  ESSAY_TYPES,
   type EssayAnalysis,
+  type EssayType,
 } from "@/lib/essay-analyzer.functions";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
@@ -32,6 +34,14 @@ type HistoryRow = {
   weaknesses: unknown;
   actionable_steps: unknown;
   model: string;
+};
+
+const TYPE_LABEL: Record<EssayType, { label: string; limit: string; words?: number }> = {
+  common_app: { label: "Common App essay", limit: "650 words max", words: 650 },
+  uk_personal_statement: { label: "UCAS / UK personal statement", limit: "4,000 characters max" },
+  supplemental: { label: "Supplemental essay", limit: "check the university's limit" },
+  scholarship: { label: "Scholarship essay", limit: "check the scholarship's limit" },
+  other: { label: "Other / general", limit: "" },
 };
 
 const toList = (v: unknown): string[] => (Array.isArray(v) ? v.map(String) : []);
@@ -106,6 +116,32 @@ function ResultView({ analysis }: { analysis: EssayAnalysis }) {
         )}
       </div>
 
+      {analysis.criteria.length > 0 && (
+        <div className="glass rounded-2xl p-5">
+          <p className="mb-4 text-sm font-semibold text-primary">{tt("Admissions rubric")}</p>
+          <div className="space-y-4">
+            {analysis.criteria.map((c) => {
+              const tone = toneOf(c.score);
+              return (
+                <div key={c.name}>
+                  <div className="flex items-baseline justify-between gap-3 text-sm">
+                    <span>{c.name}</span>
+                    <span className={`tabular-nums ${tone.text}`}>{c.score}</span>
+                  </div>
+                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary">
+                    <div
+                      className="h-full rounded-full transition-[width] duration-700"
+                      style={{ width: `${c.score}%`, background: tone.stroke }}
+                    />
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{c.note}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="glass rounded-2xl p-5">
           <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-accent">
@@ -132,6 +168,34 @@ function ResultView({ analysis }: { analysis: EssayAnalysis }) {
           </ul>
         </div>
       </div>
+
+      {analysis.rewrites.length > 0 && (
+        <div className="glass rounded-2xl p-5">
+          <p className="mb-3 text-sm font-semibold text-primary">{tt("Line-by-line rewrites")}</p>
+          <div className="space-y-4">
+            {analysis.rewrites.map((r, i) => (
+              <div key={i} className="rounded-xl border border-border bg-velvet/40 p-4 text-sm">
+                <p className="border-s-2 border-destructive/60 ps-3 italic text-muted-foreground">“{r.quote}”</p>
+                <p className="mt-2 text-xs text-destructive">{r.problem}</p>
+                <p className="mt-3 border-s-2 border-accent/70 ps-3 text-foreground">{r.suggestion}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {analysis.cliches.length > 0 && (
+        <div className="glass rounded-2xl p-5">
+          <p className="mb-3 text-sm font-semibold text-primary">{tt("Stock phrases to replace")}</p>
+          <div className="flex flex-wrap gap-2">
+            {analysis.cliches.map((c, i) => (
+              <span key={i} className="rounded-full border border-border bg-velvet/40 px-3 py-1 text-xs text-muted-foreground">
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="glass rounded-2xl p-5">
         <p className="mb-3 text-sm font-semibold text-primary">{tt("Actionable steps")}</p>
@@ -163,6 +227,8 @@ export function EssayAnalyzer() {
   const [tab, setTab] = useState<"analyze" | "history">("analyze");
   const [topic, setTopic] = useState("");
   const [essay, setEssay] = useState("");
+  const [essayType, setEssayType] = useState<EssayType>("common_app");
+  const [target, setTarget] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [result, setResult] = useState<EssayAnalysis | null>(null);
@@ -186,6 +252,8 @@ export function EssayAnalyzer() {
     void refresh();
   }, [refresh]);
 
+  const wordCount = essay.trim() ? essay.trim().split(/\s+/).length : 0;
+
   const submit = async () => {
     if (!requireAuth()) return;
     if (essay.trim().length < 40) {
@@ -197,7 +265,7 @@ export function EssayAnalyzer() {
     setResult(null);
     try {
       const res = await runAnalyze({
-        data: { essay_text: essay, prompt_topic: topic, language: lang },
+        data: { essay_text: essay, prompt_topic: topic, language: lang, essay_type: essayType, target },
       });
       setResult(res.analysis);
       void refresh();
@@ -249,7 +317,39 @@ export function EssayAnalyzer() {
       {tab === "analyze" ? (
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <div className="glass flex flex-col rounded-2xl p-5">
-            <label className="text-xs uppercase tracking-[0.28em] text-primary/80" htmlFor="topic">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-sm font-medium text-primary/90" htmlFor="etype">
+                  {tt("Essay type")}
+                </label>
+                <select
+                  id="etype"
+                  value={essayType}
+                  onChange={(e) => setEssayType(e.target.value as EssayType)}
+                  className="mt-2 w-full rounded-xl border border-border bg-velvet/50 px-4 py-3 text-sm outline-none focus:border-primary/60"
+                >
+                  {ESSAY_TYPES.map((x) => (
+                    <option key={x} value={x}>
+                      {tt(TYPE_LABEL[x].label)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-primary/90" htmlFor="target">
+                  {tt("Target university or scholarship (optional)")}
+                </label>
+                <input
+                  id="target"
+                  value={target}
+                  onChange={(e) => setTarget(e.target.value)}
+                  placeholder="e.g. University of Toronto"
+                  className="mt-2 w-full rounded-xl border border-border bg-velvet/50 px-4 py-3 text-sm outline-none focus:border-primary/60"
+                />
+              </div>
+            </div>
+
+            <label className="mt-5 text-xs uppercase tracking-[0.28em] text-primary/80" htmlFor="topic">
               {tt("Topic / Prompt")}
             </label>
             <input
@@ -273,7 +373,16 @@ export function EssayAnalyzer() {
             />
             <div className="mt-3 flex justify-between text-xs text-muted-foreground">
               <span>{essay.length} {tt("characters")}</span>
-              <span>{essay.trim() ? essay.trim().split(/\s+/).length : 0} {tt("words")}</span>
+              <span
+                className={
+                  TYPE_LABEL[essayType].words && wordCount > (TYPE_LABEL[essayType].words ?? 0)
+                    ? "text-destructive"
+                    : undefined
+                }
+              >
+                {wordCount} {tt("words")}
+                {TYPE_LABEL[essayType].limit ? ` · ${tt(TYPE_LABEL[essayType].limit)}` : ""}
+              </span>
             </div>
 
             <button
@@ -378,6 +487,9 @@ export function EssayAnalyzer() {
                         strengths: toList(row.strengths),
                         weaknesses: toList(row.weaknesses),
                         actionable_steps: toSteps(row.actionable_steps),
+                        criteria: [],
+                        rewrites: [],
+                        cliches: [],
                       }}
                     />
                     <details className="mt-4 rounded-xl border border-border bg-velvet/40 p-4">
