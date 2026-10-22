@@ -533,6 +533,7 @@ type I18nValue = {
 const I18nContext = createContext<I18nValue | null>(null);
 
 const CACHE_PREFIX = "uf_i18n_";
+const LANG_KEY = "uf_lang";
 
 function loadCache(lang: LangCode): Record<string, string> {
   try {
@@ -552,7 +553,25 @@ function saveCache(lang: LangCode, cache: Record<string, string>) {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<LangCode>("en");
+  const [lang, setLangState] = useState<LangCode>("en");
+  const setLang = useCallback((l: LangCode) => {
+    setLangState(l);
+    try {
+      localStorage.setItem(LANG_KEY, l);
+    } catch {
+      /* private mode — language still changes for this page */
+    }
+  }, []);
+
+  // Restore the saved language after hydration (each route has its own provider).
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved && LANGUAGES.some((l) => l.code === saved)) setLangState(saved as LangCode);
+    } catch {
+      /* ignore */
+    }
+  }, []);
   const [cache, setCache] = useState<Record<string, string>>({});
   const pendingRef = useRef<Set<string>>(new Set());
   const flushingRef = useRef(false);
@@ -618,7 +637,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ lang, setLang, t, tt, dir }),
-    [lang, t, tt, dir],
+    [lang, setLang, t, tt, dir],
   );
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

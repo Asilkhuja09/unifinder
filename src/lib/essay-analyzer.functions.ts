@@ -211,7 +211,7 @@ export const analyzeEssay = createServerFn({ method: "POST" })
     const raw = await callGateway(key, {
       model: MODEL,
       stream: true,
-      reasoning: { effort: "high" },
+      reasoning: { effort: "medium" },
       instructions: SYSTEM,
       input: [
         {

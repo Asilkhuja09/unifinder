@@ -20,6 +20,7 @@ import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
 import { UniversityCard } from "@/components/unifinder/UniversityCard";
+import { ApplicationsCard, PersonalCard, RoadmapTab } from "@/components/unifinder/ProfileExtras";
 import { UniversityModal } from "@/components/unifinder/UniversityModal";
 import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ export const Route = createFileRoute("/profile")({
   ),
 });
 
-type Tab = "dashboard" | "saved" | "compare" | "edit" | "transcripts";
+type Tab = "dashboard" | "roadmap" | "saved" | "compare" | "edit" | "transcripts";
 
 const field =
   "w-full rounded-xl border border-border/70 bg-background/40 px-4 py-2.5 text-sm outline-none transition-colors focus:border-primary/70";
@@ -128,6 +129,7 @@ function ProfilePage() {
         {(
           [
             ["dashboard", tt("Dashboard")],
+            ["roadmap", tt("Roadmap")],
             ["saved", tt("Saved")],
             ["compare", tt("Compare")],
             ["edit", tt("Edit profile")],
@@ -151,6 +153,7 @@ function ProfilePage() {
       {tab === "dashboard" && (
         <Dashboard
           loading={loading}
+          profile={profile}
           result={result}
           favorites={favorites}
           favoriteIds={ids}
@@ -158,6 +161,8 @@ function ProfilePage() {
           favLoading={favLoading}
         />
       )}
+
+      {tab === "roadmap" && <RoadmapTab profile={profile} />}
 
       {tab === "saved" && (
         <SavedTab favorites={favorites} loading={favLoading} onToggle={toggle} />
@@ -186,6 +191,7 @@ function ProfilePage() {
 
 function Dashboard({
   loading,
+  profile,
   result,
   favorites,
   favoriteIds,
@@ -193,6 +199,7 @@ function Dashboard({
   favLoading,
 }: {
   loading: boolean;
+  profile: ReturnType<typeof useStudentProfile>["profile"];
   result: ReturnType<typeof matchUniversities> | null;
   favorites: { university_id: string; university_name: string }[];
   favoriteIds: Set<string>;
@@ -202,9 +209,23 @@ function Dashboard({
   const { tt } = useI18n();
   const top = result?.matches.slice(0, 6) ?? [];
   const [active, setActive] = useState<University | null>(null);
+  const candidates = useMemo(() => {
+    const seen = new Set<string>();
+    const out: University[] = [];
+    const push = (u: University | undefined) => {
+      if (u && !seen.has(u.id)) {
+        seen.add(u.id);
+        out.push(u);
+      }
+    };
+    favorites.forEach((f) => push(UNIVERSITIES.find((u) => u.id === f.university_id)));
+    (result?.matches.slice(0, 12) ?? []).forEach((m) => push(m.university));
+    return out;
+  }, [favorites, result]);
   return (
     <div className="mt-8 space-y-12">
-      <LiveIntelligenceFeed compact />
+      <PersonalCard profile={profile} />
+      <ApplicationsCard candidates={candidates} />
 
       <div>
         <h2 className="font-display text-2xl text-primary">{tt("Profile strength")}</h2>
@@ -238,6 +259,7 @@ function Dashboard({
       {top.length > 0 && (
         <div>
           <h2 className="font-display text-2xl text-primary">{tt("Your top matches")}</h2>
+          <p className="mt-1 text-xs text-muted-foreground">{tt("From your latest assessment")}</p>
           <div className="mt-4 grid gap-5 lg:grid-cols-2">
             {top.map((m) => (
               <UniversityCard
