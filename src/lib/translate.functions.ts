@@ -6,7 +6,7 @@ import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 const inputSchema = z.object({
   lang: z.string().min(2).max(12),
   langName: z.string().min(2).max(60),
-  texts: z.array(z.string().min(1).max(500)).min(1).max(60),
+  texts: z.array(z.string().min(1).max(4000)).min(1).max(60),
 });
 
 export const translateBatch = createServerFn({ method: "POST" })

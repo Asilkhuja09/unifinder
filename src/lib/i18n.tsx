@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { translateBatch } from "@/lib/translate.functions";
+import { MAX_TEXT_CHARS, takeBatch, translateWithFallback } from "@/lib/translate-batch";
 
 export const LANGUAGES = [
   { code: "en", label: "English", flag: "🇺🇸" },
@@ -576,6 +577,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const pendingRef = useRef<Set<string>>(new Set());
   const flushingRef = useRef(false);
   const cacheRef = useRef<Record<string, string>>({});
+  /** Strings that could not be translated this session – never retried in a loop. */
+  const failedRef = useRef<Set<string>>(new Set());
+  const langRef = useRef<LangCode>("en");
   const dir: "ltr" | "rtl" = lang === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
@@ -584,8 +588,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [lang, dir]);
 
   useEffect(() => {
+    langRef.current = lang;
     cacheRef.current = loadCache(lang);
     pendingRef.current = new Set();
+    failedRef.current = new Set();
     setCache({ ...cacheRef.current });
   }, [lang]);
 
@@ -594,27 +600,29 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     flushingRef.current = true;
     try {
       while (pendingRef.current.size > 0) {
-        const batch = [...pendingRef.current].slice(0, 40);
-        batch.forEach((s) => pendingRef.current.delete(s));
-        const langName = LANGUAGES.find((l) => l.code === lang)?.label ?? lang;
-        try {
+        // Always serve whichever language is current: `pendingRef` is reset on every switch.
+        const batchLang = langRef.current;
+        if (batchLang === "en") break;
+        const batch = takeBatch(pendingRef.current);
+        const langName = LANGUAGES.find((l) => l.code === batchLang)?.label ?? batchLang;
+        const { done, failed } = await translateWithFallback(batch, async (texts) => {
           const { translations } = await translateBatch({
-            data: { lang, langName, texts: batch },
+            data: { lang: batchLang, langName, texts },
           });
-          batch.forEach((source, i) => {
-            const translated = translations[i]?.trim();
-            if (translated) cacheRef.current[source] = translated;
-          });
-          saveCache(lang, cacheRef.current);
-          setCache({ ...cacheRef.current });
-        } catch (error) {
-          console.error("Translation batch failed", error);
-        }
+          return translations;
+        });
+        // The visitor switched language while this request was in flight – drop the answer.
+        if (langRef.current !== batchLang) continue;
+        failed.forEach((source) => failedRef.current.add(source));
+        if (failed.length > 0) console.error("Could not translate", failed.length, "string(s)");
+        Object.assign(cacheRef.current, done);
+        saveCache(batchLang, cacheRef.current);
+        setCache({ ...cacheRef.current });
       }
     } finally {
       flushingRef.current = false;
     }
-  }, [lang]);
+  }, []);
 
   const t = useCallback(
     (key: keyof Dict) => dict[lang]?.[key] ?? en[key],
@@ -626,7 +634,12 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       if (lang === "en" || !text.trim()) return text;
       const hit = cache[text];
       if (hit) return hit;
-      if (!pendingRef.current.has(text) && !(text in cacheRef.current)) {
+      if (
+        text.length <= MAX_TEXT_CHARS &&
+        !pendingRef.current.has(text) &&
+        !failedRef.current.has(text) &&
+        !(text in cacheRef.current)
+      ) {
         pendingRef.current.add(text);
         queueMicrotask(() => void flush());
       }
