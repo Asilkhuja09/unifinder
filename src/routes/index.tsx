@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useI18n } from "@/lib/i18n";
-import heroVideo from "@/assets/hero-bg.mp4.asset.json";
+import { HeroVideo } from "@/components/unifinder/HeroVideo";
 import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
 
 const title = "UniFinder Global — Elite Universities & Full-Ride Scholarships";
@@ -78,25 +78,22 @@ function Content() {
 
   return (
     <>
-        <section className="relative flex flex-col items-center py-24 text-center sm:py-32">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 bottom-0 overflow-hidden">
-            <video
-              className="absolute inset-0 size-full object-cover"
-              src={heroVideo.url}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
+        <section className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center py-24 text-center sm:min-h-[640px] sm:py-32">
+          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+            <HeroVideo />
+            {/* Even tint keeps the footage visible while the centred headline stays readable */}
+            <div className="absolute inset-0 bg-background/45" />
+            {/* Soft pool of darkness right behind the text, so the bright beam never fights the headline */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse 75% 60% at 50% 50%, color-mix(in oklab, var(--background) 58%, transparent), transparent 78%)",
+              }}
             />
-            {/* Lighten the scrim so the video stays visible, but keep the headline readable */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/70" />
-            {/* Fade the top and bottom edges into the page background so nothing ends in a hard line */}
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
-            {/* Gentle side vignette so the wide layer dissolves toward the edges */}
-            <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background/80 to-transparent" />
-            <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-background/80 to-transparent" />
+            {/* Only the top and bottom blend into the page; the sides run edge to edge */}
+            <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent" />
           </div>
           <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-4">
           <h1 className="font-display text-5xl leading-[1.05] text-gilded sm:text-7xl">
