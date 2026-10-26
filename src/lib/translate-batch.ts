@@ -10,8 +10,10 @@
 /** Longest single string we try to translate. Must not exceed the server's per-text limit. */
 export const MAX_TEXT_CHARS = 4000;
 /** Per-request limits – keep requests small enough to finish quickly and stay in the right order. */
-export const MAX_BATCH_ITEMS = 25;
-export const MAX_BATCH_CHARS = 6000;
+export const MAX_BATCH_ITEMS = 12;
+export const MAX_BATCH_CHARS = 3500;
+/** A string that failed is left alone for this long before the next render may try it again. */
+export const RETRY_AFTER_MS = 30_000;
 
 /** Removes and returns the next batch from `pending`, bounded by item count and total characters. */
 export function takeBatch(pending: Set<string>): string[] {

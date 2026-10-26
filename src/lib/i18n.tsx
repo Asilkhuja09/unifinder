@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { translateBatch } from "@/lib/translate.functions";
-import { MAX_TEXT_CHARS, takeBatch, translateWithFallback } from "@/lib/translate-batch";
+import { MAX_TEXT_CHARS, RETRY_AFTER_MS, takeBatch, translateWithFallback } from "@/lib/translate-batch";
 
 export const LANGUAGES = [
   { code: "en", label: "English", flag: "🇺🇸" },
@@ -577,8 +577,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const pendingRef = useRef<Set<string>>(new Set());
   const flushingRef = useRef(false);
   const cacheRef = useRef<Record<string, string>>({});
-  /** Strings that could not be translated this session – never retried in a loop. */
-  const failedRef = useRef<Set<string>>(new Set());
+  /** Strings that could not be translated, with the time of failure – retried later, never in a loop. */
+  const failedRef = useRef<Map<string, number>>(new Map());
   const langRef = useRef<LangCode>("en");
   const dir: "ltr" | "rtl" = lang === "ar" ? "rtl" : "ltr";
 
@@ -591,7 +591,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     langRef.current = lang;
     cacheRef.current = loadCache(lang);
     pendingRef.current = new Set();
-    failedRef.current = new Set();
+    failedRef.current = new Map();
     setCache({ ...cacheRef.current });
   }, [lang]);
 
@@ -613,7 +613,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         });
         // The visitor switched language while this request was in flight – drop the answer.
         if (langRef.current !== batchLang) continue;
-        failed.forEach((source) => failedRef.current.add(source));
+        failed.forEach((source) => failedRef.current.set(source, Date.now()));
         if (failed.length > 0) console.error("Could not translate", failed.length, "string(s)");
         Object.assign(cacheRef.current, done);
         saveCache(batchLang, cacheRef.current);
@@ -637,7 +637,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       if (
         text.length <= MAX_TEXT_CHARS &&
         !pendingRef.current.has(text) &&
-        !failedRef.current.has(text) &&
+        Date.now() - (failedRef.current.get(text) ?? 0) > RETRY_AFTER_MS &&
         !(text in cacheRef.current)
       ) {
         pendingRef.current.add(text);

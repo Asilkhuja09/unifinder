@@ -37,6 +37,15 @@ export const translateBatch = createServerFn({ method: "POST" })
       }),
     });
 
-    const output = await result.output;
-    return { translations: output.translations };
+    try {
+      const output = await result.output;
+      return { translations: output.translations };
+    } catch (error) {
+      // Surface the real reason in the server logs; the client only sees a generic failure.
+      console.error(
+        `translateBatch failed (${data.lang}, ${data.texts.length} text(s), ${numbered.length} chars):`,
+        error,
+      );
+      throw error;
+    }
   });
