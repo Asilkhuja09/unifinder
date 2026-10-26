@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ClipboardList, GraduationCap, PenLine, University } from "lucide-react";
 import { PageShell } from "@/components/unifinder/PageShell";
 import { useI18n } from "@/lib/i18n";
+import { FAQ_TRANSLATIONS } from "@/data/faqTranslations";
 import heroVideo from "@/assets/hero-bg.mp4.asset.json";
 import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
 
@@ -43,12 +44,14 @@ const FAQ = [
   },
   {
     q: "Is my application profile data stored securely?",
-    a: "Yes. Sign-in runs through managed OAuth providers, and anything tied to your account — saved universities and essay evaluations — is stored with row-level security so only your authenticated session can read or modify it. Assessment answers stay in your browser session unless you choose to save them, and we never sell or share your data.",
+    a: "Yes. Sign-in runs through managed OAuth providers, and anything tied to your account — saved universities, essay evaluations and your profile details — is protected so only your authenticated session can read or modify it. If you are not signed in, assessment answers stay in your browser; if you are, your latest assessment is saved to your profile so you can come back to it. We never sell or share your data.",
   },
 ];
 
 function Content() {
-  const { t, tt } = useI18n();
+  const { t, tt, lang } = useI18n();
+  // Hand-written FAQ translations; other languages fall back to the runtime translator.
+  const faqText = FAQ_TRANSLATIONS[lang];
   const sections = [
     {
       to: "/assessment" as const,
@@ -140,12 +143,14 @@ function Content() {
         <section id="faq" className="mx-auto w-full max-w-4xl px-4 py-16">
           <h2 className="mb-8 text-4xl font-semibold text-gilded">{t("navFaq")}</h2>
           <div className="space-y-4">
-            {FAQ.map((f) => (
+            {FAQ.map((f, i) => (
               <details key={f.q} className="glass rounded-2xl p-5">
                 <summary className="cursor-pointer font-display text-xl text-primary">
-                  {tt(f.q)}
+                  {faqText?.q[i] ?? tt(f.q)}
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tt(f.a)}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {faqText?.a[i] ?? tt(f.a)}
+                </p>
               </details>
             ))}
           </div>
