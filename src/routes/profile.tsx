@@ -450,7 +450,7 @@ function EditProfile({
               className={field}
               value={profile.country}
               onChange={(e) => set("country", e.target.value)}
-              placeholder="Uzbekistan"
+              placeholder={tt("Uzbekistan")}
             />
           </div>
           <div>
@@ -459,7 +459,7 @@ function EditProfile({
               className={field}
               value={profile.major}
               onChange={(e) => set("major", e.target.value)}
-              placeholder="Computer Science"
+              placeholder={tt("Computer Science")}
             />
           </div>
           <div>

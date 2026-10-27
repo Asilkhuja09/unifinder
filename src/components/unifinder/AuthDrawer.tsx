@@ -98,7 +98,7 @@ export function AuthDrawer() {
         <div className="relative flex flex-col items-center text-center">
           <button
             onClick={closeGate}
-            aria-label="Close"
+            aria-label={tt("Close")}
             className="absolute end-0 top-0 rounded-full border border-border p-2 text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />

@@ -91,7 +91,7 @@ export function UniversityModal({
           </div>
           <button
             onClick={onClose}
-            aria-label="Close"
+            aria-label={tt("Close")}
             className="rounded-full border border-border p-2 text-muted-foreground hover:text-foreground"
           >
             <X className="size-4" />
