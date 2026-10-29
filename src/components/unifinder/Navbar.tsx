@@ -109,7 +109,7 @@ export function Navbar({ onStart }: { onStart: () => void }) {
           {(user || hint) && (
             <Link
               to="/profile"
-              aria-label="Profile"
+              aria-label={tt("Profile")}
               className="glass hidden size-10 place-items-center rounded-full text-primary transition-colors hover:border-primary/60 sm:grid"
             >
               <UserRound className="size-4" />

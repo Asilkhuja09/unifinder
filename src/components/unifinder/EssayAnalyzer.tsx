@@ -343,7 +343,7 @@ export function EssayAnalyzer() {
                   id="target"
                   value={target}
                   onChange={(e) => setTarget(e.target.value)}
-                  placeholder="e.g. University of Toronto"
+                  placeholder={tt("e.g. University of Toronto")}
                   className="mt-2 w-full rounded-xl border border-border bg-velvet/50 px-4 py-3 text-sm outline-none focus:border-primary/60"
                 />
               </div>
@@ -470,7 +470,7 @@ export function EssayAnalyzer() {
                   </button>
                   <button
                     onClick={() => void remove(row.id)}
-                    aria-label="Delete evaluation"
+                    aria-label={tt("Delete evaluation")}
                     className="rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:text-destructive"
                   >
                     <Trash2 className="size-4" />
