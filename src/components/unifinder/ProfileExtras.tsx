@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { CalendarDays, Check, Loader2, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -7,7 +7,8 @@ import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
 import type { University } from "@/data/extendedData";
-import { buildRoadmapSteps, datePlan } from "@/lib/roadmap";
+import { buildRoadmapSteps, datePlan, stepDetail, stepTitle, type DatedStep } from "@/lib/roadmap";
+import { buildIcs, downloadIcs } from "@/lib/ics";
 import { cn } from "@/lib/utils";
 
 export type AppEntry = { id: string; name: string; date: string };
@@ -199,23 +200,101 @@ export function ApplicationsCard({ candidates }: { candidates: University[] }) {
 
 const DONE_KEY = "uf_roadmap_done";
 
-/** Personal step-by-step plan counted back from the application date. */
-export function RoadmapTab({ profile }: { profile: Profile }) {
-  const { tt } = useI18n();
+function readLocalDone(): string[] {
+  try {
+    const raw = window.localStorage.getItem(DONE_KEY);
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalDone(ids: string[]) {
+  try {
+    window.localStorage.setItem(DONE_KEY, JSON.stringify(ids));
+  } catch {
+    /* ignore */
+  }
+}
+
+function clearLocalDone() {
+  try {
+    window.localStorage.removeItem(DONE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+export type RoadmapState = {
+  plan: DatedStep[];
+  done: string[];
+  toggle: (id: string) => void;
+  /** ISO date the plan is counted back from, or "" while none is set. */
+  target: string;
+  count: number;
+  overdue: DatedStep[];
+  /** Earliest step that is not done yet (it may already be overdue). */
+  next: DatedStep | undefined;
+};
+
+/**
+ * The student's dated plan plus which steps they have ticked off.
+ * Signed in: progress lives in the account (`user_metadata.roadmap_done`) and follows them across devices;
+ * anything ticked in this browser before signing in is merged into the account once.
+ * Signed out: progress stays in this browser's localStorage.
+ */
+export function useRoadmap(profile: Profile): RoadmapState {
   const { user, apps, applyBy, update } = useProfileExtras();
   const [done, setDone] = useState<string[]>([]);
-  const [dateInput, setDateInput] = useState("");
+  const doneRef = useRef<string[]>([]);
+  const hydratedFor = useRef<string | null>(null);
+
+  const remote = useMemo<string[]>(() => {
+    const raw = (user?.user_metadata as Record<string, unknown> | undefined)?.["roadmap_done"];
+    return Array.isArray(raw) ? raw.filter((x): x is string => typeof x === "string") : [];
+  }, [user?.user_metadata]);
 
   useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(DONE_KEY);
-      const parsed: unknown = raw ? JSON.parse(raw) : [];
-      setDone(Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : []);
-    } catch {
-      setDone([]);
+    const key = user?.id ?? "anon";
+    if (hydratedFor.current === key) return;
+    hydratedFor.current = key;
+    const local = readLocalDone();
+    if (!user) {
+      doneRef.current = local;
+      setDone(local);
+      return;
     }
-  }, []);
-  useEffect(() => setDateInput(applyBy), [applyBy]);
+    const merged = Array.from(new Set([...remote, ...local]));
+    doneRef.current = merged;
+    setDone(merged);
+    if (merged.length === remote.length) {
+      clearLocalDone();
+    } else {
+      void update({ roadmap_done: merged }).then((err) => {
+        if (!err) clearLocalDone();
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, remote]);
+
+  const toggle = useCallback(
+    (id: string) => {
+      const current = doneRef.current;
+      const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
+      doneRef.current = next;
+      setDone(next);
+      if (user) {
+        void update({ roadmap_done: next }).then((err) => {
+          if (err) toast.error(err);
+        });
+      } else {
+        writeLocalDone(next);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user],
+  );
 
   const earliestApp = [...apps].sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? "";
   const target = applyBy || earliestApp;
@@ -225,18 +304,100 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
     [profile, target],
   );
 
-  const toggle = (id: string) => {
-    const next = done.includes(id) ? done.filter((x) => x !== id) : [...done, id];
-    setDone(next);
-    try {
-      window.localStorage.setItem(DONE_KEY, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-  };
-
   const count = plan.filter((s) => done.includes(s.id)).length;
+  const overdue = plan.filter((s) => !done.includes(s.id) && s.daysLeft < 0);
+  const next = plan.find((s) => !done.includes(s.id));
+  return { plan, done, toggle, target, count, overdue, next };
+}
+
+function dueLabel(step: DatedStep, finished: boolean, tt: (text: string) => string): string {
+  if (finished) return tt("done");
+  return step.daysLeft < 0 ? tt("overdue") : `${step.daysLeft} ${tt("days")}`;
+}
+
+/** Dashboard card: the one thing to do next, and how many steps are late. */
+export function NextStepCard({ profile, onOpen }: { profile: Profile; onOpen: () => void }) {
+  const { t, tt, lang } = useI18n();
+  const { plan, count, overdue, next, target } = useRoadmap(profile);
+  const late = next ? next.daysLeft < 0 : false;
+
+  return (
+    <div className="glass rounded-2xl p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="font-display text-2xl text-primary">{t("roadmapNext")}</h2>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="rounded-full border border-primary/50 px-4 py-1.5 text-xs text-primary transition-colors hover:bg-primary/10"
+        >
+          {t("roadmapOpen")}
+        </button>
+      </div>
+
+      {!target && (
+        <p className="mt-3 text-sm text-muted-foreground">
+          {t("roadmapSetDate")}
+        </p>
+      )}
+
+      {target && !next && (
+        <p className="mt-3 text-sm text-muted-foreground">{t("roadmapAllDone")}</p>
+      )}
+
+      {next && (
+        <div className="mt-3">
+          <p className="text-sm font-semibold">{stepTitle(next, lang)}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{stepDetail(next, lang)}</p>
+          <p className={cn("mt-2 text-xs", late ? "text-destructive" : "text-muted-foreground")}>
+            <span className="tabular-nums">{next.due.toISOString().slice(0, 10)}</span> · {dueLabel(next, false, tt)}
+          </p>
+        </div>
+      )}
+
+      {plan.length > 0 && (
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-gold-soft to-gold transition-[width] duration-500"
+              style={{ width: `${(count / plan.length) * 100}%` }}
+            />
+          </div>
+          <span className="text-xs tabular-nums text-muted-foreground">
+            {count}/{plan.length}
+          </span>
+          {overdue.length > 0 && (
+            <span className="text-xs text-destructive">
+              {t("roadmapOverdue")}: {overdue.length}
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Personal step-by-step plan counted back from the application date. */
+export function RoadmapTab({ profile }: { profile: Profile }) {
+  const { t, tt, lang } = useI18n();
+  const { user, applyBy, update } = useProfileExtras();
+  const { plan, done, toggle, target, count, overdue } = useRoadmap(profile);
+  const [dateInput, setDateInput] = useState("");
+
+  useEffect(() => setDateInput(applyBy), [applyBy]);
+
   const hasProfile = Boolean(profile.major || profile.gpa);
+  const open = plan.filter((s) => !done.includes(s.id));
+
+  const exportCalendar = () => {
+    if (open.length === 0) return;
+    const events = open.map((s) => ({
+      uid: `${s.id}@unifinder-roadmap`,
+      date: s.due.toISOString().slice(0, 10),
+      title: stepTitle(s, lang),
+      description: stepDetail(s, lang),
+    }));
+    downloadIcs("unifinder-roadmap.ics", buildIcs(events, "UniFinder"));
+  };
 
   return (
     <div className="mt-8 space-y-6">
@@ -260,6 +421,17 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
           >
             {tt("Build my plan")}
           </button>
+          {plan.length > 0 && (
+            <button
+              type="button"
+              disabled={open.length === 0}
+              onClick={exportCalendar}
+              className="inline-flex items-center gap-2 rounded-xl border border-primary/50 px-4 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10 disabled:opacity-40"
+            >
+              <CalendarDays className="size-4" />
+              {t("roadmapCalendar")}
+            </button>
+          )}
         </div>
         {!user && <p className="mt-2 text-xs text-muted-foreground">{tt("Sign in to save your plan.")}</p>}
         {!hasProfile && (
@@ -286,17 +458,22 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
               {count}/{plan.length}
             </span>
           </div>
+          {overdue.length > 0 && (
+            <p className="mb-4 text-sm text-destructive">
+              {t("roadmapOverdue")}: {overdue.length}
+            </p>
+          )}
           <ol className="relative space-y-3 border-s border-border ps-6">
             {plan.map((s) => {
               const finished = done.includes(s.id);
-              const overdue = !finished && s.daysLeft < 0;
+              const late = !finished && s.daysLeft < 0;
               const soon = !finished && s.daysLeft >= 0 && s.daysLeft <= 30;
               return (
                 <li key={s.id} className="relative">
                   <span
                     className={cn(
                       "absolute -start-[1.95rem] top-4 size-3 rounded-full border-2 border-background",
-                      finished ? "bg-emerald-400" : overdue ? "bg-destructive" : soon ? "bg-primary" : "bg-border",
+                      finished ? "bg-emerald-400" : late ? "bg-destructive" : soon ? "bg-primary" : "bg-border",
                     )}
                   />
                   <div className={cn("glass rounded-2xl p-4 transition-opacity", finished && "opacity-60")}>
@@ -314,8 +491,15 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
                         {finished && <Check className="size-3" strokeWidth={3.5} />}
                       </button>
                       <div className="min-w-0 flex-1">
-                        <p className={cn("text-sm font-semibold", finished && "line-through")}>{tt(s.title)}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">{tt(s.detail)}</p>
+                        <p className={cn("text-sm font-semibold", finished && "line-through")}>
+                          {s.region && (
+                            <span className="me-2 rounded-full border border-primary/40 px-2 py-0.5 align-middle text-[0.65rem] font-medium text-primary">
+                              {tt(s.region)}
+                            </span>
+                          )}
+                          {stepTitle(s, lang)}
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">{stepDetail(s, lang)}</p>
                         {s.link && (
                           <Link to={s.link} className="mt-2 inline-block text-xs text-primary underline-offset-4 hover:underline">
                             {tt("Open")}
@@ -324,8 +508,8 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
                       </div>
                       <div className="shrink-0 text-end text-xs">
                         <p className="tabular-nums">{s.due.toISOString().slice(0, 10)}</p>
-                        <p className={cn("mt-0.5", overdue ? "text-destructive" : soon ? "text-primary" : "text-muted-foreground")}>
-                          {finished ? tt("done") : overdue ? tt("overdue") : `${s.daysLeft} ${tt("days")}`}
+                        <p className={cn("mt-0.5", late ? "text-destructive" : soon ? "text-primary" : "text-muted-foreground")}>
+                          {dueLabel(s, finished, tt)}
                         </p>
                       </div>
                     </div>
