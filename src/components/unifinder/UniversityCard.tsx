@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { countryCode } from "@/lib/flags";
 import { Button } from "@/components/ui/button";
+import { placeUrl } from "@/lib/maps";
 
 const CATEGORY_STYLE: Record<MatchCategory, { label: string; className: string }> = {
   reach: { label: "Reach", className: "border-status-reach/60 text-status-reach" },
@@ -168,7 +169,7 @@ export function UniversityCard({
           </a>
         </Button>
         <Button asChild variant="outline" size="icon" className="size-11 rounded-xl border-accent/60 bg-feed/70 text-accent">
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(university.mapsQuery)}`} target="_blank" rel="noopener noreferrer" aria-label={`View ${university.name} on map`}>
+          <a href={placeUrl({ query: university.mapsQuery })} target="_blank" rel="noopener noreferrer" aria-label={`View ${university.name} on map`}>
             <Landmark />
           </a>
         </Button>

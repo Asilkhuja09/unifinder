@@ -118,7 +118,7 @@ export function buildRoadmapSteps(profile: Profile): RoadmapStep[] {
     monthsBefore: 10,
     titleId: major ? "shortlist.title.major" : "shortlist.title.open",
     detailId: profile.difficulty === "" ? "shortlist.detail.open" : "shortlist.detail.tier",
-    params: major ? { major } : undefined,
+    ...(major ? { params: { major } } : {}),
     link: "/compare",
   });
 
