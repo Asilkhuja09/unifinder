@@ -23,12 +23,13 @@ import {
 
 const API = "https://places.googleapis.com/v1";
 const FIELD_MASK = "places.id,places.displayName,places.formattedAddress,places.location,places.photos";
-const MAX_PHOTOS = 4;
+const MAX_PHOTOS = 3;
 const PHOTO_WIDTH_PX = 900;
 const FOUND_TTL_MS = 60 * 60 * 1000;
 const MISSING_TTL_MS = 10 * 60 * 1000;
 const TIMEOUT_MS = 8000;
-const DEFAULT_DAILY_LIMIT = 800;
+/** Lookups per day per server instance. Each one costs 1 search plus up to MAX_PHOTOS photo requests. */
+const DEFAULT_DAILY_LIMIT = 40;
 
 export type CampusPlaceResult = {
   place: CampusPlace | null;
