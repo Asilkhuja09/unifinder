@@ -20,7 +20,7 @@ import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
 import { useStudentProfile, useTranscripts, type TranscriptRow } from "@/lib/student-profile";
 import { matchUniversities } from "@/lib/matching";
 import { UniversityCard } from "@/components/unifinder/UniversityCard";
-import { ApplicationsCard, PersonalCard, RoadmapTab } from "@/components/unifinder/ProfileExtras";
+import { ApplicationsCard, NextStepCard, PersonalCard, RoadmapTab } from "@/components/unifinder/ProfileExtras";
 import { UniversityModal } from "@/components/unifinder/UniversityModal";
 import { LiveIntelligenceFeed } from "@/components/unifinder/LiveIntelligenceFeed";
 import { Button } from "@/components/ui/button";
@@ -159,6 +159,7 @@ function ProfilePage() {
           favoriteIds={ids}
           onToggleFavorite={toggle}
           favLoading={favLoading}
+          onOpenRoadmap={() => setTab("roadmap")}
         />
       )}
 
@@ -197,6 +198,7 @@ function Dashboard({
   favoriteIds,
   onToggleFavorite,
   favLoading,
+  onOpenRoadmap,
 }: {
   loading: boolean;
   profile: ReturnType<typeof useStudentProfile>["profile"];
@@ -205,6 +207,7 @@ function Dashboard({
   favoriteIds: Set<string>;
   onToggleFavorite: (universityId: string, universityName: string) => Promise<void>;
   favLoading: boolean;
+  onOpenRoadmap: () => void;
 }) {
   const { tt } = useI18n();
   const top = result?.matches.slice(0, 6) ?? [];
@@ -225,6 +228,7 @@ function Dashboard({
   return (
     <div className="mt-8 space-y-12">
       <PersonalCard profile={profile} />
+      <NextStepCard profile={profile} onOpen={onOpenRoadmap} />
       <ApplicationsCard candidates={candidates} />
 
       <div>
