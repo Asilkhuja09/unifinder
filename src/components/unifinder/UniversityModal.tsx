@@ -5,7 +5,6 @@ import { useI18n } from "@/lib/i18n";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
 import { useUniversityPhotos } from "@/lib/universityPhotos";
-import { useCampusPlace } from "@/lib/campusPlace";
 import { browserMapsKey, directionsUrl, embedUrl, placeUrl } from "@/lib/maps";
 import { useFavorites } from "@/lib/favorites";
 import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
@@ -15,8 +14,6 @@ import { cn } from "@/lib/utils";
 
 /** Language codes Google Maps understands, where they differ from ours. */
 const MAP_LANGUAGE: Record<string, string> = { zh: "zh-CN" };
-
-type GalleryPhoto = { url: string; caption: string; creditUrl?: string };
 
 export function UniversityModal({
   university,
@@ -55,30 +52,20 @@ export function UniversityModal({
   };
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
 
-  // Photo order: hand-picked photos, then the photos of the exact place on Google Maps (when the
-  // server has a key and is sure it found the right place), then photos from Wikipedia.
+  // Curated photos win; every other university gets photos looked up from Wikipedia.
   const hasCurated = media.photos.length > 0;
-  const { place, loading: placeLoading } = useCampusPlace(university.id);
   const { status, data } = useUniversityPhotos(university.id, university.name, !hasCurated);
   const [failed, setFailed] = useState<Set<string>>(() => new Set());
   const [satellite, setSatellite] = useState(false);
   const fetched = data?.photos ?? [];
-  const googlePhotos: GalleryPhoto[] = (place?.photos ?? []).map((p) => ({
-    url: p.url,
-    caption: p.author ? `© ${p.author}` : "Google Maps",
-    ...(p.authorUrl ? { creditUrl: p.authorUrl } : {}),
-  }));
-  const fromGoogle = !hasCurated && googlePhotos.length > 0;
-  const source: GalleryPhoto[] = hasCurated ? media.photos : fromGoogle ? googlePhotos : fetched;
+  const source: { url: string; caption: string }[] = hasCurated ? media.photos : fetched;
   const gallery = source.filter((p) => !failed.has(p.url));
-  const loadingPhotos = !hasCurated && (placeLoading || (!fromGoogle && status !== "done"));
-  const fromWikipedia = !hasCurated && !fromGoogle && fetched.length > 0;
+  const loadingPhotos = !hasCurated && status !== "done";
+  const fromWikipedia = !hasCurated && fetched.length > 0;
 
-  const target = { name: university.name, query: university.mapsQuery, placeId: place?.placeId };
+  const target = { query: university.mapsQuery };
   const mapKey = browserMapsKey();
-  const mapSrc = placeLoading
-    ? null
-    : embedUrl(target, { key: mapKey, language: MAP_LANGUAGE[lang] ?? lang, satellite });
+  const mapSrc = embedUrl(target, { key: mapKey, language: MAP_LANGUAGE[lang] ?? lang, satellite });
   const location =
     !university.city || university.city === "Main campus"
       ? university.country
@@ -177,22 +164,11 @@ export function UniversityModal({
                   className="h-48 w-full object-cover"
                 />
                 <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
-                  {p.creditUrl ? (
-                    <a href={p.creditUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
-                      {p.caption}
-                    </a>
-                  ) : fromGoogle ? (
-                    p.caption
-                  ) : (
-                    tt(p.caption)
-                  )}
+                  {tt(p.caption)}
                 </figcaption>
               </figure>
             ))}
           </div>
-        )}
-        {fromGoogle && gallery.length > 0 && (
-          <p className="mt-2 text-xs text-muted-foreground">{t("mapPhotosGoogle")}</p>
         )}
         {fromWikipedia && gallery.length > 0 && (
           <p className="mt-2 text-xs text-muted-foreground">
@@ -234,7 +210,7 @@ export function UniversityModal({
               </div>
             </div>
             <div className="overflow-hidden rounded-2xl border border-border">
-              {mapSrc ? (
+              {mapSrc && (
                 <iframe
                   key={mapSrc}
                   src={mapSrc}
@@ -244,11 +220,8 @@ export function UniversityModal({
                   referrerPolicy="strict-origin-when-cross-origin"
                   className="h-64 w-full sm:h-80"
                 />
-              ) : (
-                <div className="h-64 w-full animate-pulse bg-velvet/40 sm:h-80" aria-hidden />
               )}
             </div>
-            {place?.address && <p className="mt-2 text-xs text-muted-foreground">{place.address}</p>}
           </section>
         )}
         {media.stats.length > 0 && (

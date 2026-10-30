@@ -1,30 +1,24 @@
 /**
- * Google Maps links and embed addresses for a university. Pure functions, no network.
- *
- * With a `placeId` (found once by the server, see places.functions.ts) the links open the exact
- * place. Without one they fall back to a text search on the university's address.
+ * Google Maps links and embed addresses for a university. Pure functions, no network, no paid API:
+ * everything is a plain link or the free Maps Embed iframe, searched by the university's address.
  */
 
 export type MapTarget = {
-  name: string;
-  /** Free-text address or name used when no place id is known. */
+  /** Address (or "Name, Country") that Google Maps searches for. */
   query: string;
-  placeId?: string | undefined;
 };
 
 const BASE = "https://www.google.com/maps";
 
 /** Opens the place on Google Maps. */
 export function placeUrl(t: MapTarget): string {
-  const params = new URLSearchParams({ api: "1", query: t.placeId ? t.name : t.query });
-  if (t.placeId) params.set("query_place_id", t.placeId);
+  const params = new URLSearchParams({ api: "1", query: t.query });
   return `${BASE}/search/?${params.toString()}`;
 }
 
 /** Opens Google Maps with directions to the place, starting from the visitor's own location. */
 export function directionsUrl(t: MapTarget): string {
-  const params = new URLSearchParams({ api: "1", destination: t.placeId ? t.name : t.query });
-  if (t.placeId) params.set("destination_place_id", t.placeId);
+  const params = new URLSearchParams({ api: "1", destination: t.query });
   return `${BASE}/dir/?${params.toString()}`;
 }
 
@@ -42,7 +36,7 @@ export function embedUrl(t: MapTarget, opts: EmbedOptions): string | null {
   if (!key) return null;
   const params = new URLSearchParams({
     key,
-    q: t.placeId ? `place_id:${t.placeId}` : t.query,
+    q: t.query,
     zoom: "15",
     maptype: opts.satellite ? "satellite" : "roadmap",
   });

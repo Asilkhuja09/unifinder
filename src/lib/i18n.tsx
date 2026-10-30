@@ -109,7 +109,6 @@ const en = {
   mapRoad: "Map",
   mapSatellite: "Satellite",
   mapDirections: "Directions",
-  mapPhotosGoogle: "Photos from Google Maps. Each photo is credited to its photographer.",
 };
 
 type Dict = typeof en;
@@ -187,7 +186,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Xarita",
     mapSatellite: "Sun'iy yo'ldosh",
     mapDirections: "Yo'nalish",
-    mapPhotosGoogle: "Rasmlar Google Maps'dan. Har bir rasm muallifi ko'rsatilgan.",
   },
   ru: {
     tagline: "Частная сеть",
@@ -259,7 +257,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Карта",
     mapSatellite: "Спутник",
     mapDirections: "Маршрут",
-    mapPhotosGoogle: "Фото из Google Maps. У каждого фото указан автор.",
   },
   zh: {
     tagline: "私密网络",
@@ -330,7 +327,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "地图",
     mapSatellite: "卫星",
     mapDirections: "路线",
-    mapPhotosGoogle: "照片来自 Google 地图，每张照片均标注摄影者。",
   },
   tr: {
     tagline: "Özel Ağ",
@@ -402,7 +398,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Harita",
     mapSatellite: "Uydu",
     mapDirections: "Yol tarifi",
-    mapPhotosGoogle: "Fotoğraflar Google Haritalar'dan. Her fotoğrafın sahibi belirtilmiştir.",
   },
   ar: {
     tagline: "شبكة خاصة",
@@ -474,7 +469,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "الخريطة",
     mapSatellite: "القمر الصناعي",
     mapDirections: "الاتجاهات",
-    mapPhotosGoogle: "الصور من خرائط Google، وتُنسب كل صورة إلى مصوّرها.",
   },
   es: {
     tagline: "Red Privada",
@@ -546,7 +540,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Mapa",
     mapSatellite: "Satélite",
     mapDirections: "Cómo llegar",
-    mapPhotosGoogle: "Fotos de Google Maps. Cada foto indica a su autor.",
   },
   fr: {
     tagline: "Réseau Privé",
@@ -618,7 +611,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Plan",
     mapSatellite: "Satellite",
     mapDirections: "Itinéraire",
-    mapPhotosGoogle: "Photos de Google Maps. Chaque photo est créditée à son auteur.",
   },
   de: {
     tagline: "Privates Netzwerk",
@@ -690,7 +682,6 @@ const dict: Record<LangCode, Partial<Dict>> = {
     mapRoad: "Karte",
     mapSatellite: "Satellit",
     mapDirections: "Route",
-    mapPhotosGoogle: "Fotos von Google Maps. Jedes Foto nennt seinen Urheber.",
   },
 };
 

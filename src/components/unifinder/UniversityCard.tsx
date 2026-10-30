@@ -169,7 +169,7 @@ export function UniversityCard({
           </a>
         </Button>
         <Button asChild variant="outline" size="icon" className="size-11 rounded-xl border-accent/60 bg-feed/70 text-accent">
-          <a href={placeUrl({ name: university.name, query: university.mapsQuery })} target="_blank" rel="noopener noreferrer" aria-label={`View ${university.name} on map`}>
+          <a href={placeUrl({ query: university.mapsQuery })} target="_blank" rel="noopener noreferrer" aria-label={`View ${university.name} on map`}>
             <Landmark />
           </a>
         </Button>
