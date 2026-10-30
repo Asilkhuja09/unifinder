@@ -105,6 +105,11 @@ const en = {
   roadmapAllDone: "Every step is done. Good luck with your applications!",
   roadmapOverdue: "Overdue steps",
   roadmapCalendar: "Add to calendar",
+  mapTitle: "Location",
+  mapRoad: "Map",
+  mapSatellite: "Satellite",
+  mapDirections: "Directions",
+  mapPhotosGoogle: "Photos from Google Maps. Each photo is credited to its photographer.",
 };
 
 type Dict = typeof en;
@@ -178,6 +183,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Barcha qadamlar bajarildi. Arizalaringizga omad!",
     roadmapOverdue: "Kechikkan qadamlar",
     roadmapCalendar: "Kalendarga qo'shish",
+    mapTitle: "Joylashuvi",
+    mapRoad: "Xarita",
+    mapSatellite: "Sun'iy yo'ldosh",
+    mapDirections: "Yo'nalish",
+    mapPhotosGoogle: "Rasmlar Google Maps'dan. Har bir rasm muallifi ko'rsatilgan.",
   },
   ru: {
     tagline: "Частная сеть",
@@ -245,6 +255,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Все шаги выполнены. Удачи с заявками!",
     roadmapOverdue: "Просроченные шаги",
     roadmapCalendar: "Добавить в календарь",
+    mapTitle: "Расположение",
+    mapRoad: "Карта",
+    mapSatellite: "Спутник",
+    mapDirections: "Маршрут",
+    mapPhotosGoogle: "Фото из Google Maps. У каждого фото указан автор.",
   },
   zh: {
     tagline: "私密网络",
@@ -311,6 +326,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "所有步骤都已完成。祝您申请顺利！",
     roadmapOverdue: "已逾期的步骤",
     roadmapCalendar: "添加到日历",
+    mapTitle: "位置",
+    mapRoad: "地图",
+    mapSatellite: "卫星",
+    mapDirections: "路线",
+    mapPhotosGoogle: "照片来自 Google 地图，每张照片均标注摄影者。",
   },
   tr: {
     tagline: "Özel Ağ",
@@ -378,6 +398,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Tüm adımlar tamamlandı. Başvurularınızda başarılar!",
     roadmapOverdue: "Geciken adımlar",
     roadmapCalendar: "Takvime ekle",
+    mapTitle: "Konum",
+    mapRoad: "Harita",
+    mapSatellite: "Uydu",
+    mapDirections: "Yol tarifi",
+    mapPhotosGoogle: "Fotoğraflar Google Haritalar'dan. Her fotoğrafın sahibi belirtilmiştir.",
   },
   ar: {
     tagline: "شبكة خاصة",
@@ -445,6 +470,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "اكتملت جميع الخطوات. بالتوفيق في طلباتك!",
     roadmapOverdue: "الخطوات المتأخرة",
     roadmapCalendar: "أضف إلى التقويم",
+    mapTitle: "الموقع",
+    mapRoad: "الخريطة",
+    mapSatellite: "القمر الصناعي",
+    mapDirections: "الاتجاهات",
+    mapPhotosGoogle: "الصور من خرائط Google، وتُنسب كل صورة إلى مصوّرها.",
   },
   es: {
     tagline: "Red Privada",
@@ -512,6 +542,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Todos los pasos están completos. ¡Mucha suerte con tus solicitudes!",
     roadmapOverdue: "Pasos atrasados",
     roadmapCalendar: "Añadir al calendario",
+    mapTitle: "Ubicación",
+    mapRoad: "Mapa",
+    mapSatellite: "Satélite",
+    mapDirections: "Cómo llegar",
+    mapPhotosGoogle: "Fotos de Google Maps. Cada foto indica a su autor.",
   },
   fr: {
     tagline: "Réseau Privé",
@@ -579,6 +614,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Toutes les étapes sont terminées. Bonne chance pour vos candidatures !",
     roadmapOverdue: "Étapes en retard",
     roadmapCalendar: "Ajouter au calendrier",
+    mapTitle: "Emplacement",
+    mapRoad: "Plan",
+    mapSatellite: "Satellite",
+    mapDirections: "Itinéraire",
+    mapPhotosGoogle: "Photos de Google Maps. Chaque photo est créditée à son auteur.",
   },
   de: {
     tagline: "Privates Netzwerk",
@@ -646,6 +686,11 @@ const dict: Record<LangCode, Partial<Dict>> = {
     roadmapAllDone: "Alle Schritte sind erledigt. Viel Erfolg mit Ihren Bewerbungen!",
     roadmapOverdue: "Überfällige Schritte",
     roadmapCalendar: "Zum Kalender hinzufügen",
+    mapTitle: "Standort",
+    mapRoad: "Karte",
+    mapSatellite: "Satellit",
+    mapDirections: "Route",
+    mapPhotosGoogle: "Fotos von Google Maps. Jedes Foto nennt seinen Urheber.",
   },
 };
 

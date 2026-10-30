@@ -1,23 +1,22 @@
 import { useState } from "react";
-import { Compass, ExternalLink, Heart, Scale, Share2, X } from "lucide-react";
+import { Compass, ExternalLink, Heart, Navigation, Scale, Share2, X } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
 import { useUniversityPhotos } from "@/lib/universityPhotos";
+import { useCampusPlace } from "@/lib/campusPlace";
+import { browserMapsKey, directionsUrl, embedUrl, placeUrl } from "@/lib/maps";
 import { useFavorites } from "@/lib/favorites";
 import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
 import type { UniversityMatch } from "@/lib/matching";
 import { ApplicationChecklist, CostCalculator, FitPanel } from "@/components/unifinder/UniversityExtras";
 import { cn } from "@/lib/utils";
 
-export function openCampusMaps(uni: University) {
-  window.open(
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(uni.mapsQuery)}`,
-    "_blank",
-    "noopener,noreferrer",
-  );
-}
+/** Language codes Google Maps understands, where they differ from ours. */
+const MAP_LANGUAGE: Record<string, string> = { zh: "zh-CN" };
+
+type GalleryPhoto = { url: string; caption: string; creditUrl?: string };
 
 export function UniversityModal({
   university,
@@ -29,7 +28,7 @@ export function UniversityModal({
   /** Present when opened from personalised results; adds the fit breakdown. */
   match?: UniversityMatch | undefined;
 }) {
-  const { t, tt } = useI18n();
+  const { t, tt, lang } = useI18n();
   const { ids, toggle } = useFavorites();
   const compared = useCompare();
   const saved = ids.has(university.id);
@@ -56,15 +55,30 @@ export function UniversityModal({
   };
   const media = CAMPUS_MEDIA[university.id] ?? FALLBACK_MEDIA;
 
-  // Curated photos win; every other university gets photos looked up from Wikipedia.
+  // Photo order: hand-picked photos, then the photos of the exact place on Google Maps (when the
+  // server has a key and is sure it found the right place), then photos from Wikipedia.
   const hasCurated = media.photos.length > 0;
+  const { place, loading: placeLoading } = useCampusPlace(university.id);
   const { status, data } = useUniversityPhotos(university.id, university.name, !hasCurated);
   const [failed, setFailed] = useState<Set<string>>(() => new Set());
+  const [satellite, setSatellite] = useState(false);
   const fetched = data?.photos ?? [];
-  const source: { url: string; caption: string }[] = hasCurated ? media.photos : fetched;
+  const googlePhotos: GalleryPhoto[] = (place?.photos ?? []).map((p) => ({
+    url: p.url,
+    caption: p.author ? `© ${p.author}` : "Google Maps",
+    ...(p.authorUrl ? { creditUrl: p.authorUrl } : {}),
+  }));
+  const fromGoogle = !hasCurated && googlePhotos.length > 0;
+  const source: GalleryPhoto[] = hasCurated ? media.photos : fromGoogle ? googlePhotos : fetched;
   const gallery = source.filter((p) => !failed.has(p.url));
-  const loadingPhotos = !hasCurated && status !== "done";
-  const fromWikipedia = !hasCurated && fetched.length > 0;
+  const loadingPhotos = !hasCurated && (placeLoading || (!fromGoogle && status !== "done"));
+  const fromWikipedia = !hasCurated && !fromGoogle && fetched.length > 0;
+
+  const target = { name: university.name, query: university.mapsQuery, placeId: place?.placeId };
+  const mapKey = browserMapsKey();
+  const mapSrc = placeLoading
+    ? null
+    : embedUrl(target, { key: mapKey, language: MAP_LANGUAGE[lang] ?? lang, satellite });
   const location =
     !university.city || university.city === "Main campus"
       ? university.country
@@ -163,11 +177,22 @@ export function UniversityModal({
                   className="h-48 w-full object-cover"
                 />
                 <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
-                  {tt(p.caption)}
+                  {p.creditUrl ? (
+                    <a href={p.creditUrl} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+                      {p.caption}
+                    </a>
+                  ) : fromGoogle ? (
+                    p.caption
+                  ) : (
+                    tt(p.caption)
+                  )}
                 </figcaption>
               </figure>
             ))}
           </div>
+        )}
+        {fromGoogle && gallery.length > 0 && (
+          <p className="mt-2 text-xs text-muted-foreground">{t("mapPhotosGoogle")}</p>
         )}
         {fromWikipedia && gallery.length > 0 && (
           <p className="mt-2 text-xs text-muted-foreground">
@@ -186,6 +211,45 @@ export function UniversityModal({
               </>
             )}
           </p>
+        )}
+        {mapKey && (
+          <section className="mt-6" aria-label={t("mapTitle")}>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+              <h4 className="font-display text-xl text-primary">{t("mapTitle")}</h4>
+              <div role="group" aria-label={t("mapTitle")} className="inline-flex overflow-hidden rounded-full border border-border text-xs">
+                {([false, true] as const).map((isSatellite) => (
+                  <button
+                    key={String(isSatellite)}
+                    type="button"
+                    aria-pressed={satellite === isSatellite}
+                    onClick={() => setSatellite(isSatellite)}
+                    className={cn(
+                      "px-3 py-1.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                      satellite === isSatellite ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {isSatellite ? t("mapSatellite") : t("mapRoad")}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-2xl border border-border">
+              {mapSrc ? (
+                <iframe
+                  key={mapSrc}
+                  src={mapSrc}
+                  title={`${university.name} — ${t("mapTitle")}`}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  className="h-64 w-full sm:h-80"
+                />
+              ) : (
+                <div className="h-64 w-full animate-pulse bg-velvet/40 sm:h-80" aria-hidden />
+              )}
+            </div>
+            {place?.address && <p className="mt-2 text-xs text-muted-foreground">{place.address}</p>}
+          </section>
         )}
         {media.stats.length > 0 && (
           <dl className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -230,13 +294,24 @@ export function UniversityModal({
         <ApplicationChecklist university={university} />
 
         <div className="mt-8 flex flex-wrap gap-3 border-t border-border pt-6">
-          <button
-            onClick={() => openCampusMaps(university)}
+          <a
+            href={placeUrl(target)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-soft to-gold px-5 py-3 text-sm font-semibold text-primary-foreground"
           >
             <Compass className="size-4" />
             {t("mapsChip")}
-          </button>
+          </a>
+          <a
+            href={directionsUrl(target)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm"
+          >
+            <Navigation className="size-4" />
+            {t("mapDirections")}
+          </a>
           <a
             href={university.website}
             target="_blank"
