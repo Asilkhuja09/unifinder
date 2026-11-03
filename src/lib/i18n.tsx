@@ -9,7 +9,14 @@ import {
   type ReactNode,
 } from "react";
 import { translateBatch } from "@/lib/translate.functions";
-import { MAX_TEXT_CHARS, RETRY_AFTER_MS, takeBatch, translateWithFallback } from "@/lib/translate-batch";
+import {
+  MAX_PARALLEL_BATCHES,
+  MAX_TEXT_CHARS,
+  RETRY_AFTER_MS,
+  takeBatch,
+  translateWithFallback,
+} from "@/lib/translate-batch";
+import { staticTranslate } from "@/data/staticTranslations";
 
 export const LANGUAGES = [
   { code: "en", label: "English", flag: "🇺🇸" },
@@ -737,7 +744,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
   const [cache, setCache] = useState<Record<string, string>>({});
   const pendingRef = useRef<Set<string>>(new Set());
-  const flushingRef = useRef(false);
+  /** Number of translation workers running right now (at most MAX_PARALLEL_BATCHES). */
+  const activeRef = useRef(0);
   const cacheRef = useRef<Record<string, string>>({});
   /** Strings that could not be translated, with the time of failure – retried later, never in a loop. */
   const failedRef = useRef<Map<string, number>>(new Map());
@@ -757,15 +765,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     setCache({ ...cacheRef.current });
   }, [lang]);
 
-  const flush = useCallback(async () => {
-    if (flushingRef.current) return;
-    flushingRef.current = true;
+  /** One worker: keeps taking the newest batch until nothing is waiting. */
+  const work = useCallback(async () => {
+    activeRef.current += 1;
     try {
       while (pendingRef.current.size > 0) {
         // Always serve whichever language is current: `pendingRef` is reset on every switch.
         const batchLang = langRef.current;
         if (batchLang === "en") break;
         const batch = takeBatch(pendingRef.current);
+        if (batch.length === 0) break;
         const langName = LANGUAGES.find((l) => l.code === batchLang)?.label ?? batchLang;
         const { done, failed } = await translateWithFallback(batch, async (texts) => {
           const { translations } = await translateBatch({
@@ -782,9 +791,18 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         setCache({ ...cacheRef.current });
       }
     } finally {
-      flushingRef.current = false;
+      activeRef.current -= 1;
     }
   }, []);
+
+  /** Starts workers until MAX_PARALLEL_BATCHES run, so one slow request does not hold up the rest. */
+  const flush = useCallback(() => {
+    if (langRef.current === "en") return;
+    for (let i = 0; i < MAX_PARALLEL_BATCHES; i++) {
+      if (activeRef.current >= MAX_PARALLEL_BATCHES || pendingRef.current.size === 0) break;
+      void work();
+    }
+  }, [work]);
 
   const t = useCallback(
     (key: keyof Dict) => dict[lang]?.[key] ?? en[key],
@@ -794,16 +812,21 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const tt = useCallback(
     (text: string) => {
       if (lang === "en" || !text.trim()) return text;
+      // Hand-written translations first: instant, free, and independent of the AI service.
+      const known = staticTranslate(lang, text);
+      if (known !== undefined) return known;
       const hit = cache[text];
       if (hit) return hit;
-      if (
-        text.length <= MAX_TEXT_CHARS &&
-        !pendingRef.current.has(text) &&
-        Date.now() - (failedRef.current.get(text) ?? 0) > RETRY_AFTER_MS &&
-        !(text in cacheRef.current)
-      ) {
+      if (text.length > MAX_TEXT_CHARS || text in cacheRef.current) return text;
+      if (pendingRef.current.has(text)) {
+        // Asked for again, so it is still on screen: move it to the front of the line.
+        pendingRef.current.delete(text);
         pendingRef.current.add(text);
-        queueMicrotask(() => void flush());
+        return text;
+      }
+      if (Date.now() - (failedRef.current.get(text) ?? 0) > RETRY_AFTER_MS) {
+        pendingRef.current.add(text);
+        queueMicrotask(flush);
       }
       return text;
     },

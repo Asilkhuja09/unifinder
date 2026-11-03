@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type Context,
   type ReactNode,
@@ -76,18 +77,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [hint, setHint] = useState<{ uid: string; email: string } | null>(null);
   const [welcoming, setWelcoming] = useState(false);
 
+  // Id of the user currently signed in. The auth library repeats its SIGNED_IN event every time a
+  // phone browser returns to the tab (and after a token refresh), so we compare ids to tell a real
+  // new sign-in from that repeat.
+  const userIdRef = useRef<string | null>(null);
+
   useEffect(() => {
     setHint(sessionCookie.read());
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      const previousId = userIdRef.current;
+      const nextId = session?.user.id ?? null;
+      userIdRef.current = nextId;
       setUser(session?.user ?? null);
       if (session) {
         sessionCookie.write(session);
         setGateOpen(false);
-        if (_event === "SIGNED_IN") setWelcoming(true);
-      } else if (_event === "SIGNED_OUT") {
+        // Show the welcome screen once per sign-in, not on every return to the tab.
+        if (event === "SIGNED_IN" && previousId !== nextId) setWelcoming(true);
+      } else if (event === "SIGNED_OUT") {
         sessionCookie.clear();
         setHint(null);
+        setWelcoming(false);
       }
       setLoading(false);
     });
@@ -97,8 +108,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .getSession()
       .then(({ data, error }) => {
         if (error) console.error("[auth] getSession failed", error);
-        setUser(data.session?.user ?? null);
-        if (data.session) sessionCookie.write(data.session);
+        const session = data.session;
+        if (session) {
+          userIdRef.current = session.user.id;
+          setUser(session.user);
+          sessionCookie.write(session);
+        } else if (!userIdRef.current) {
+          // No stored session: a leftover cookie must not make the page look signed in
+          // (the navbar would offer "Sign out" and never "Sign in").
+          sessionCookie.clear();
+          setHint(null);
+        }
       })
       .catch((e) => console.error("[auth] getSession threw", e))
       .finally(() => setLoading(false));

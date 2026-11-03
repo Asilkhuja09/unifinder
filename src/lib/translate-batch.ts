@@ -15,11 +15,20 @@ export const MAX_BATCH_CHARS = 3500;
 /** A string that failed is left alone for this long before the next render may try it again. */
 export const RETRY_AFTER_MS = 30_000;
 
-/** Removes and returns the next batch from `pending`, bounded by item count and total characters. */
+/** How many translation requests may run at the same time. */
+export const MAX_PARALLEL_BATCHES = 3;
+
+/**
+ * Removes and returns the next batch from `pending`, bounded by item count and total characters.
+ *
+ * The newest strings go first: they belong to whatever the visitor just opened (a details window,
+ * a new page), while the oldest are usually left over from a screen that is already gone. Serving
+ * oldest-first made a freshly opened window wait behind every card of the list behind it.
+ */
 export function takeBatch(pending: Set<string>): string[] {
   const batch: string[] = [];
   let chars = 0;
-  for (const text of pending) {
+  for (const text of Array.from(pending).reverse()) {
     if (batch.length >= MAX_BATCH_ITEMS) break;
     if (batch.length > 0 && chars + text.length > MAX_BATCH_CHARS) break;
     batch.push(text);

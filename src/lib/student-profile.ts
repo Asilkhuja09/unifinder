@@ -73,41 +73,46 @@ function profileToRow(p: Profile, userId: string) {
 
 export function useStudentProfile() {
   const { user } = useAuth();
+  // Key everything on the id: the user object is replaced on every token refresh and every time a
+  // phone browser returns to the tab, and reloading then would wipe what the student is typing.
+  const userId = user?.id ?? null;
   const [profile, setProfile] = useState<Profile>(emptyProfile);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    if (!user) {
+    if (!userId) {
       setProfile(emptyProfile);
       setLoading(false);
       return;
     }
+    // A different account must never inherit the previous account's profile.
+    setProfile(emptyProfile);
     setLoading(true);
     void supabase
       .from("student_profiles")
       .select("*")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .maybeSingle()
       .then(({ data, error }) => {
         if (cancelled) return;
         if (error) console.error("[profile] load failed", error);
-        if (data) setProfile(rowToProfile(data as unknown as Row));
+        setProfile(data ? rowToProfile(data as unknown as Row) : emptyProfile);
         setLoading(false);
       });
     return () => {
       cancelled = true;
     };
-  }, [user]);
+  }, [userId]);
 
   const save = useCallback(
     async (next: Profile) => {
-      if (!user) return { error: "Not signed in" };
+      if (!userId) return { error: "Not signed in" };
       setSaving(true);
       const { error } = await supabase
         .from("student_profiles")
-        .upsert(profileToRow(next, user.id), { onConflict: "user_id" });
+        .upsert(profileToRow(next, userId), { onConflict: "user_id" });
       setSaving(false);
       if (error) {
         console.error("[profile] save failed", error);
@@ -116,7 +121,7 @@ export function useStudentProfile() {
       setProfile(next);
       return {};
     },
-    [user],
+    [userId],
   );
 
   return { profile, setProfile, loading, saving, save };
@@ -124,12 +129,13 @@ export function useStudentProfile() {
 
 export function useTranscripts() {
   const { user } = useAuth();
+  const userId = user?.id ?? null;
   const [files, setFiles] = useState<TranscriptRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
   const refresh = useCallback(async () => {
-    if (!user) {
+    if (!userId) {
       setFiles([]);
       setLoading(false);
       return;
@@ -138,11 +144,12 @@ export function useTranscripts() {
     const { data, error } = await supabase
       .from("transcripts")
       .select("id, file_name, storage_path, size_bytes, created_at")
+      .eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (error) console.error("[transcripts] load failed", error);
     setFiles((data ?? []) as TranscriptRow[]);
     setLoading(false);
-  }, [user]);
+  }, [userId]);
 
   useEffect(() => {
     void refresh();
@@ -150,16 +157,16 @@ export function useTranscripts() {
 
   const upload = useCallback(
     async (file: File) => {
-      if (!user) return { error: "Not signed in" };
+      if (!userId) return { error: "Not signed in" };
       setUploading(true);
-      const path = `${user.id}/${Date.now()}-${file.name.replace(/[^\w.\-]+/g, "_")}`;
+      const path = `${userId}/${Date.now()}-${file.name.replace(/[^\w.\-]+/g, "_")}`;
       const { error: upErr } = await supabase.storage.from("transcripts").upload(path, file);
       if (upErr) {
         setUploading(false);
         return { error: upErr.message };
       }
       const { error } = await supabase.from("transcripts").insert({
-        user_id: user.id,
+        user_id: userId,
         file_name: file.name,
         storage_path: path,
         size_bytes: file.size,
@@ -169,7 +176,7 @@ export function useTranscripts() {
       await refresh();
       return {};
     },
-    [refresh, user],
+    [refresh, userId],
   );
 
   const remove = useCallback(

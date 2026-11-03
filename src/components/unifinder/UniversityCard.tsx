@@ -49,10 +49,9 @@ export function UniversityCard({
   const isoCode = countryCode(university.country)?.toUpperCase() ?? null;
   const isEstimate = university.id.startsWith("registry-");
   const approx = isEstimate ? "~" : "";
+  const country = tt(university.country);
   const location =
-    !university.city || university.city === "Main campus"
-      ? university.country
-      : `${university.city}, ${university.country}`;
+    !university.city || university.city === "Main campus" ? country : `${university.city}, ${country}`;
   const highlights = media.alumni.length > 0 ? media.alumni.slice(0, 3) : university.strengths.slice(0, 3);
 
   return (
@@ -154,7 +153,7 @@ export function UniversityCard({
           <p className="mt-3 font-display text-2xl text-foreground">{tt("World")} #{university.worldRanking}</p>
         )}
         <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
-          {highlights.map((item) => <li key={item}>• {tt(item)}</li>)}
+          {highlights.map((item) => <li key={item}>• {media.alumni.length > 0 ? item : tt(item)}</li>)}
           {reasons.slice(0, 2).map((reason) => <li key={reason}>• {tt(reason)}</li>)}
         </ul>
       </div>

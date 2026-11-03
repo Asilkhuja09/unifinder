@@ -236,8 +236,12 @@ export function EssayAnalyzer() {
   const [historyBusy, setHistoryBusy] = useState(false);
   const [openRow, setOpenRow] = useState<string | null>(null);
 
+  const userId = user?.id ?? null;
   const refresh = useCallback(async () => {
-    if (!user) return;
+    if (!userId) {
+      setHistory([]);
+      return;
+    }
     setHistoryBusy(true);
     try {
       setHistory((await runList({})) as HistoryRow[]);
@@ -246,7 +250,7 @@ export function EssayAnalyzer() {
     } finally {
       setHistoryBusy(false);
     }
-  }, [runList, user]);
+  }, [runList, userId]);
 
   useEffect(() => {
     void refresh();

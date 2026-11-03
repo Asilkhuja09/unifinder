@@ -151,7 +151,7 @@ export function ComparePage() {
                 <p className="line-clamp-2 text-sm font-semibold leading-snug">{u.name}</p>
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Flag country={u.country} className="h-3 w-4" />
-                  {u.country}
+                  {tt(u.country)}
                 </p>
               </div>
             </div>
@@ -195,7 +195,7 @@ export function ComparePage() {
                 >
                   <Flag country={u.country} className="h-4 w-6 shrink-0" />
                   <span className="min-w-0 flex-1 truncate">{u.name}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">{u.country}</span>
+                  <span className="shrink-0 text-xs text-muted-foreground">{tt(u.country)}</span>
                 </button>
               </li>
             ))}
@@ -313,7 +313,7 @@ export function ComparePage() {
               <table className="w-full min-w-[34rem] border-separate border-spacing-0 text-sm">
                 <tbody>
                   {[
-                    { label: "Location", cell: (u: University) => (u.city && u.city !== "Main campus" ? `${u.city}, ${u.country}` : u.country) },
+                    { label: "Location", cell: (u: University) => (u.city && u.city !== "Main campus" ? `${u.city}, ${tt(u.country)}` : tt(u.country)) },
                     { label: "Founded", cell: (u: University) => String(u.founded) },
                     { label: "Aid for internationals", cell: (u: University) => (u.aidForInternationals ? tt("Yes") : tt("No")) },
                     { label: "Strengths", cell: (u: University) => u.strengths.slice(0, 4).map(tt).join(", ") },
