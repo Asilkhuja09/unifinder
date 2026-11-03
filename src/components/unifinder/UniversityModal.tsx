@@ -66,10 +66,11 @@ export function UniversityModal({
   const target = { query: university.mapsQuery };
   const mapKey = browserMapsKey();
   const mapSrc = embedUrl(target, { key: mapKey, language: MAP_LANGUAGE[lang] ?? lang, satellite });
+  const country = tt(university.country);
   const location =
     !university.city || university.city === "Main campus"
-      ? university.country
-      : `${university.city}, ${university.country}`;
+      ? country
+      : `${university.city}, ${country}`;
 
   return (
     <div
@@ -164,7 +165,7 @@ export function UniversityModal({
                   className="h-48 w-full object-cover"
                 />
                 <figcaption className="bg-velvet/60 px-3 py-2 text-xs text-muted-foreground">
-                  {tt(p.caption)}
+                  {p.caption}
                 </figcaption>
               </figure>
             ))}
@@ -237,7 +238,7 @@ export function UniversityModal({
         {media.alumni.length > 0 && (
           <p className="mt-4 text-sm text-muted-foreground">
             <span className="text-primary/80">{tt("Notable alumni")}: </span>
-            {media.alumni.map(tt).join(" · ")}
+            {media.alumni.join(" · ")}
           </p>
         )}
 
