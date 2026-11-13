@@ -74,6 +74,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Avstraliya: Confirmation of Enrolment oling va talaba vizasiga murojaat qiling",
     "oc.visa.detail":
       "Avstraliya Confirmation of Enrolment (CoE) ni taklifni qabul qilib, birinchi o'qish haqini to'laganingizdan keyin beradi. Talaba vizasi uchun CoE, Overseas Student Health Cover (OSHC) sug'urtasi, mablag' isboti va haqiqiy talaba ekanligingizni ko'rsatadigan javoblar kerak.",
+    "eu.recognition.title": "Yevropa: har bir davlat maktab attestatingizni qanday tan olishini tekshiring",
+    "eu.recognition.detail":
+      "Yevropaning har bir davlati chet el maktab attestati to'g'ridan-to'g'ri o'qishga kirish huquqini berishini o'zi hal qiladi, ba'zilari esa tayyorlov yili yoki qo'shimcha imtihonlarni talab qiladi. Davlatingiz uchun qabul qoidalarini har bir universitet sahifasidan o'qing, tan olinishi noaniq bo'lsa, milliy ENIC-NARIC markazidan so'rang.",
+    "eu.portal.title": "Yevropa: har bir davlatning ariza portali va muddatlarini toping",
+    "eu.portal.detail":
+      "Ko'p davlatlar milliy portal yoki markaziy idoradan foydalanadi, masalan, Niderlandiyada Studielink, Fransiyada Campus France, Italiyada Universitaly, boshqalari esa arizani to'g'ridan-to'g'ri qabul qiladi. Muddatlar davlat va dastur bo'yicha ancha farq qiladi, shuning uchun har birini rasmiy saytdan yozib oling.",
+    "eu.permit.title": "Yevropa: qabul qilingach, yashash ruxsatnomasi yoki talaba vizasiga ariza bering",
+    "eu.permit.detail":
+      "Yevropaning ko'p davlatlari qabul xati, mablag' tasdig'i va tibbiy sug'urtani so'raydi, ko'rib chiqish esa bir necha haftadan bir necha oygacha davom etishi mumkin. Taklifni qabul qilishingiz bilan boshlang va davlatingiz uchun elchixonaning hujjatlar ro'yxatini o'qing.",
+    "as.language.title": "Osiyo: o'qitish tilini va til imtihonini tekshiring",
+    "as.language.detail":
+      "Osiyodagi ko'p universitetlar ba'zi dasturlarni ingliz tilida o'qitadi, boshqalari esa mahalliy tilda o'qitadi va yapon tili uchun JLPT, koreys tili uchun TOPIK yoki xitoy tili uchun HSK kabi imtihonni so'raydi. Qisqa ro'yxatni yakunlashdan oldin buni har bir dastur uchun tekshiring.",
+    "as.scholar.title": "Osiyo: MEXT va GKS kabi hukumat stipendiyalarini ko'rib chiqing",
+    "as.scholar.detail":
+      "Yaponiyaning MEXT va Janubiy Koreyaning GKS stipendiyalarida elchixona yo'li va universitet yo'li bor, ularning muddatlari va qoidalari har xil. Qaysi yo'ldan foydalana olishingizni elchixona yoki universitetdan so'rang va shu yil uchun rasmiy yo'riqnomani o'qing.",
+    "as.intake.title": "Osiyo: o'qish boshlanish sanalari va ariza oynalarini aniqlang",
+    "as.intake.detail":
+      "O'qish boshlanish sanalari AQSH va Yevropadan farq qiladi: Yaponiyada o'qish asosan aprelda boshlanadi, ba'zi dasturlar oktyabrda; Janubiy Koreyada mart va sentyabrda. Ariza qabul qilish oynalari ko'pincha o'qish boshlanishidan ancha oldin ochiladi, shuning uchun har birini rasmiy saytdan tasdiqlang.",
+    "as.visa.title": "Osiyo: qabul qilingach, talaba vizasiga ariza bering",
+    "as.visa.detail":
+      "Yaponiyada Certificate of Eligibility uchun odatda universitetning o'zi ariza beradi, keyin uni vizada ishlatasiz. Janubiy Koreya D-2 talaba vizasini beradi, odatda qabul xati va mablag' tasdig'i bilan. Davlatingiz uchun elchixonaning hujjatlar ro'yxatini o'qing.",
   },
   ru: {
     "shortlist.title.major": "Составьте короткий список из 8–10 университетов по специальности «{major}»",
@@ -139,6 +160,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Австралия: получите Confirmation of Enrolment и подайте на студенческую визу",
     "oc.visa.detail":
       "Австралия выдаёт Confirmation of Enrolment (CoE) после того, как вы принимаете предложение и оплачиваете первый взнос за обучение. Для студенческой визы нужны CoE, медицинская страховка Overseas Student Health Cover (OSHC), подтверждение средств и ответы, показывающие, что вы настоящий студент.",
+    "eu.recognition.title": "Европа: проверьте, как каждая страна признаёт ваш школьный аттестат",
+    "eu.recognition.detail":
+      "Каждая европейская страна сама решает, даёт ли иностранный аттестат право на прямое поступление, а некоторые требуют подготовительный год или дополнительные экзамены. Прочитайте правила приёма для вашей страны на странице каждого университета, а если признание неясно, обратитесь в национальный центр ENIC-NARIC.",
+    "eu.portal.title": "Европа: найдите портал подачи заявок и сроки в каждой стране",
+    "eu.portal.detail":
+      "Во многих странах действует национальный портал или центральная служба, например Studielink в Нидерландах, Campus France во Франции или Universitaly в Италии, а в других заявки принимают напрямую. Сроки сильно различаются по странам и программам, поэтому выпишите каждый с официального сайта.",
+    "eu.permit.title": "Европа: после зачисления подайте на вид на жительство или студенческую визу",
+    "eu.permit.detail":
+      "Большинство европейских стран требуют письмо о зачислении, подтверждение средств и медицинскую страховку, а оформление может занять от нескольких недель до нескольких месяцев. Начните сразу после принятия предложения и изучите список документов на сайте посольства вашей страны.",
+    "as.language.title": "Азия: проверьте язык обучения и языковой тест",
+    "as.language.detail":
+      "Многие азиатские университеты ведут часть программ на английском, но другие преподают на местном языке и требуют тест вроде JLPT для японского, TOPIK для корейского или HSK для китайского. Проверьте это для каждой программы, прежде чем завершить шорт-лист.",
+    "as.scholar.title": "Азия: изучите государственные стипендии, такие как MEXT и GKS",
+    "as.scholar.detail":
+      "У японской стипендии MEXT и южнокорейской GKS есть путь через посольство и путь через университет, со своими сроками и правилами. Узнайте у посольства или университета, каким путём вы можете подать заявку, и прочитайте официальное руководство на ваш год.",
+    "as.intake.title": "Азия: уточните даты набора и окна подачи заявок",
+    "as.intake.detail":
+      "Набор отличается от США и Европы: в Японии обучение в основном начинается в апреле, некоторые программы в октябре, а в Южной Корее в марте и сентябре. Приём заявок часто открывается задолго до начала, поэтому уточните каждый срок на официальном сайте.",
+    "as.visa.title": "Азия: после зачисления подайте на студенческую визу",
+    "as.visa.detail":
+      "В Японии Certificate of Eligibility обычно оформляет сам университет, а затем вы используете его для визы. Южная Корея выдаёт студенческую визу D-2, как правило, по письму о зачислении и подтверждению средств. Изучите список документов на сайте посольства вашей страны.",
   },
   zh: {
     "shortlist.title.major": "为“{major}”专业列出 8 到 10 所大学的候选名单",
@@ -197,6 +239,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "澳大利亚：获取录取确认函（CoE）并申请学生签证",
     "oc.visa.detail":
       "澳大利亚在您接受录取并缴纳第一笔学费后签发录取确认函（Confirmation of Enrolment，CoE）。申请学生签证需要 CoE、海外学生健康保险（OSHC）、资金证明，以及能证明您是真实学生的回答。",
+    "eu.recognition.title": "欧洲：确认各国如何认可您的中学毕业证书",
+    "eu.recognition.detail":
+      "欧洲每个国家都会自行决定外国中学毕业证书能否直接入学，有些国家还要求读预科年或加试。请在各大学页面上查看针对您所在国家的入学要求；如果认可情况不明确，可咨询该国的 ENIC-NARIC 中心。",
+    "eu.portal.title": "欧洲：查明各国的申请平台和截止日期",
+    "eu.portal.detail":
+      "许多国家使用全国统一的申请平台或中央机构，例如荷兰的 Studielink、法国的 Campus France、意大利的 Universitaly，也有国家直接受理院校申请。截止日期因国家和专业差异很大，请从官方网站逐一记录。",
+    "eu.permit.title": "欧洲：录取后申请居留许可或学生签证",
+    "eu.permit.detail":
+      "大多数欧洲国家要求提供录取通知书、资金证明和医疗保险，办理时间可能从几周到几个月不等。接受录取后请立即开始，并查看所在国家使馆的材料清单。",
+    "as.language.title": "亚洲：确认授课语言和语言考试要求",
+    "as.language.detail":
+      "许多亚洲大学开设部分英语授课项目，但也有大学用当地语言授课，并要求参加日语 JLPT、韩语 TOPIK 或中文 HSK 等考试。在确定择校清单之前，请逐个项目确认。",
+    "as.scholar.title": "亚洲：了解 MEXT 和 GKS 等政府奖学金",
+    "as.scholar.detail":
+      "日本的 MEXT 奖学金和韩国的 GKS 奖学金都分为使馆推荐和大学推荐两种途径，截止日期和规则各不相同。请向使馆或大学询问您可以走哪条途径，并阅读当年的官方申请指南。",
+    "as.intake.title": "亚洲：确认入学时间和申请窗口",
+    "as.intake.detail":
+      "入学时间与美国和欧洲不同：日本主要在 4 月入学，部分项目在 10 月入学，韩国则在 3 月和 9 月入学。申请窗口通常远早于开学时间开放，请在官方网站上逐一确认。",
+    "as.visa.title": "亚洲：录取后申请学生签证",
+    "as.visa.detail":
+      "在日本，通常由大学为您申请入学资格认定书（Certificate of Eligibility），再凭它办理签证。韩国发放 D-2 学生签证，通常需要录取通知书和资金证明。请查看所在国家使馆的材料清单。",
   },
   tr: {
     "shortlist.title.major": "{major} için 8–10 üniversiteden oluşan kısa bir liste hazırlayın",
@@ -262,6 +325,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Avustralya: Confirmation of Enrolment alın ve öğrenci vizesi için başvurun",
     "oc.visa.detail":
       "Avustralya, teklifi kabul edip ilk dönem öğrenim ücretini ödedikten sonra Confirmation of Enrolment (CoE) verir. Öğrenci vizesi için CoE, Overseas Student Health Cover (OSHC) sağlık sigortası, mali yeterlilik belgesi ve gerçek bir öğrenci olduğunuzu gösteren cevaplar gerekir.",
+    "eu.recognition.title": "Avrupa: her ülkenin lise diplomanızı nasıl tanıdığını kontrol edin",
+    "eu.recognition.detail":
+      "Her Avrupa ülkesi yabancı bir lise diplomasının doğrudan kabul sağlayıp sağlamadığına kendisi karar verir; bazıları hazırlık yılı veya ek sınav ister. Ülkeniz için giriş koşullarını her üniversitenin sayfasından okuyun, denklik net değilse ulusal ENIC-NARIC merkezine sorun.",
+    "eu.portal.title": "Avrupa: her ülkenin başvuru portalını ve son tarihlerini bulun",
+    "eu.portal.detail":
+      "Birçok ülke ulusal bir portal ya da merkezî bir ofis kullanır; örneğin Hollanda'da Studielink, Fransa'da Campus France, İtalya'da Universitaly. Diğerleri başvuruyu doğrudan alır. Son tarihler ülkeye ve programa göre çok değişir, bu yüzden her birini resmî web sitesinden not edin.",
+    "eu.permit.title": "Avrupa: kabul edildikten sonra oturma izni veya öğrenci vizesi için başvurun",
+    "eu.permit.detail":
+      "Çoğu Avrupa ülkesi kabul mektubu, finansal yeterlilik belgesi ve sağlık sigortası ister; işlem birkaç haftadan birkaç aya kadar sürebilir. Bir teklifi kabul eder etmez başlayın ve ülkeniz için büyükelçiliğin belge listesini okuyun.",
+    "as.language.title": "Asya: öğretim dilini ve dil sınavını kontrol edin",
+    "as.language.detail":
+      "Birçok Asya üniversitesi bazı programları İngilizce verir, ancak diğerleri yerel dilde eğitim yapar ve Japonca için JLPT, Korece için TOPIK veya Çince için HSK gibi bir sınav ister. Kısa listenizi bitirmeden önce bunu her program için kontrol edin.",
+    "as.scholar.title": "Asya: MEXT ve GKS gibi devlet burslarına göz atın",
+    "as.scholar.detail":
+      "Japonya'nın MEXT ve Güney Kore'nin GKS bursunda büyükelçilik yolu ve üniversite yolu vardır; son tarihleri ve kuralları farklıdır. Hangi yolu kullanabileceğinizi büyükelçilikten veya üniversiteden sorun ve o yılın resmî kılavuzunu okuyun.",
+    "as.intake.title": "Asya: dönem başlangıç tarihlerini ve başvuru aralıklarını doğrulayın",
+    "as.intake.detail":
+      "Dönem başlangıçları ABD ve Avrupa'dan farklıdır: Japonya'da eğitim çoğunlukla Nisan'da, bazı programlar Ekim'de başlar; Güney Kore'de Mart ve Eylül'de başlar. Başvuru aralıkları çoğu zaman başlangıçtan çok önce açılır, bu yüzden her birini resmî web sitesinden doğrulayın.",
+    "as.visa.title": "Asya: kabul edildikten sonra öğrenci vizesi için başvurun",
+    "as.visa.detail":
+      "Japonya'da Certificate of Eligibility için genellikle üniversite başvurur, siz de onu vizede kullanırsınız. Güney Kore, genellikle kabul mektubu ve finansal yeterlilik belgesiyle D-2 öğrenci vizesini verir. Ülkeniz için büyükelçiliğin belge listesini okuyun.",
   },
   ar: {
     "shortlist.title.major": "أعدّ قائمة مختصرة من 8 إلى 10 جامعات لتخصص {major}",
@@ -325,6 +409,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "أستراليا: احصل على تأكيد القيد (CoE) وقدّم على تأشيرة الطالب",
     "oc.visa.detail":
       "تصدر أستراليا تأكيد القيد (Confirmation of Enrolment، CoE) بعد أن تقبل العرض وتدفع الرسوم الدراسية الأولى. وتحتاج لتأشيرة الطالب إلى CoE وتأمين Overseas Student Health Cover (OSHC) وإثبات القدرة المالية وإجابات تُظهر أنك طالب حقيقي.",
+    "eu.recognition.title": "أوروبا: تحقق من كيفية اعتراف كل دولة بشهادتك المدرسية",
+    "eu.recognition.detail":
+      "تقرر كل دولة أوروبية بنفسها ما إذا كانت الشهادة المدرسية الأجنبية تتيح القبول المباشر، وبعضها يطلب سنة تحضيرية أو امتحانات إضافية. اقرأ شروط القبول الخاصة ببلدك في صفحة كل جامعة، واسأل مركز ENIC-NARIC الوطني إذا لم يكن الاعتراف واضحًا.",
+    "eu.portal.title": "أوروبا: اعرف بوابة التقديم والمواعيد النهائية في كل دولة",
+    "eu.portal.detail":
+      "تستخدم دول كثيرة بوابة وطنية أو مكتبًا مركزيًا، مثل Studielink في هولندا وCampus France في فرنسا وUniversitaly في إيطاليا، بينما تقبل دول أخرى الطلبات مباشرة. تختلف المواعيد النهائية كثيرًا حسب الدولة والبرنامج، لذا دوّن كل موعد من الموقع الرسمي.",
+    "eu.permit.title": "أوروبا: قدّم على تصريح الإقامة أو تأشيرة الطالب بعد قبولك",
+    "eu.permit.detail":
+      "تطلب معظم الدول الأوروبية خطاب القبول وإثبات المصاريف والتأمين الصحي، وقد تستغرق المعالجة من عدة أسابيع إلى بضعة أشهر. ابدأ فور قبولك للعرض واقرأ قائمة مستندات السفارة الخاصة ببلدك.",
+    "as.language.title": "آسيا: تحقق من لغة التدريس ومن اختبار اللغة المطلوب",
+    "as.language.detail":
+      "تقدم جامعات آسيوية كثيرة بعض البرامج بالإنجليزية، لكن غيرها يدرّس باللغة المحلية ويطلب اختبارًا مثل JLPT لليابانية أو TOPIK للكورية أو HSK للصينية. تحقق من ذلك لكل برنامج قبل أن تنهي قائمتك المختصرة.",
+    "as.scholar.title": "آسيا: اطّلع على المنح الحكومية مثل MEXT وGKS",
+    "as.scholar.detail":
+      "لمنحة MEXT اليابانية ومنحة GKS الكورية الجنوبية مساران: مسار السفارة ومسار الجامعة، ولكل منهما مواعيد وقواعد مختلفة. اسأل السفارة أو الجامعة عن المسار الذي يمكنك استخدامه، واقرأ الدليل الرسمي للعام الذي تتقدم فيه.",
+    "as.intake.title": "آسيا: أكّد مواعيد بدء الدراسة وفترات التقديم",
+    "as.intake.detail":
+      "تختلف مواعيد بدء الدراسة عن الولايات المتحدة وأوروبا: تبدأ الدراسة في اليابان غالبًا في أبريل مع بعض البرامج في أكتوبر، وفي كوريا الجنوبية في مارس وسبتمبر. غالبًا ما تُفتح فترات التقديم قبل البدء بوقت طويل، لذا أكّد كل واحدة منها من الموقع الرسمي.",
+    "as.visa.title": "آسيا: قدّم على تأشيرة الطالب بعد قبولك",
+    "as.visa.detail":
+      "في اليابان تقدّم الجامعة عادةً طلب شهادة الأهلية (Certificate of Eligibility) ثم تستخدمها للحصول على التأشيرة. تصدر كوريا الجنوبية تأشيرة الطالب D-2، عادةً مع خطاب القبول وإثبات المصاريف. اقرأ قائمة مستندات السفارة الخاصة ببلدك.",
   },
   es: {
     "shortlist.title.major": "Prepara una lista corta de 8 a 10 universidades para {major}",
@@ -390,6 +495,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Australia: consigue tu Confirmation of Enrolment y solicita el visado de estudiante",
     "oc.visa.detail":
       "Australia emite la Confirmation of Enrolment (CoE) cuando aceptas la oferta y pagas la primera matrícula. Para el visado de estudiante necesitas la CoE, el seguro médico Overseas Student Health Cover (OSHC), prueba de fondos y respuestas que demuestren que eres un estudiante genuino.",
+    "eu.recognition.title": "Europa: comprueba cómo reconoce cada país tu certificado escolar",
+    "eu.recognition.detail":
+      "Cada país europeo decide si un certificado escolar extranjero da acceso directo, y algunos piden un año de preparación o exámenes adicionales. Lee los requisitos de acceso para tu país en la página de cada universidad y consulta al centro nacional ENIC-NARIC si el reconocimiento no está claro.",
+    "eu.portal.title": "Europa: busca el portal de solicitud y los plazos de cada país",
+    "eu.portal.detail":
+      "Muchos países usan un portal nacional o una oficina central, por ejemplo Studielink en los Países Bajos, Campus France en Francia o Universitaly en Italia, mientras que otros reciben las solicitudes directamente. Los plazos varían mucho según el país y el programa, así que anota cada uno desde el sitio oficial.",
+    "eu.permit.title": "Europa: solicita el permiso de residencia o el visado de estudiante cuando te admitan",
+    "eu.permit.detail":
+      "La mayoría de los países europeos piden la carta de admisión, el comprobante de fondos y un seguro médico, y la tramitación puede tardar desde varias semanas hasta unos meses. Empieza en cuanto aceptes una oferta y lee la lista de documentos de la embajada para tu país.",
+    "as.language.title": "Asia: comprueba el idioma de enseñanza y el examen de idioma",
+    "as.language.detail":
+      "Muchas universidades asiáticas ofrecen algunos programas en inglés, pero otras enseñan en el idioma local y piden un examen como el JLPT para japonés, el TOPIK para coreano o el HSK para chino. Comprueba esto en cada programa antes de cerrar tu lista final.",
+    "as.scholar.title": "Asia: consulta las becas del gobierno como MEXT y GKS",
+    "as.scholar.detail":
+      "Las becas MEXT de Japón y GKS de Corea del Sur tienen una vía por la embajada y otra por la universidad, con plazos y normas distintos. Pregunta a la embajada o a la universidad qué vía puedes usar y lee la guía oficial de tu año.",
+    "as.intake.title": "Asia: confirma las fechas de inicio y los periodos de solicitud",
+    "as.intake.detail":
+      "Las fechas de inicio difieren de las de EE. UU. y Europa: Japón empieza sobre todo en abril, con algunos programas en octubre, y Corea del Sur en marzo y septiembre. Los periodos de solicitud suelen abrirse mucho antes del inicio, así que confirma cada uno en el sitio oficial.",
+    "as.visa.title": "Asia: solicita el visado de estudiante cuando te admitan",
+    "as.visa.detail":
+      "En Japón suele ser la universidad quien solicita tu Certificate of Eligibility, y después lo usas para el visado. Corea del Sur expide el visado de estudiante D-2, normalmente con la carta de admisión y el comprobante de fondos. Lee la lista de documentos de la embajada para tu país.",
   },
   fr: {
     "shortlist.title.major": "Dressez une liste restreinte de 8 à 10 universités pour {major}",
@@ -455,6 +581,27 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Australie : obtenez votre Confirmation of Enrolment et demandez le visa étudiant",
     "oc.visa.detail":
       "L'Australie délivre la Confirmation of Enrolment (CoE) une fois que vous avez accepté l'offre et payé les premiers frais de scolarité. Pour le visa étudiant, il faut la CoE, l'assurance santé Overseas Student Health Cover (OSHC), une preuve de fonds et des réponses montrant que vous êtes un véritable étudiant.",
+    "eu.recognition.title": "Europe : vérifiez comment chaque pays reconnaît votre certificat scolaire",
+    "eu.recognition.detail":
+      "Chaque pays européen décide si un certificat scolaire étranger donne un accès direct, et certains exigent une année préparatoire ou des examens supplémentaires. Lisez les conditions d'admission pour votre pays sur la page de chaque université et demandez au centre national ENIC-NARIC si la reconnaissance n'est pas claire.",
+    "eu.portal.title": "Europe : repérez le portail de candidature et les dates limites de chaque pays",
+    "eu.portal.detail":
+      "De nombreux pays utilisent un portail national ou un bureau central, par exemple Studielink aux Pays-Bas, Campus France en France ou Universitaly en Italie, tandis que d'autres reçoivent les candidatures directement. Les dates limites varient beaucoup selon le pays et le programme, notez donc chacune d'après le site officiel.",
+    "eu.permit.title": "Europe : demandez votre titre de séjour ou votre visa étudiant une fois admis",
+    "eu.permit.detail":
+      "La plupart des pays européens demandent la lettre d'admission, un justificatif de ressources et une assurance maladie, et le traitement peut durer de plusieurs semaines à quelques mois. Commencez dès que vous acceptez une offre et lisez la liste de documents de l'ambassade pour votre pays.",
+    "as.language.title": "Asie : vérifiez la langue d'enseignement et l'éventuel test de langue",
+    "as.language.detail":
+      "De nombreuses universités asiatiques proposent certains programmes en anglais, mais d'autres enseignent dans la langue locale et demandent un test comme le JLPT pour le japonais, le TOPIK pour le coréen ou le HSK pour le chinois. Vérifiez-le pour chaque programme avant de finaliser votre liste.",
+    "as.scholar.title": "Asie : renseignez-vous sur les bourses gouvernementales comme MEXT et GKS",
+    "as.scholar.detail":
+      "Les bourses MEXT du Japon et GKS de la Corée du Sud ont chacune une voie par l'ambassade et une voie par l'université, avec des dates limites et des règles différentes. Demandez à l'ambassade ou à l'université quelle voie vous pouvez utiliser et lisez le guide officiel de votre année.",
+    "as.intake.title": "Asie : confirmez les dates de rentrée et les périodes de candidature",
+    "as.intake.detail":
+      "Les rentrées diffèrent de celles des États-Unis et de l'Europe : le Japon commence surtout en avril, avec quelques programmes en octobre, et la Corée du Sud en mars et en septembre. Les périodes de candidature ouvrent souvent bien avant la rentrée, confirmez donc chacune sur le site officiel.",
+    "as.visa.title": "Asie : demandez votre visa étudiant une fois admis",
+    "as.visa.detail":
+      "Au Japon, c'est généralement l'université qui demande votre Certificate of Eligibility, que vous utilisez ensuite pour le visa. La Corée du Sud délivre le visa étudiant D-2, normalement avec votre lettre d'admission et un justificatif de ressources. Lisez la liste de documents de l'ambassade pour votre pays.",
   },
   de: {
     "shortlist.title.major": "Stellen Sie eine Auswahlliste mit 8 bis 10 Hochschulen für {major} zusammen",
@@ -520,5 +667,26 @@ export const ROADMAP_TRANSLATIONS: RoadmapTranslations = {
     "oc.visa.title": "Australien: Holen Sie Ihre Confirmation of Enrolment und beantragen Sie das Studentenvisum",
     "oc.visa.detail":
       "Australien stellt die Confirmation of Enrolment (CoE) aus, nachdem Sie die Zusage angenommen und die erste Studiengebühr bezahlt haben. Für das Studentenvisum brauchen Sie die CoE, die Krankenversicherung Overseas Student Health Cover (OSHC), einen Finanzierungsnachweis und Antworten, die zeigen, dass Sie ein echter Student sind.",
+    "eu.recognition.title": "Europa: Prüfen Sie, wie jedes Land Ihr Schulzeugnis anerkennt",
+    "eu.recognition.detail":
+      "Jedes europäische Land entscheidet selbst, ob ein ausländisches Schulzeugnis direkten Zugang ermöglicht, und manche verlangen ein Vorbereitungsjahr oder zusätzliche Prüfungen. Lesen Sie die Zulassungsregeln für Ihr Land auf der Seite jeder Universität und fragen Sie das nationale ENIC-NARIC-Zentrum, wenn die Anerkennung unklar ist.",
+    "eu.portal.title": "Europa: Finden Sie das Bewerbungsportal und die Fristen jedes Landes",
+    "eu.portal.detail":
+      "Viele Länder nutzen ein nationales Portal oder eine zentrale Stelle, zum Beispiel Studielink in den Niederlanden, Campus France in Frankreich oder Universitaly in Italien, andere nehmen Bewerbungen direkt entgegen. Die Fristen unterscheiden sich stark nach Land und Studiengang, notieren Sie deshalb jede von der offiziellen Website.",
+    "eu.permit.title": "Europa: Beantragen Sie nach der Zulassung Aufenthaltstitel oder Studentenvisum",
+    "eu.permit.detail":
+      "Die meisten europäischen Länder verlangen den Zulassungsbescheid, einen Finanzierungsnachweis und eine Krankenversicherung, und die Bearbeitung kann von mehreren Wochen bis zu einigen Monaten dauern. Beginnen Sie, sobald Sie ein Angebot annehmen, und lesen Sie die Unterlagenliste der Botschaft für Ihr Land.",
+    "as.language.title": "Asien: Prüfen Sie Unterrichtssprache und Sprachtest",
+    "as.language.detail":
+      "Viele asiatische Universitäten bieten einige Studiengänge auf Englisch an, andere unterrichten in der Landessprache und verlangen einen Test wie JLPT für Japanisch, TOPIK für Koreanisch oder HSK für Chinesisch. Prüfen Sie das für jeden Studiengang, bevor Sie Ihre Auswahlliste abschließen.",
+    "as.scholar.title": "Asien: Informieren Sie sich über Regierungsstipendien wie MEXT und GKS",
+    "as.scholar.detail":
+      "Das japanische MEXT- und das südkoreanische GKS-Stipendium haben jeweils einen Weg über die Botschaft und einen über die Universität, mit unterschiedlichen Fristen und Regeln. Fragen Sie Botschaft oder Universität, welchen Weg Sie nutzen können, und lesen Sie die offizielle Ausschreibung für Ihr Jahr.",
+    "as.intake.title": "Asien: Bestätigen Sie Studienbeginn und Bewerbungszeiträume",
+    "as.intake.detail":
+      "Die Studienbeginne unterscheiden sich von den USA und Europa: In Japan beginnt das Studium meist im April, einige Programme im Oktober, in Südkorea im März und September. Die Bewerbungszeiträume öffnen oft lange vor dem Start, bestätigen Sie deshalb jeden auf der offiziellen Website.",
+    "as.visa.title": "Asien: Beantragen Sie nach der Zulassung Ihr Studentenvisum",
+    "as.visa.detail":
+      "In Japan beantragt meist die Universität Ihr Certificate of Eligibility, das Sie dann für das Visum nutzen. Südkorea stellt das Studentenvisum D-2 aus, normalerweise mit Zulassungsbescheid und Finanzierungsnachweis. Lesen Sie die Unterlagenliste der Botschaft für Ihr Land.",
   },
 };
