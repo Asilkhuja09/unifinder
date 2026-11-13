@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import type { Profile } from "@/lib/profile";
 import type { University } from "@/data/extendedData";
-import { buildRoadmapSteps, datePlan, stepDetail, stepTitle, type DatedStep } from "@/lib/roadmap";
+import { buildRoadmapSteps, datePlan, planTiming, stepDetail, stepTitle, type DatedStep, type PlanTiming } from "@/lib/roadmap";
 import { buildIcs, downloadIcs } from "@/lib/ics";
 import { cn } from "@/lib/utils";
 
@@ -236,6 +236,8 @@ export type RoadmapState = {
   overdue: DatedStep[];
   /** Earliest step that is not done yet (it may already be overdue). */
   next: DatedStep | undefined;
+  /** How much of the usual lead time is left; `null` while no application date is set. */
+  timing: PlanTiming | null;
 };
 
 /**
@@ -299,15 +301,17 @@ export function useRoadmap(profile: Profile): RoadmapState {
   const earliestApp = [...apps].sort((a, b) => a.date.localeCompare(b.date))[0]?.date ?? "";
   const target = applyBy || earliestApp;
 
-  const plan = useMemo(
-    () => (target ? datePlan(buildRoadmapSteps(profile), new Date(target)) : []),
-    [profile, target],
-  );
+  const { plan, timing } = useMemo(() => {
+    if (!target) return { plan: [] as DatedStep[], timing: null };
+    const steps = buildRoadmapSteps(profile);
+    const applyDate = new Date(target);
+    return { plan: datePlan(steps, applyDate), timing: planTiming(steps, applyDate) };
+  }, [profile, target]);
 
   const count = plan.filter((s) => done.includes(s.id)).length;
   const overdue = plan.filter((s) => !done.includes(s.id) && s.daysLeft < 0);
   const next = plan.find((s) => !done.includes(s.id));
-  return { plan, done, toggle, target, count, overdue, next };
+  return { plan, done, toggle, target, count, overdue, next, timing };
 }
 
 function dueLabel(step: DatedStep, finished: boolean, tt: (text: string) => string): string {
@@ -380,7 +384,7 @@ export function NextStepCard({ profile, onOpen }: { profile: Profile; onOpen: ()
 export function RoadmapTab({ profile }: { profile: Profile }) {
   const { t, tt, lang } = useI18n();
   const { user, applyBy, update } = useProfileExtras();
-  const { plan, done, toggle, target, count, overdue } = useRoadmap(profile);
+  const { plan, done, toggle, target, count, overdue, timing } = useRoadmap(profile);
   const [dateInput, setDateInput] = useState("");
 
   useEffect(() => setDateInput(applyBy), [applyBy]);
@@ -447,6 +451,22 @@ export function RoadmapTab({ profile }: { profile: Profile }) {
 
       {plan.length > 0 && (
         <div>
+          {timing && timing.level !== "full" && (
+            <div className="mb-4 rounded-2xl border border-primary/40 bg-primary/5 p-4 text-sm" role="note">
+              <p className="font-semibold text-primary">{tt("Short on time: your plan is compressed")}</p>
+              <p className="mt-1 text-muted-foreground">
+                {tt("Months until your application date")}: {Number(timing.monthsLeft.toFixed(1))}
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                {tt("This is less time than the plan normally needs, so the steps are moved closer together. A university's own deadline does not move, so check each one on the official site first.")}
+              </p>
+              {timing.level === "veryTight" && (
+                <p className="mt-1 text-muted-foreground">
+                  {tt("With this little time, start with your essay, recommendation letters and documents, and book an English test if you still need one. Leave the SAT and extra activities for later unless a school requires them.")}
+                </p>
+              )}
+            </div>
+          )}
           <div className="mb-4 flex items-center gap-3">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
               <div
