@@ -310,6 +310,40 @@ const FIELD_ROWS: readonly Row[] = [
   ["Antarctic Studies", "Antarktika tadqiqotlari", "Антарктические исследования", "南极研究", "Antarktika Çalışmaları", "دراسات القارة القطبية الجنوبية", "Estudios antárticos", "Études antarctiques", "Antarktisforschung"],
 ];
 
+/**
+ * Descriptions of the best-known universities, written by hand. Uzbek is done; the other languages are left
+ * empty on purpose (an empty cell is skipped), so those visitors still get the AI translation for now.
+ * The descriptions of the other curated universities follow one template and are handled in `profileSentence`.
+ */
+const DESCRIPTION_ROWS: readonly Row[] = [
+  ["The oldest institution of higher learning in the United States, founded in 1636. Harvard practises need-blind admission for international applicants and meets 100% of demonstrated financial need without loans.", "AQSHdagi eng qadimgi oliy ta'lim muassasasi, 1636-yilda tashkil etilgan. Harvard xalqaro abituriyentlarni qabul qilishda moliyaviy ahvolni hisobga olmaydi (need-blind) va talabaning aniqlangan moliyaviy ehtiyojining 100 foizini qarzsiz qoplaydi.", "", "", "", "", "", "", ""],
+  ["A research university founded in 1861 and organised around five schools. MIT is need-blind for all applicants, including international students, and awards aid purely on demonstrated need.", "1861-yilda tashkil etilgan, beshta maktab (school) atrofida tuzilgan tadqiqot universiteti. MIT barcha abituriyentlar, jumladan xalqaro talabalar uchun ham moliyaviy ahvolni hisobga olmaydi (need-blind) va yordamni faqat aniqlangan ehtiyojga qarab beradi.", "", "", "", "", "", "", ""],
+  ["Founded in 1885 in the heart of Silicon Valley, Stanford hosts the Knight-Hennessy Scholars programme and offers need-based aid to international undergraduates.", "1885-yilda Silikon vodiysi markazida tashkil etilgan Stanford Knight-Hennessy Scholars dasturiga mezbonlik qiladi va xalqaro bakalavr talabalariga ehtiyojga asoslangan yordam taklif qiladi.", "", "", "", "", "", "", ""],
+  ["Teaching existed at Oxford in some form from 1096, making it the oldest university in the English-speaking world. Its collegiate tutorial system and the Rhodes and Clarendon scholarships serve international students.", "Oksfordda o'qitish qandaydir shaklda 1096-yildan beri mavjud, shu bois u ingliz tilida so'zlashuvchi dunyodagi eng qadimgi universitet hisoblanadi. Uning kollejlarga asoslangan tyutorlik tizimi hamda Rhodes va Clarendon stipendiyalari xalqaro talabalarga xizmat qiladi.", "", "", "", "", "", "", ""],
+  ["Founded in 1826 as the first university in London and the first in England to admit students of any religion, UCL is a member of the Russell Group with strong global research output.", "1826-yilda Londondagi birinchi universitet va Angliyada har qanday din vakillarini qabul qilgan birinchi universitet sifatida tashkil etilgan UCL Russell Group a'zosi bo'lib, jahon miqyosida kuchli tadqiqot natijalariga ega.", "", "", "", "", "", "", ""],
+  ["Established in 1827, U of T is Canada's largest research university and the birthplace of insulin and modern deep-learning research. The Lester B. Pearson Scholarship fully funds international undergraduates.", "1827-yilda tashkil etilgan U of T Kanadaning eng yirik tadqiqot universiteti, insulin va zamonaviy chuqur o'rganish (deep learning) tadqiqotlarining beshigi. Lester B. Pearson stipendiyasi xalqaro bakalavr talabalarining barcha xarajatlarini qoplaydi.", "", "", "", "", "", "", ""],
+  ["Founded in 1908, UBC runs the International Scholars Programs, which include the Karen McKellin International Leader of Tomorrow Award covering full need for international undergraduates.", "1908-yilda tashkil etilgan UBC International Scholars Programs dasturlarini olib boradi; ular orasida Karen McKellin International Leader of Tomorrow Award xalqaro bakalavr talabalarining to'liq ehtiyojini qoplaydi.", "", "", "", "", "", "", ""],
+  ["Founded in 1868, TUM is a German Universities of Excellence institution. Tuition for most programmes is limited to modest semester fees, with additional support available through DAAD.", "1868-yilda tashkil etilgan TUM Germaniyaning Universities of Excellence (ustunlik universitetlari) qatoridagi muassasa. Ko'pchilik dasturlarda o'qish uchun faqat arzimas semestr yig'imlari to'lanadi, qo'shimcha yordamni DAAD orqali olish mumkin.", "", "", "", "", "", "", ""],
+  ["Germany's oldest university, founded in 1386. Baden-Württemberg charges a modest fee for non-EU students, and DAAD funding is widely used by international scholars here.", "Germaniyaning eng qadimgi universiteti, 1386-yilda tashkil etilgan. Baden-Württemberg Yevropa Ittifoqiga a'zo bo'lmagan davlatlarning talabalaridan arzimas yig'im oladi, bu yerdagi xalqaro talabalar orasida DAAD mablag'laridan keng foydalaniladi.", "", "", "", "", "", "", ""],
+  ["Founded in 1855 as the Swiss Federal Polytechnic, ETH Zurich counts 20+ Nobel laureates among its affiliates and charges famously low public tuition.", "1855-yilda Shveytsariya federal politexnika instituti sifatida tashkil etilgan ETH Zurich bilan bog'liq 20 dan ortiq Nobel mukofoti sovrindori bor va u davlat o'qish haqining juda pastligi bilan mashhur.", "", "", "", "", "", "", ""],
+  ["Founded in 1902 as Italy's first university to grant a degree in economics. Bocconi awards merit-based tuition waivers and full scholarships to top international applicants.", "1902-yilda Italiyada iqtisodiyot bo'yicha daraja bergan birinchi universitet sifatida tashkil etilgan. Bocconi eng yaxshi xalqaro abituriyentlarga akademik yutuqlarga asoslangan o'qish haqi chegirmalari va to'liq stipendiyalar beradi.", "", "", "", "", "", "", ""],
+  ["Founded in 1911 on the former Qing dynasty royal gardens. Tsinghua hosts the Schwarzman Scholars programme and is a primary destination for Chinese Government Scholarship (CSC) recipients.", "1911-yilda Qing sulolasining sobiq qirollik bog'lari o'rnida tashkil etilgan. Tsinghua Schwarzman Scholars dasturiga mezbonlik qiladi va Xitoy hukumati stipendiyasi (CSC) sovrindorlarining asosiy yo'nalishlaridan biri.", "", "", "", "", "", "", ""],
+  ["Established in 1898 as the Imperial University of Peking, it is China's first modern national university and a major CSC and Yenching Academy host institution.", "1898-yilda Pekin imperator universiteti sifatida tashkil etilgan; u Xitoyning birinchi zamonaviy milliy universiteti hamda CSC va Yenching Academy dasturlarining yirik mezbon muassasasi.", "", "", "", "", "", "", ""],
+  ["Founded in 1877, the University of Tokyo is Japan's leading research university and the main destination for MEXT scholarship students in the PEAK and global programmes.", "1877-yilda tashkil etilgan Tokio universiteti Yaponiyaning yetakchi tadqiqot universiteti va PEAK hamda global dasturlardagi MEXT stipendiyasi talabalarining asosiy manzili.", "", "", "", "", "", "", ""],
+  ["Founded in 1905 as a medical school, NUS is Singapore's flagship university and offers the ASEAN Undergraduate Scholarship and Science & Technology Undergraduate Scholarship to internationals.", "1905-yilda tibbiyot maktabi sifatida tashkil etilgan NUS Singapurning bosh universiteti bo'lib, xalqaro talabalarga ASEAN Undergraduate Scholarship va Science & Technology Undergraduate Scholarship stipendiyalarini taklif qiladi.", "", "", "", "", "", "", ""],
+  ["Established in 1946 as Korea's first national university. SNU participates in the Global Korea Scholarship (GKS), which covers tuition, airfare and living stipends.", "1946-yilda Koreyaning birinchi milliy universiteti sifatida tashkil etilgan. SNU Global Korea Scholarship (GKS) dasturida ishtirok etadi; bu stipendiya o'qish haqi, aviachipta va yashash uchun oylik to'lovlarni qoplaydi.", "", "", "", "", "", "", ""],
+  ["Founded in 1853, Melbourne is Australia's second-oldest university and offers the Melbourne International Undergraduate Scholarship as well as Australia Awards placements.", "1853-yilda tashkil etilgan Melburn universiteti Avstraliyaning ikkinchi eng qadimgi universiteti bo'lib, Melbourne International Undergraduate Scholarship hamda Australia Awards o'rinlarini taklif qiladi.", "", "", "", "", "", "", ""],
+  ["Founded in 1883, Auckland is New Zealand's largest university and administers the University of Auckland International Student Excellence Scholarship.", "1883-yilda tashkil etilgan Oklend universiteti Yangi Zelandiyaning eng yirik universiteti bo'lib, University of Auckland International Student Excellence Scholarship stipendiyasini boshqaradi.", "", "", "", "", "", "", ""],
+  ["Founded in 1885, ASU is one of the largest public universities in the United States and awards automatic merit scholarships to qualifying international freshmen.", "1885-yilda tashkil etilgan ASU AQSHdagi eng yirik davlat universitetlaridan biri bo'lib, talablarga javob beradigan xalqaro birinchi kurs talabalariga avtomatik akademik stipendiyalar beradi.", "", "", "", "", "", "", ""],
+  ["Founded in 1816, the University of Warsaw is Poland's largest university, known for its world-champion competitive programming teams and low-cost English-taught programmes.", "1816-yilda tashkil etilgan Varshava universiteti Polshaning eng yirik universiteti; u dunyo chempioni bo'lgan sport dasturlash jamoalari va ingliz tilida o'qitiladigan arzon dasturlari bilan tanilgan.", "", "", "", "", "", "", ""],
+  ["Türkiye's first private non-profit university, founded in 1984. Bilkent teaches entirely in English and awards comprehensive merit scholarships covering full tuition plus a monthly stipend to high-scoring international applicants.", "1984-yilda tashkil etilgan Turkiyaning birinchi xususiy notijorat universiteti. Bilkent butunlay ingliz tilida o'qitadi va yuqori ball to'plagan xalqaro abituriyentlarga to'liq o'qish haqi hamda oylik stipendiyani qoplaydigan keng qamrovli akademik stipendiyalar beradi.", "", "", "", "", "", "", ""],
+  ["The Tashkent campus of Webster University (St. Louis, USA), offering fully accredited American degrees in Uzbekistan with transfer pathways to Webster's global campus network.", "Webster University (Sent-Luis, AQSH) ning Toshkent kampusi; O'zbekistonda to'liq akkreditatsiyadan o'tgan Amerika darajalarini taklif qiladi va Webster'ning global kampuslar tarmog'iga o'tish imkoniyatlarini beradi.", "", "", "", "", "", "", ""],
+  ["A public research university in Berlin charging no tuition fees — only a semester contribution of roughly €350 — with a large catalogue of English-taught master's programmes in engineering and informatics.", "Berlindagi davlat tadqiqot universiteti; o'qish haqi olmaydi, faqat taxminan €350 semestr yig'imi to'lanadi, muhandislik va informatika bo'yicha ingliz tilidagi magistratura dasturlarining keng ro'yxatiga ega.", "", "", "", "", "", "", ""],
+  ["A large public university in Montréal known for co-op placements, an internationally diverse student body and one of Canada's most affordable big-city cost bases.", "Monrealdagi yirik davlat universiteti; kooperativ (co-op) amaliyotlari, xalqaro jihatdan rang-barang talabalar jamoasi va Kanadaning yirik shaharlari orasida eng arzon yashash xarajatlaridan biri bilan tanilgan.", "", "", "", "", "", "", ""],
+  ["Estonia's national university, founded in 1632, and the anchor of Europe's most digital society. Offers English-taught degrees with tuition waivers and stipends for top-ranked international applicants.", "Estoniyaning milliy universiteti, 1632-yilda tashkil etilgan va Yevropaning eng raqamlashgan jamiyati tayanchi. Ingliz tilidagi darajalarni taklif qiladi, eng yaxshi xalqaro abituriyentlarga o'qish haqidan ozod qilish va stipendiyalar beradi.", "", "", "", "", "", "", ""],
+  ["A global technology and design university headquartered in central Melbourne, with industry-embedded programmes and international merit scholarships of 20–50% tuition.", "Melburn markazida joylashgan global texnologiya va dizayn universiteti; sanoat bilan chambarchas bog'liq dasturlari va o'qish haqining 20–50 foizini qoplaydigan xalqaro akademik stipendiyalari bor.", "", "", "", "", "", "", ""],
+];
+
 type Table = Record<StaticLang, Map<string, string>>;
 
 function buildTable(...groups: (readonly Row[])[]): Table {
@@ -325,7 +359,7 @@ function buildTable(...groups: (readonly Row[])[]): Table {
   return table;
 }
 
-const TABLE: Table = buildTable(UI_ROWS, REGION_ROWS, COUNTRY_ROWS, FIELD_ROWS);
+const TABLE: Table = buildTable(UI_ROWS, REGION_ROWS, COUNTRY_ROWS, FIELD_ROWS, DESCRIPTION_ROWS);
 
 /**
  * Sentences with a part that changes. `{x}` / `{name}` marks the changing part; it is looked up in
@@ -383,6 +417,115 @@ const PATTERNS: readonly Pattern[] = [
   },
 ];
 
+/**
+ * Most curated universities share one description built from numbers: "X is an institution in
+ * City, Country, founded in 1900. Recent cycles show an acceptance rate near 12.3% with published
+ * international tuition around $45,000 per year; it ranks about #40 globally and is recognised for A, B."
+ * The numbers and names stay as they are; the country and the study fields are looked up in the tables.
+ */
+const PROFILE_RE =
+  /^(.+?) is an (internationally aid-friendly )?institution in (.+), founded in (\d{4})\. Recent cycles show an acceptance rate near ([\d.]+)% with published international tuition around \$([\d,]+) per year; it ranks about #(\d+) globally and is recognised for (.+)\.$/;
+
+type ProfileText = {
+  /** First sentence when the university offers aid to internationals, and when it does not. */
+  aid: string;
+  plain: string;
+  /** Second sentence: acceptance rate, tuition, ranking and strengths. */
+  rest: string;
+  /** Between the two sentences, and between the study fields. */
+  sep: string;
+  join: string;
+};
+
+const PROFILE_TEXT: Record<StaticLang, ProfileText> = {
+  uz: {
+    aid: "{name} ({place}) — {year}-yilda tashkil etilgan, xalqaro talabalarga moliyaviy yordam beradigan universitet.",
+    plain: "{name} ({place}) — {year}-yilda tashkil etilgan universitet.",
+    rest: "So'nggi qabul davrlarida qabul foizi taxminan {rate}% atrofida bo'lgan, e'lon qilingan xalqaro o'qish narxi yiliga taxminan ${tuition}; jahon reytingida taxminan {rank}-o'rinda turadi va {fields} yo'nalishlari bilan tanilgan.",
+    sep: " ",
+    join: ", ",
+  },
+  ru: {
+    aid: "{name} ({place}) — университет, основанный в {year} году, который оказывает финансовую помощь иностранным студентам.",
+    plain: "{name} ({place}) — университет, основанный в {year} году.",
+    rest: "В последние циклы приёма доля принятых составляла около {rate}%, опубликованная стоимость обучения для иностранцев — около ${tuition} в год; в мировом рейтинге вуз занимает примерно {rank}-е место и известен такими направлениями, как {fields}.",
+    sep: " ",
+    join: ", ",
+  },
+  zh: {
+    aid: "{name}（{place}）创立于{year}年，为国际学生提供资助。",
+    plain: "{name}（{place}）创立于{year}年。",
+    rest: "近几个招生周期的录取率约为{rate}%，公布的国际学生学费约为每年${tuition}；全球排名约第{rank}位，在{fields}方面享有盛誉。",
+    sep: "",
+    join: "、",
+  },
+  tr: {
+    aid: "{name} ({place}), {year} yılında kurulmuş ve uluslararası öğrencilere maddi destek sunan bir üniversitedir.",
+    plain: "{name} ({place}), {year} yılında kurulmuş bir üniversitedir.",
+    rest: "Son başvuru dönemlerinde kabul oranı yaklaşık %{rate}, açıklanan uluslararası öğrenim ücreti ise yıllık yaklaşık ${tuition} düzeyindedir; dünya sıralamasında yaklaşık {rank}. sıradadır ve {fields} alanlarında tanınır.",
+    sep: " ",
+    join: ", ",
+  },
+  ar: {
+    aid: "{name} ({place}) جامعة تأسست عام {year} وتقدّم دعمًا ماليًا للطلاب الدوليين.",
+    plain: "{name} ({place}) جامعة تأسست عام {year}.",
+    rest: "أظهرت دورات القبول الأخيرة نسبة قبول تقارب {rate}% ورسومًا دراسية معلنة للطلاب الدوليين تبلغ نحو ${tuition} سنويًا؛ وتحتل المرتبة {rank} تقريبًا عالميًا وتشتهر في {fields}.",
+    sep: " ",
+    join: "، ",
+  },
+  es: {
+    aid: "{name} ({place}) es una universidad fundada en {year} que ofrece ayuda económica a estudiantes internacionales.",
+    plain: "{name} ({place}) es una universidad fundada en {year}.",
+    rest: "En los últimos ciclos su tasa de admisión ronda el {rate}% y su matrícula internacional publicada es de unos ${tuition} al año; ocupa aproximadamente el puesto {rank} a nivel mundial y destaca en {fields}.",
+    sep: " ",
+    join: ", ",
+  },
+  fr: {
+    aid: "{name} ({place}) est un établissement fondé en {year} qui propose une aide financière aux étudiants internationaux.",
+    plain: "{name} ({place}) est un établissement fondé en {year}.",
+    rest: "Lors des derniers cycles, son taux d'admission avoisine {rate} % et ses frais de scolarité internationaux publiés s'élèvent à environ {tuition} $ par an ; il se classe autour de la place n°{rank} mondiale et est reconnu pour {fields}.",
+    sep: " ",
+    join: ", ",
+  },
+  de: {
+    aid: "{name} ({place}) ist eine {year} gegründete Hochschule, die internationale Studierende finanziell unterstützt.",
+    plain: "{name} ({place}) ist eine {year} gegründete Hochschule.",
+    rest: "In den letzten Zulassungsrunden lag die Zulassungsquote bei etwa {rate} %, die veröffentlichten Studiengebühren für internationale Studierende betragen rund ${tuition} pro Jahr; weltweit liegt sie etwa auf Platz {rank} und ist bekannt für {fields}.",
+    sep: " ",
+    join: ", ",
+  },
+};
+
+/** Study fields are listed capitalised; inside a sentence these languages write them in lower case (not acronyms). */
+const LOWER_IN_SENTENCE: readonly StaticLang[] = ["uz", "ru", "tr", "es", "fr"];
+function inSentence(lang: StaticLang, field: string): string {
+  const second = field.charAt(1);
+  if (!LOWER_IN_SENTENCE.includes(lang) || second === "" || second !== second.toLocaleLowerCase(lang)) return field;
+  return field.charAt(0).toLocaleLowerCase(lang) + field.slice(1);
+}
+
+function profileSentence(lang: StaticLang, text: string): string | undefined {
+  const m = PROFILE_RE.exec(text);
+  if (!m) return undefined;
+  const table = TABLE[lang];
+  const t = PROFILE_TEXT[lang];
+  const place = (m[3] ?? "").split(", ");
+  const country = place.pop() ?? "";
+  place.push(table.get(country) ?? country);
+  const values: Record<string, string> = {
+    name: m[1] ?? "",
+    place: place.join(", "),
+    year: m[4] ?? "",
+    rate: m[5] ?? "",
+    tuition: m[6] ?? "",
+    rank: m[7] ?? "",
+    fields: (m[8] ?? "").split(", ").map((f) => inSentence(lang, table.get(f) ?? f)).join(t.join),
+  };
+  const sentence = (m[2] ? t.aid : t.plain) + t.sep + t.rest;
+  // A function keeps "$" in the values from being read as a replacement pattern.
+  return sentence.replace(/\{(\w+)\}/g, (_all, key: string) => values[key] ?? "");
+}
+
 function isStaticLang(lang: string): lang is StaticLang {
   return (STATIC_LANGS as readonly string[]).includes(lang);
 }
@@ -402,6 +545,8 @@ export function staticTranslate(lang: string, text: string): string | undefined 
     const m = long ? long.match.exec(text) : null;
     return m && long ? long.text[lang].replace("{x}", m[1] ?? "") : undefined;
   }
+  const profile = profileSentence(lang, text);
+  if (profile !== undefined) return profile;
   for (const pattern of PATTERNS) {
     const m = pattern.match.exec(text);
     if (!m) continue;
@@ -415,6 +560,6 @@ export function staticTranslate(lang: string, text: string): string | undefined 
 /** For tests and tooling: every English string that has a hand-written translation. */
 export function staticKeys(): string[] {
   const keys = new Set<string>();
-  for (const rows of [UI_ROWS, REGION_ROWS, COUNTRY_ROWS, FIELD_ROWS]) for (const row of rows) keys.add(row[0]);
+  for (const rows of [UI_ROWS, REGION_ROWS, COUNTRY_ROWS, FIELD_ROWS, DESCRIPTION_ROWS]) for (const row of rows) keys.add(row[0]);
   return [...keys];
 }
