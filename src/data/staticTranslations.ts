@@ -103,6 +103,21 @@ const UI_ROWS: readonly Row[] = [
   ["Ambitious pick — strengthen testing and essays", "Yuqori maqsadli tanlov — testlar va esselarni kuchaytiring", "Амбициозный выбор — усильте тесты и эссе", "目标较高的选择——请加强考试和文书", "İddialı bir seçim — sınavlarınızı ve denemelerinizi güçlendirin", "خيار طموح — قوِّ الاختبارات والمقالات", "Opción ambiciosa: refuerza exámenes y ensayos", "Choix ambitieux — renforcez tests et essais", "Ehrgeizige Wahl – stärken Sie Tests und Essays"],
   ["Balanced pick for your current profile", "Hozirgi profilingiz uchun muvozanatli tanlov", "Сбалансированный выбор для вашего текущего профиля", "适合你当前背景的均衡选择", "Mevcut profiliniz için dengeli bir seçim", "خيار متوازن لملفك الحالي", "Opción equilibrada para tu perfil actual", "Choix équilibré pour votre profil actuel", "Ausgewogene Wahl für Ihr aktuelles Profil"],
 
+  // Student stories: the review panel that only admins see.
+  ["Review submitted stories", "Yuborilgan hikoyalarni ko'rib chiqish", "Проверка отправленных историй", "审核提交的故事", "Gönderilen hikâyeleri incele", "مراجعة القصص المرسلة", "Revisar historias enviadas", "Examiner les histoires envoyées", "Eingereichte Geschichten prüfen"],
+  ["Only admins can see this panel.", "Bu panelni faqat adminlar ko'radi.", "Эту панель видят только администраторы.", "只有管理员能看到此面板。", "Bu paneli yalnızca yöneticiler görür.", "هذه اللوحة تظهر للمشرفين فقط.", "Solo los administradores ven este panel.", "Seuls les administrateurs voient ce panneau.", "Nur Administratoren sehen dieses Panel."],
+  ["Waiting for review", "Ko'rib chiqishni kutmoqda", "Ожидают проверки", "待审核", "İnceleme bekliyor", "بانتظار المراجعة", "Pendientes de revisión", "En attente de validation", "Wartet auf Prüfung"],
+  ["No stories are waiting for review.", "Ko'rib chiqishni kutayotgan hikoya yo'q.", "Нет историй, ожидающих проверки.", "没有待审核的故事。", "İncelemeyi bekleyen hikâye yok.", "لا توجد قصص بانتظار المراجعة.", "No hay historias pendientes de revisión.", "Aucune histoire en attente de validation.", "Keine Geschichten warten auf Prüfung."],
+  ["Approve", "Tasdiqlash", "Одобрить", "通过", "Onayla", "اعتماد", "Aprobar", "Approuver", "Freigeben"],
+  ["Reject", "Rad etish", "Отклонить", "拒绝", "Reddet", "رفض", "Rechazar", "Refuser", "Ablehnen"],
+  ["Story published.", "Hikoya e'lon qilindi.", "История опубликована.", "故事已发布。", "Hikâye yayınlandı.", "تم نشر القصة.", "Historia publicada.", "Histoire publiée.", "Geschichte veröffentlicht."],
+  ["Story rejected.", "Hikoya rad etildi.", "История отклонена.", "故事已被拒绝。", "Hikâye reddedildi.", "تم رفض القصة.", "Historia rechazada.", "Histoire refusée.", "Geschichte abgelehnt."],
+  ["Could not update the story. Try again.", "Hikoyani yangilab bo'lmadi. Qayta urinib ko'ring.", "Не удалось обновить историю. Попробуйте ещё раз.", "无法更新故事，请重试。", "Hikâye güncellenemedi. Tekrar deneyin.", "تعذّر تحديث القصة. حاول مرة أخرى.", "No se pudo actualizar la historia. Inténtalo de nuevo.", "Impossible de mettre à jour l'histoire. Réessayez.", "Die Geschichte konnte nicht aktualisiert werden. Bitte erneut versuchen."],
+  ["Could not load the stories to review.", "Ko'rib chiqiladigan hikoyalarni yuklab bo'lmadi.", "Не удалось загрузить истории для проверки.", "无法加载待审核的故事。", "İncelenecek hikâyeler yüklenemedi.", "تعذّر تحميل القصص للمراجعة.", "No se pudieron cargar las historias para revisar.", "Impossible de charger les histoires à examiner.", "Die zu prüfenden Geschichten konnten nicht geladen werden."],
+  ["Anonymous student", "Anonim talaba", "Анонимный студент", "匿名学生", "Anonim öğrenci", "طالب مجهول", "Estudiante anónimo", "Étudiant anonyme", "Anonyme Studierende"],
+  ["Activities", "Faoliyatlar", "Деятельность", "课外活动", "Etkinlikler", "الأنشطة", "Actividades", "Activités", "Aktivitäten"],
+  ["Essay", "Esse", "Эссе", "文书", "Deneme", "المقال", "Ensayo", "Essai", "Essay"],
+
   // Statistics shown for the handful of universities with curated campus data.
   ["Students", "Talabalar", "Студентов", "学生人数", "Öğrenci", "الطلاب", "Estudiantes", "Étudiants", "Studierende"],
   ["Endowment", "Jamg'arma (endowment)", "Эндаумент", "捐赠基金", "Bağış fonu", "الوقف", "Fondo patrimonial", "Dotation", "Stiftungsvermögen"],

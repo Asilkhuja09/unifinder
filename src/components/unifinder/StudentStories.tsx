@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Check, Loader2, Quote, Send } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { useIsAdmin } from "@/lib/admin";
 import { useI18n } from "@/lib/i18n";
+import { StoryReview } from "@/components/unifinder/StoryReview";
 import { MODEL_STORIES, STORY_FIELDS } from "@/data/studentStories";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +26,7 @@ const input =
 export function StudentStories() {
   const { tt } = useI18n();
   const { user, requireAuth } = useAuth();
+  const isAdmin = useIsAdmin();
 
   const [field, setField] = useState<string | null>(null);
   const [shared, setShared] = useState<SharedStory[]>([]);
@@ -38,21 +41,19 @@ export function StudentStories() {
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      const { data } = await supabase
-        .from("student_stories")
-        .select("id, display_name, major, university, admit_year, activities, essay_text")
-        .eq("status", "approved")
-        .order("created_at", { ascending: false })
-        .limit(30);
-      if (!cancelled && data) setShared(data);
-    })();
-    return () => {
-      cancelled = true;
-    };
+  const loadShared = useCallback(async () => {
+    const { data } = await supabase
+      .from("student_stories")
+      .select("id, display_name, major, university, admit_year, activities, essay_text")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false })
+      .limit(30);
+    if (data) setShared(data);
   }, []);
+
+  useEffect(() => {
+    void loadShared();
+  }, [loadShared]);
 
   const models = useMemo(
     () => MODEL_STORIES.filter((s) => field === null || s.field === field),
@@ -93,6 +94,8 @@ export function StudentStories() {
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
         {tt("Learn what a strong activity list and essay opening look like, then share your own to help the next applicant.")}
       </p>
+
+      {isAdmin && <StoryReview onApproved={() => void loadShared()} />}
 
       <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label={tt("Filter by field")}>
         {[null, ...STORY_FIELDS].map((f) => (
