@@ -147,6 +147,15 @@ const REGION_ROWS: readonly Row[] = [
 
 /** Every country that has a university in the directory. */
 const COUNTRY_ROWS: readonly Row[] = [
+  ["Azerbaijan", "Ozarbayjon", "Азербайджан", "阿塞拜疆", "Azerbaycan", "أذربيجان", "Azerbaiyán", "Azerbaïdjan", "Aserbaidschan"],
+  ["Czechia", "Chexiya", "Чехия", "捷克", "Çekya", "التشيك", "Chequia", "Tchéquie", "Tschechien"],
+  ["Georgia", "Gruziya", "Грузия", "格鲁吉亚", "Gürcistan", "جورجيا", "Georgia", "Géorgie", "Georgien"],
+  ["Hungary", "Vengriya", "Венгрия", "匈牙利", "Macaristan", "المجر", "Hungría", "Hongrie", "Ungarn"],
+  ["Kyrgyzstan", "Qirg'iziston", "Кыргызстан", "吉尔吉斯斯坦", "Kırgızistan", "قيرغيزستان", "Kirguistán", "Kirghizistan", "Kirgisistan"],
+  ["Lithuania", "Litva", "Литва", "立陶宛", "Litvanya", "ليتوانيا", "Lituania", "Lituanie", "Litauen"],
+  ["Portugal", "Portugaliya", "Португалия", "葡萄牙", "Portekiz", "البرتغال", "Portugal", "Portugal", "Portugal"],
+  ["Russia", "Rossiya", "Россия", "俄罗斯", "Rusya", "روسيا", "Rusia", "Russie", "Russland"],
+  ["Taiwan", "Tayvan", "Тайвань", "台湾", "Tayvan", "تايوان", "Taiwán", "Taïwan", "Taiwan"],
   ["Australia", "Avstraliya", "Австралия", "澳大利亚", "Avustralya", "أستراليا", "Australia", "Australie", "Australien"],
   ["Austria", "Avstriya", "Австрия", "奥地利", "Avusturya", "النمسا", "Austria", "Autriche", "Österreich"],
   ["Belgium", "Belgiya", "Бельгия", "比利时", "Belçika", "بلجيكا", "Bélgica", "Belgique", "Belgien"],
@@ -408,6 +417,20 @@ const PATTERNS: readonly Pattern[] = [
       es: "{x} figura en el registro público de universidades del mundo. Su nombre, país y sitio web oficial provienen del registro; la tasa de admisión, la matrícula y el ranking que se muestran aquí son estimaciones de planificación basadas en modelos y deben confirmarse con la institución.",
       fr: "{x} figure dans le registre public des universités du monde. Son nom, son pays et son site officiel proviennent du registre ; le taux d'admission, les frais de scolarité et le classement affichés ici sont des estimations de planification issues d'un modèle et doivent être confirmés auprès de l'établissement.",
       de: "{x} ist im öffentlichen Verzeichnis der Universitäten der Welt aufgeführt. Name, Land und offizielle Website stammen aus dem Verzeichnis; die hier angezeigte Zulassungsquote, die Studiengebühren und das Ranking sind modellierte Planungsschätzungen und sollten bei der Hochschule bestätigt werden.",
+    },
+  },
+  {
+    match: /^(.+) is a recognised university\. Its admissions rate, tuition, and ranking shown here are approximate planning estimates and should be confirmed with the institution\.$/,
+    keepName: true,
+    text: {
+      uz: "{x} — e'tirof etilgan universitet. Bu yerda ko'rsatilgan qabul foizi, o'qish narxi va reyting taxminiy rejalashtirish ko'rsatkichlari bo'lib, universitetdan tasdiqlab olinishi kerak.",
+      ru: "{x} — признанный университет. Показатели приёма, стоимость обучения и рейтинг, указанные здесь, — приблизительные оценки для планирования; их необходимо уточнить в университете.",
+      zh: "{x}是一所获得认可的大学。此处显示的录取率、学费和排名为用于规划的近似估算值，请向学校确认。",
+      tr: "{x} tanınmış bir üniversitedir. Burada gösterilen kabul oranı, öğrenim ücreti ve sıralama planlama amaçlı yaklaşık tahminlerdir ve kurumdan doğrulanmalıdır.",
+      ar: "{x} جامعة معترف بها. نسبة القبول والرسوم الدراسية والتصنيف المعروضة هنا تقديرات تخطيطية تقريبية ويجب التأكد منها من الجامعة.",
+      es: "{x} es una universidad reconocida. La tasa de admisión, la matrícula y el ranking que se muestran aquí son estimaciones aproximadas de planificación y deben confirmarse con la institución.",
+      fr: "{x} est une université reconnue. Le taux d'admission, les frais de scolarité et le classement affichés ici sont des estimations approximatives de planification et doivent être confirmés auprès de l'établissement.",
+      de: "{x} ist eine anerkannte Universität. Die hier angezeigte Zulassungsquote, die Studiengebühren und das Ranking sind ungefähre Planungsschätzungen und sollten bei der Hochschule bestätigt werden.",
     },
   },
   {
