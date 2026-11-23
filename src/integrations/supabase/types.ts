@@ -65,51 +65,6 @@ export type Database = {
         }
         Relationships: []
       }
-      student_stories: {
-        Row: {
-          activities: string
-          admit_year: number | null
-          consent_publish: boolean
-          created_at: string
-          display_name: string
-          essay_text: string
-          id: string
-          major: string
-          status: string
-          university: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          activities?: string
-          admit_year?: number | null
-          consent_publish?: boolean
-          created_at?: string
-          display_name?: string
-          essay_text?: string
-          id?: string
-          major?: string
-          status?: string
-          university?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          activities?: string
-          admit_year?: number | null
-          consent_publish?: boolean
-          created_at?: string
-          display_name?: string
-          essay_text?: string
-          id?: string
-          major?: string
-          status?: string
-          university?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       student_profiles: {
         Row: {
           country: string
@@ -165,6 +120,51 @@ export type Database = {
           no_tests?: boolean
           regions?: Json
           tests?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      student_stories: {
+        Row: {
+          activities: string
+          admit_year: number | null
+          consent_publish: boolean
+          created_at: string
+          display_name: string
+          essay_text: string
+          id: string
+          major: string
+          status: string
+          university: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activities?: string
+          admit_year?: number | null
+          consent_publish?: boolean
+          created_at?: string
+          display_name?: string
+          essay_text?: string
+          id?: string
+          major?: string
+          status?: string
+          university?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activities?: string
+          admit_year?: number | null
+          consent_publish?: boolean
+          created_at?: string
+          display_name?: string
+          essay_text?: string
+          id?: string
+          major?: string
+          status?: string
+          university?: string
           updated_at?: string
           user_id?: string
         }
@@ -250,7 +250,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: { Args: { _role: string; _user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
