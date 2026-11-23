@@ -7,6 +7,7 @@ const description =
   "Search up to four universities and compare tuition, total cost, acceptance rate and world ranking side by side.";
 
 export const Route = createFileRoute("/compare")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },

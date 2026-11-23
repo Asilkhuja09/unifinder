@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Generate sitemap URLs from explicit route staticData.sitemap decisions; exclude private/noindex sections so new public routes track the router without exposing account pages.

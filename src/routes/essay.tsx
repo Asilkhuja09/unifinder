@@ -7,6 +7,7 @@ const description =
   "Score your admissions essay in seconds: overall readiness, grammar and tone, structure, strengths, weaknesses and actionable rewrite steps from an AI admissions officer.";
 
 export const Route = createFileRoute("/essay")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },

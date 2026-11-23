@@ -42,6 +42,7 @@ const description =
   "Edit your admissions profile, upload transcripts and track your personalised university matches and saved institutions on UniFinder Global.";
 
 export const Route = createFileRoute("/profile")({
+  staticData: { sitemap: "exclude-subtree" },
   head: () => ({
     meta: [
       { title },

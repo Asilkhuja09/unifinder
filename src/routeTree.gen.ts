@@ -15,6 +15,7 @@ import { Route as CompareRouteImport } from './routes/compare'
 import { Route as EssayRouteImport } from './routes/essay'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ScholarshipsRouteImport } from './routes/scholarships'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as UniversitiesRouteImport } from './routes/universities'
 
@@ -48,6 +49,11 @@ const ScholarshipsRoute = ScholarshipsRouteImport.update({
   path: '/scholarships',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoriesRoute = StoriesRouteImport.update({
   id: '/stories',
   path: '/stories',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/universities': typeof UniversitiesRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/universities': typeof UniversitiesRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/essay': typeof EssayRoute
   '/profile': typeof ProfileRoute
   '/scholarships': typeof ScholarshipsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
   '/universities': typeof UniversitiesRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/essay'
     | '/profile'
     | '/scholarships'
+    | '/sitemap.xml'
     | '/stories'
     | '/universities'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/essay'
     | '/profile'
     | '/scholarships'
+    | '/sitemap.xml'
     | '/stories'
     | '/universities'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/essay'
     | '/profile'
     | '/scholarships'
+    | '/sitemap.xml'
     | '/stories'
     | '/universities'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   EssayRoute: typeof EssayRoute
   ProfileRoute: typeof ProfileRoute
   ScholarshipsRoute: typeof ScholarshipsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoriesRoute: typeof StoriesRoute
   UniversitiesRoute: typeof UniversitiesRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScholarshipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stories': {
       id: '/stories'
       path: '/stories'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   EssayRoute: EssayRoute,
   ProfileRoute: ProfileRoute,
   ScholarshipsRoute: ScholarshipsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoriesRoute: StoriesRoute,
   UniversitiesRoute: UniversitiesRoute,
 }

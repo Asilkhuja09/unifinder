@@ -11,6 +11,7 @@ const description =
   "Complete a 9-step admissions profile — academics, target regions, testing, funding needs and difficulty tier — and receive matched universities and sovereign scholarship tracks.";
 
 export const Route = createFileRoute("/assessment")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },

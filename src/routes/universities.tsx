@@ -7,6 +7,7 @@ const description =
   "Browse verified elite and accessible universities worldwide with acceptance rates, tuition, international aid policy, campus photography and Google Maps routing.";
 
 export const Route = createFileRoute("/universities")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },

@@ -79,8 +79,10 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
+      { name: "google-site-verification", content: "VFqVP32-yIugCd-XZCS4dDYcw7MFVDQdCwW048EZ1-M" },
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "UniFinder Global" },

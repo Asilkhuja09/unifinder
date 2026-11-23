@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Complete Google Search Console verification and submit the published sitemap (requires approved publication).
+
 - [x] Build the shared live intelligence feed for home and profile dashboard.
 - [x] Build the reusable navy/gold university card with complete image coverage and actions.
 - [x] Adopt the card in assessment results, directory, profile matches, and saved universities.

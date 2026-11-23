@@ -7,6 +7,7 @@ const description =
   "See how strong activity lists and essay openings are built, and share your own admissions story to help the next applicant.";
 
 export const Route = createFileRoute("/stories")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },

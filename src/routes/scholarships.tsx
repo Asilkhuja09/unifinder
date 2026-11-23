@@ -7,6 +7,7 @@ const description =
   "DAAD, MEXT, CSC, GKS, Fulbright, Chevening, Erasmus Mundus and Knight-Hennessy — coverage, stipends, deadlines and official application portals in one directory.";
 
 export const Route = createFileRoute("/scholarships")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },
