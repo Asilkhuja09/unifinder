@@ -8,6 +8,7 @@ import { SCHOLARSHIPS, type University } from "@/data/extendedData";
 import { matchUniversities } from "@/lib/matching";
 import { UniversityCard } from "@/components/unifinder/UniversityCard";
 import { UniversityModal } from "@/components/unifinder/UniversityModal";
+import { DeepAnalysis } from "@/components/unifinder/DeepAnalysis";
 import { Button } from "@/components/ui/button";
 
 export function Results({ profile, onRestart }: { profile: Profile; onRestart: () => void }) {
@@ -87,6 +88,8 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
           </dl>
         </div>
       </div>
+
+      <DeepAnalysis profile={profile} matches={matches} />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {shown.map((m) => (
