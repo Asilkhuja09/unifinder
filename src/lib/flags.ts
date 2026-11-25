@@ -36,6 +36,7 @@ const ISO: Record<string, string> = {
   Norway: "no",
   Pakistan: "pk",
   Philippines: "ph",
+  Latvia: "lv",
   Lithuania: "lt",
   Poland: "pl",
   Portugal: "pt",
