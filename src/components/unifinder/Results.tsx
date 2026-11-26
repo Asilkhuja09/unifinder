@@ -89,7 +89,7 @@ export function Results({ profile, onRestart }: { profile: Profile; onRestart: (
         </div>
       </div>
 
-      <DeepAnalysis profile={profile} matches={matches} />
+      <DeepAnalysis profile={profile} matches={matches} onView={setActive} />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {shown.map((m) => (
