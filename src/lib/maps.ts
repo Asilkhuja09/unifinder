@@ -44,6 +44,21 @@ export function embedUrl(t: MapTarget, opts: EmbedOptions): string | null {
   return `${BASE}/embed/v1/place?${params.toString()}`;
 }
 
+/**
+ * Address of a free, key-less Google Maps iframe. It needs no API key, billing or connector, so the map
+ * always shows, including in previews where the key is missing or the Embed API is not enabled.
+ */
+export function keylessEmbedUrl(t: MapTarget, opts: { language?: string | undefined; satellite?: boolean | undefined }): string {
+  const params = new URLSearchParams({
+    q: t.query,
+    z: "15",
+    t: opts.satellite ? "k" : "m",
+    output: "embed",
+  });
+  if (opts.language) params.set("hl", opts.language);
+  return `https://maps.google.com/maps?${params.toString()}`;
+}
+
 /** The browser key injected by the Lovable connector at build time, if the connection is linked. */
 export function browserMapsKey(): string | undefined {
   const value = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"] as string | undefined;

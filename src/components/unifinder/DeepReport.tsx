@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Loader2, Pencil, Sparkles, Target, TriangleAlert, Trophy } from "lucide-react";
+import { Check, Loader2, MoveRight, Pencil, Sparkles, Target, TriangleAlert, Trophy } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import type { University } from "@/data/extendedData";
 import type { DeepAdvice } from "@/lib/deep-advice.functions";
 import type { BudgetStatus, DeepReport as Report } from "@/lib/deepAnalysis";
 import { Flag, stagger } from "@/components/unifinder/WizardParts";
@@ -125,6 +126,7 @@ export function DeepReportView({
   advice,
   onEdit,
   onAdvice,
+  onView,
 }: {
   report: Report;
   budget: number | null;
@@ -134,6 +136,7 @@ export function DeepReportView({
   advice: DeepAdvice | null;
   onEdit: () => void;
   onAdvice: () => void;
+  onView: (university: University) => void;
 }) {
   const { t, tt } = useI18n();
   const [done, setDone] = useState<ReadonlySet<string>>(new Set());
@@ -318,6 +321,14 @@ export function DeepReportView({
                     <span style={{ color: BUDGET_TONE[m.budget] }}>{tt(BUDGET_LABEL[m.budget])}</span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => onView(u)}
+                  className="relative mt-4 inline-flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-gold-soft to-gold text-sm font-semibold text-primary-foreground outline-none transition-all hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.99]"
+                >
+                  {t("viewDetails")} <MoveRight className="size-4 rtl:rotate-180" />
+                </button>
 
                 {m.notes.length > 0 && (
                   <ul className="mt-3 flex flex-wrap gap-1.5">

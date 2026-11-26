@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Compass, ExternalLink, Heart, Navigation, Scale, Share2, X } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { CAMPUS_MEDIA, FALLBACK_MEDIA } from "@/data/campusMedia";
 import type { University } from "@/data/extendedData";
 import { useUniversityPhotos } from "@/lib/universityPhotos";
-import { browserMapsKey, directionsUrl, embedUrl, placeUrl } from "@/lib/maps";
+import { directionsUrl, keylessEmbedUrl, placeUrl } from "@/lib/maps";
 import { useFavorites } from "@/lib/favorites";
 import { COMPARE_MAX, toggleCompare, useCompare } from "@/lib/compare";
 import type { UniversityMatch } from "@/lib/matching";
@@ -14,6 +14,30 @@ import { cn } from "@/lib/utils";
 
 /** Language codes Google Maps understands, where they differ from ours. */
 const MAP_LANGUAGE: Record<string, string> = { zh: "zh-CN" };
+
+/** Set by a card's map button just before it opens the modal, so the modal can scroll to the map. */
+let mapFocusRequested = false;
+export function requestMapFocus() {
+  mapFocusRequested = true;
+}
+
+/** Copies text without relying on the async Clipboard API, which is blocked inside embedded previews. */
+function legacyCopy(text: string): boolean {
+  try {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+    document.body.appendChild(area);
+    area.select();
+    area.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    area.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
 
 export function UniversityModal({
   university,
@@ -33,16 +57,31 @@ export function UniversityModal({
 
   const share = async () => {
     const text = `${university.name} — ${location}`;
-    try {
-      if (typeof navigator.share === "function") {
-        await navigator.share({ title: university.name, text, url: university.website });
-      } else {
-        await navigator.clipboard.writeText(`${text}\n${university.website}`);
-        toast.success(tt("Link copied"));
+    const link = university.website;
+    // 1) The native share sheet, where the browser offers one.
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: university.name, text, url: link });
+        return;
+      } catch (e) {
+        if (e instanceof DOMException && e.name === "AbortError") return; // the person closed the sheet
+        // Blocked (embedded preview, no permission): fall through to copying.
       }
-    } catch {
-      /* share sheet dismissed */
     }
+    // 2) The Clipboard API, then 3) the older copy command, then 4) show the link to copy by hand.
+    const full = `${text}\n${link}`;
+    try {
+      await navigator.clipboard.writeText(full);
+      toast.success(tt("Link copied"));
+      return;
+    } catch {
+      /* try the next way */
+    }
+    if (legacyCopy(full)) {
+      toast.success(tt("Link copied"));
+      return;
+    }
+    toast.error(tt("Could not copy the link"), { description: link, duration: 12000 });
   };
 
   const onCompare = () => {
@@ -64,8 +103,14 @@ export function UniversityModal({
   const fromWikipedia = !hasCurated && fetched.length > 0;
 
   const target = { query: university.mapsQuery };
-  const mapKey = browserMapsKey();
-  const mapSrc = embedUrl(target, { key: mapKey, language: MAP_LANGUAGE[lang] ?? lang, satellite });
+  const mapSrc = keylessEmbedUrl(target, { language: MAP_LANGUAGE[lang] ?? lang, satellite });
+  const mapRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    if (!mapFocusRequested) return;
+    mapFocusRequested = false;
+    const id = window.setTimeout(() => mapRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 250);
+    return () => window.clearTimeout(id);
+  }, []);
   const country = tt(university.country);
   const location =
     !university.city || university.city === "Main campus"
@@ -189,8 +234,7 @@ export function UniversityModal({
             )}
           </p>
         )}
-        {mapKey && (
-          <section className="mt-6" aria-label={t("mapTitle")}>
+          <section ref={mapRef} className="mt-6 scroll-mt-4" aria-label={t("mapTitle")}>
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <h4 className="font-display text-xl text-primary">{t("mapTitle")}</h4>
               <div role="group" aria-label={t("mapTitle")} className="inline-flex overflow-hidden rounded-full border border-border text-xs">
@@ -211,20 +255,17 @@ export function UniversityModal({
               </div>
             </div>
             <div className="overflow-hidden rounded-2xl border border-border">
-              {mapSrc && (
-                <iframe
-                  key={mapSrc}
-                  src={mapSrc}
-                  title={`${university.name} — ${t("mapTitle")}`}
-                  loading="lazy"
-                  allowFullScreen
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  className="h-64 w-full sm:h-80"
-                />
-              )}
+              <iframe
+                key={mapSrc}
+                src={mapSrc}
+                title={`${university.name} — ${t("mapTitle")}`}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+                className="h-64 w-full sm:h-80"
+              />
             </div>
           </section>
-        )}
         {media.stats.length > 0 && (
           <dl className="mt-6 grid gap-3 sm:grid-cols-3">
             {media.stats.map((s) => (

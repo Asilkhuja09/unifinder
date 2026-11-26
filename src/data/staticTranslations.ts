@@ -514,6 +514,7 @@ const DEEP_ROWS: readonly Row[] = [
   ["Edit answers", "Javoblarni tahrirlash", "Изменить ответы", "修改回答", "Yanıtları düzenle", "تعديل الإجابات", "Editar respuestas", "Modifier les réponses", "Antworten bearbeiten"],
   ["Fit", "Moslik", "Соответствие", "匹配度", "Uyum", "الملاءمة", "Encaje", "Adéquation", "Passung"],
   ["done", "bajarildi", "выполнено", "已完成", "tamamlandı", "مكتمل", "hecho", "fait", "erledigt"],
+  ["Could not copy the link", "Havolani nusxalab bo'lmadi", "Не удалось скопировать ссылку", "无法复制链接", "Bağlantı kopyalanamadı", "تعذّر نسخ الرابط", "No se pudo copiar el enlace", "Impossible de copier le lien", "Der Link konnte nicht kopiert werden"],
 ];
 
 const TABLE: Table = buildTable(UI_ROWS, REGION_ROWS, COUNTRY_ROWS, FIELD_ROWS, DESCRIPTION_ROWS, DEEP_ROWS);

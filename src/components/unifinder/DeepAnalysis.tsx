@@ -28,6 +28,7 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
+import type { University } from "@/data/extendedData";
 import type { Profile } from "@/lib/profile";
 import type { UniversityMatch } from "@/lib/matching";
 import { deepAdvice, type DeepAdvice } from "@/lib/deep-advice.functions";
@@ -162,7 +163,15 @@ function Choices<T extends string>({
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /** Optional deeper analysis under the assessment results, built like the main assessment. */
-export function DeepAnalysis({ profile, matches }: { profile: Profile; matches: UniversityMatch[] }) {
+export function DeepAnalysis({
+  profile,
+  matches,
+  onView,
+}: {
+  profile: Profile;
+  matches: UniversityMatch[];
+  onView: (university: University) => void;
+}) {
   const { t, tt, lang } = useI18n();
   const { user, requireAuth } = useAuth();
   const runAdvice = useServerFn(deepAdvice);
@@ -578,6 +587,7 @@ export function DeepAnalysis({ profile, matches }: { profile: Profile; matches: 
               scrollTop();
             }}
             onAdvice={() => void getAdvice()}
+            onView={onView}
           />
         </div>
       )}

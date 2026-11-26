@@ -9,6 +9,7 @@ import { useI18n } from "@/lib/i18n";
 import { countryCode } from "@/lib/flags";
 import { Button } from "@/components/ui/button";
 import { placeUrl } from "@/lib/maps";
+import { requestMapFocus } from "@/components/unifinder/UniversityModal";
 
 const CATEGORY_STYLE: Record<MatchCategory, { label: string; className: string }> = {
   reach: { label: "Reach", className: "border-status-reach/60 text-status-reach" },
@@ -168,7 +169,19 @@ export function UniversityCard({
           </a>
         </Button>
         <Button asChild variant="outline" size="icon" className="size-11 rounded-xl border-accent/60 bg-feed/70 text-accent">
-          <a href={placeUrl({ query: university.mapsQuery })} target="_blank" rel="noopener noreferrer" aria-label={`View ${university.name} on map`}>
+          <a
+            href={placeUrl({ query: university.mapsQuery })}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${university.name} on map`}
+            onClick={(e) => {
+              // Plain clicks open the details window scrolled to its map, which also works in embedded previews.
+              if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+              e.preventDefault();
+              requestMapFocus();
+              onView();
+            }}
+          >
             <Landmark />
           </a>
         </Button>
